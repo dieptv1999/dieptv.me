@@ -5,17 +5,19 @@ import Head from 'next/head';
 
 import {
   SiGo,
-  SiKubernetes,
-  SiElixir,
   SiPostgresql,
   SiTypescript,
-  SiAmazonaws,
   SiGooglecloud,
-  SiTerraform,
   SiReact,
   SiNextDotJs,
   SiPython,
   SiGraphql,
+  SiJava,
+  SiArduino,
+  SiFlutter,
+  SiMysql,
+  SiAndroid,
+  SiGithub,
 } from 'react-icons/si';
 import { getPosts, Post } from '@posts';
 import { TransparentLink } from '@components';
@@ -31,10 +33,10 @@ const About = ({ experiences }: AboutProps): JSX.Element => {
         Icon: SiGo,
         url: 'https://golang.org/',
       },
-      {
-        Icon: SiKubernetes,
-        url: 'https://kubernetes.io/',
-      },
+      // {
+      //   Icon: SiKubernetes,
+      //   url: 'https://kubernetes.io/',
+      // },
       {
         Icon: SiTypescript,
         url: 'https://www.typescriptlang.org/',
@@ -47,26 +49,26 @@ const About = ({ experiences }: AboutProps): JSX.Element => {
         Icon: SiGraphql,
         url: 'https://graphql.org/',
       },
-      {
-        Icon: SiAmazonaws,
-        url: 'https://aws.amazon.com/',
-      },
+      // {
+      //   Icon: SiAmazonaws,
+      //   url: 'https://aws.amazon.com/',
+      // },
       {
         Icon: SiNextDotJs,
         url: 'https://nextjs.org/',
       },
-      {
-        Icon: SiElixir,
-        url: 'https://elixir-lang.org/',
-      },
+      // {
+      //   Icon: SiElixir,
+      //   url: 'https://elixir-lang.org/',
+      // },
       {
         Icon: SiGooglecloud,
         url: 'https://cloud.google.com/',
       },
-      {
-        Icon: SiTerraform,
-        url: 'https://www.terraform.io/',
-      },
+      // {
+      //   Icon: SiTerraform,
+      //   url: 'https://www.terraform.io/',
+      // },
       {
         Icon: SiPostgresql,
         url: 'https://www.postgresql.org/',
@@ -74,6 +76,34 @@ const About = ({ experiences }: AboutProps): JSX.Element => {
       {
         Icon: SiPython,
         url: 'https://www.python.org/',
+      },
+      {
+        Icon: SiJava,
+        url: 'https://www.java.com/en/',
+      },
+      {
+        Icon: SiReact,
+        url: 'https://reactnative.dev/',
+      },
+      {
+        Icon: SiArduino,
+        url: 'https://www.arduino.cc/',
+      },
+      {
+        Icon: SiFlutter,
+        url: 'https://flutter.dev/',
+      },
+      {
+        Icon: SiMysql,
+        url: 'https://www.mysql.com/',
+      },
+      {
+        Icon: SiAndroid,
+        url: 'https://www.android.com/intl/vi_vn/',
+      },
+      {
+        Icon: SiGithub,
+        url: 'https://github.com/',
       },
     ],
     [],
@@ -86,15 +116,17 @@ const About = ({ experiences }: AboutProps): JSX.Element => {
       </Head>
       <Container alignContent="center" alignItems="center">
         <Title fontSize={['3rem', '4rem']} as="h2">
-          CTO & passionate
+          Developer & passionate
         </Title>
         <Container maxWidth={['100%', '700px']} marginY="2rem">
-          <Text>I&apos;m a Full-Stack/DevOps developer living in Paris.</Text>
           <Text>
-            During my free time I like going gym, doing Bench Press, make design
+            I&apos;m a Full-Stack/DevOps developer living in Hanoi Viet Nam.
+          </Text>
+          <Text>
+            During my free time I like going playing game, jogging, make design
             and make video edits on After Effects. You can check some cool drone
             edits on my{' '}
-            <a href="https://instagram.com/croissant2france">Instagram</a>.
+            <a href="https://www.instagram.com/dieptv_nd/">Instagram</a>.
           </Text>
         </Container>
       </Container>
@@ -138,7 +170,10 @@ const About = ({ experiences }: AboutProps): JSX.Element => {
         </Title>
         <Container width="100%">
           {experiences.map(({ data }, i) => (
-            <TransparentLink href={`/about/${data.slug}`} key={data.slug}>
+            <TransparentLink
+              // href={`/about/${data.slug}`}
+              key={data.slug}
+            >
               <Grid
                 key={i}
                 gridTemplateColumns="1fr 4fr"

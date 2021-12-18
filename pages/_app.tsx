@@ -14,9 +14,13 @@ import 'prismjs/components/prism-typescript';
 import 'prismjs/components/prism-graphql';
 import 'prismjs/components/prism-bash';
 import { DefaultSeo } from 'next-seo';
+import Head from 'next/head';
 
 const App = ({ Component, pageProps }: AppProps): JSX.Element => (
   <Layout>
+    <Head>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    </Head>
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}

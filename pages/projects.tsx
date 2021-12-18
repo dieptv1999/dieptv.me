@@ -48,7 +48,9 @@ const Projects = ({ projects }: ProjectProps): JSX.Element => (
       <Text textAlign="center">
         I&apos;m always working on new projects. <br />
         You can find them on my&nbsp;
-        <a href="https://github.com/shellbear">Github</a>.
+        <a href="https://github.com/dieptv1999">Github</a>
+        &nbsp;or&nbsp;
+        <a href="https://gitlab.com/dieptv1999">Gitlab</a>.
       </Text>
     </Container>
     <Grid
@@ -63,9 +65,10 @@ const Projects = ({ projects }: ProjectProps): JSX.Element => (
           flexDirection="column"
           alignItems="flex-start"
           width="100%"
+          height="100%"
           gridGap="1.5rem"
         >
-          <Link href={data.url} width="100%">
+          <Link href={data.url} width="100%" target={'_blank'}>
             <ProjectImage src={data.preview} />
           </Link>
           <Container

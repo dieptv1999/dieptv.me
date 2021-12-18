@@ -32,15 +32,17 @@ const Home = (): JSX.Element => (
           fontWeight="500"
           as="h2"
         >
-          I build cloud software.
+          I build web/mobile application.
         </Title>
       </Container>
       <Container maxWidth="700px" gridGap="3rem">
         <Container>
           <Text textAlign="center">
             I&apos;m a Full Stack developer with experience in DevOps, Backend,
-            Frontend and mobile development. Currently CTO of&nbsp;
-            <a href="https://shareview.fr">Shareview</a> and living in Paris.
+            Frontend and mobile development. Currently Software Engineer
+            of&nbsp;
+            <a href="https://trustkeys.network/">Trustkeys</a> and living in
+            Hanoi.
           </Text>
         </Container>
         <Link href="/about">
@@ -65,7 +67,7 @@ const Home = (): JSX.Element => (
           justifyItems="stretch"
           alignItems="stretch"
         >
-          <Link href="mailto:hello@shellbear.me">
+          <Link href="https://www.facebook.com/diep.tv99" target={'_blank'}>
             <Button width="100%">
               <motion.span
                 initial={{ display: 'inline-block' }}
@@ -81,10 +83,7 @@ const Home = (): JSX.Element => (
               Say hello
             </Button>
           </Link>
-          <Link
-            target="_blank"
-            href="https://calendly.com/antoine-ordonez/intro"
-          >
+          <Link target="_blank" href="#">
             <Button
               width="100%"
               backgroundColor="rgb(226,232,240)"

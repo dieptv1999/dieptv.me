@@ -4,9 +4,9 @@ import Grid from './Grid';
 import Link from './Link';
 import Text from './Text';
 import React from 'react';
-import { SiGithub, SiLinkedin, SiTwitter } from 'react-icons/si';
+import { SiFacebook, SiGithub, SiLinkedin, SiTwitter } from 'react-icons/si';
 import { MdMail } from 'react-icons/md';
-import { Malt, Instagram } from '@icons';
+import { Instagram } from '@icons';
 
 const StyledFooter = styled.footer`
   width: 100%;
@@ -33,27 +33,27 @@ const Footer = (): JSX.Element => {
   const links = React.useMemo(
     () => [
       {
-        url: 'https://github.com/shellbear',
+        url: 'https://github.com/dieptv1999',
         icon: SiGithub,
       },
       {
-        url: 'https://twitter.com/_shellbear',
+        url: 'https://twitter.com/dieptv_nd',
         icon: SiTwitter,
       },
       {
-        url: 'mailto:hello@shellbear.me',
+        url: 'mailto:diep.tv1999@gmail.com',
         icon: MdMail,
       },
       {
-        url: 'https://malt.fr/profile/antoineordonez',
-        icon: Malt,
+        url: 'https://www.facebook.com/diep.tv99',
+        icon: SiFacebook,
       },
       {
-        url: 'https://linkedin.com/in/antoine-ordonez',
+        url: 'https://www.linkedin.com/in/phoenix010/',
         icon: SiLinkedin,
       },
       {
-        url: 'https://instagram.com/croissant2france',
+        url: 'https://www.instagram.com/dieptv_nd/',
         icon: Instagram,
       },
     ],
@@ -67,7 +67,13 @@ const Footer = (): JSX.Element => {
           <Link href="/">Home</Link>
           <Link href="/about">About</Link>
           <Link href="/projects">Projects</Link>
-          <Link href="mailto:hello@shellbear.me">Contact</Link>
+          <a
+            href="mailto:diep.tv1999@gmail.com"
+            target={'_blank'}
+            rel="noreferrer"
+          >
+            Contact
+          </a>
         </Grid>
       </Container>
       <FooterGrid>
