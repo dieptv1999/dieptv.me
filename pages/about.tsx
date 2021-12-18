@@ -112,7 +112,7 @@ const About = ({ experiences }: AboutProps): JSX.Element => {
   return (
     <Container>
       <Head>
-        <title>About</title>
+        <title>Dieptv99</title>
       </Head>
       <Container alignContent="center" alignItems="center">
         <Title fontSize={['3rem', '4rem']} as="h2">
