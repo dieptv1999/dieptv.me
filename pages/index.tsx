@@ -19,13 +19,13 @@ const Home = (): JSX.Element => (
       <Container alignItems="center" alignContent="center">
         <Image
           src="/me.jpg"
-          alt="Antoine Ordonez"
+          alt="Dieptv"
           width="120px"
           height="120px"
           objectFit="cover"
           className={styles.image}
         />
-        <Title>Antoine Ordonez</Title>
+        <Title>Dieptv</Title>
         <Title
           fontSize="2rem"
           color="rgba(0, 0, 0, 0.6)"

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">
   <channel>
-    <title>Antoine Ordonez</title>
-    <description>Antoine Ordonez tech and code blog.</description>
-    <generator uri="https://shellbear.me/" version="0.1.0">Antoine Ordonez</generator>
+    <title>Dieptv</title>
+    <description>Dieptv tech and code blog.</description>
+    <generator uri="https://shellbear.me/" version="0.1.0">Dieptv</generator>
     <link>https://shellbear.me/blog/feed.xml</link>
     <category domain="www.dmoz.com">Computers/Software/Programming</category>
     <language>en-us</language>
@@ -11,7 +11,7 @@
     <pubDate>Thu, 01 Jul 2021 15:12:34 +0000</pubDate>
     <webMaster>hello@shellbear.me</webMaster>
     <image>
-      <title>Antoine Ordonez</title>
+      <title>Dieptv</title>
       <link>https://shellbear.me/blog/feed.xml</link>
       <url>https://shellbear.me/logo.jpg</url>
     </image>
