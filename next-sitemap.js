@@ -1,4 +1,4 @@
 module.exports = {
-  siteUrl: process.env.SITE_URL || 'https://shellbear.me',
+  siteUrl: process.env.SITE_URL || 'https://dieptv.vercel.app',
   generateRobotsTxt: true,
 };

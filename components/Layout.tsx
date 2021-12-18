@@ -32,7 +32,7 @@ const Layout: React.FC<LayoutProps> = ({ title = 'Dieptv', children }) => {
         <meta name="twitter:card" content="summary_large_image" />
         <meta
           property="og:image"
-          content="https://shellbear.me/img/preview.png"
+          content="https://dieptv.vercel.app/img/preview.png"
         />
         {process.env.NODE_ENV === 'production' && (
           <>
