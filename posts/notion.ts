@@ -6,13 +6,13 @@ export const POSTS = {
     date: new Date('2021-12-19').toDateString(),
     uri: 'sharp-peach-033.notion.site/Get-started-with-Trustkeys-NFT-Marketplace-f43972b1bc074636af0d47e9408e1d85',
   },
-  'go-dokku-deployment': {
-    date: new Date('2021-06-28').toDateString(),
-    uri: 'shblog/Deploying-a-Go-App-with-Dokku-c504be4c35b34d20918a5cf23c0c5588',
+  'real-time-application-arduino-with-android-firebase': {
+    date: new Date('2020-06-28').toDateString(),
+    uri: 'sharp-peach-033.notion.site/X-y-d-ng-ng-d-ng-realtime-theo-d-i-nhi-t-m-nh-s-ng-s-d-ng-Firebase-Ph-n-II-9f340fde93594fb59130f339bb1865f5',
   },
-  'styled-system': {
-    date: new Date('2021-07-06').toDateString(),
-    uri: 'shblog/Rapid-UI-development-with-styled-system-e1ce2f8a2e64485491b49e4e3a6a8f96',
+  'waveview-android': {
+    date: new Date('2020-07-06').toDateString(),
+    uri: 'sharp-peach-033.notion.site/H-ng-d-n-t-o-WaveView-trong-Android-392c8cae65fa4a27962bfc4bc5d73fa5',
   },
 };
 
