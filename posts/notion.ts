@@ -14,6 +14,10 @@ export const POSTS = {
     date: new Date('2020-07-06').toDateString(),
     uri: 'sharp-peach-033.notion.site/H-ng-d-n-t-o-WaveView-trong-Android-392c8cae65fa4a27962bfc4bc5d73fa5',
   },
+  'data-type-golang': {
+    date: new Date('2020-07-06').toDateString(),
+    uri: 'sharp-peach-033.notion.site/C-c-ki-u-d-li-u-trong-ng-n-ng-l-p-tr-nh-Go-04639db31ecf480e94dd423766e7dc2e',
+  },
 };
 
 export const EXPERIENCES = {
