@@ -28,7 +28,7 @@ const Layout: React.FC<LayoutProps> = ({ title = 'Dieptv', children }) => {
           content="I'm a Full Stack developer with experience in DevOps, Backend, Frontend and mobile development."
         />
         <meta property="og:type" content="website" />
-        <meta property="twitter:site" content="@_shellbear" />
+        <meta property="twitter:site" content="@dieptv_nd" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta
           property="og:image"
