@@ -9,7 +9,6 @@ import {
   SiTypescript,
   SiGooglecloud,
   SiReact,
-  SiNextDotJs,
   SiPython,
   SiGraphql,
   SiJava,
@@ -18,6 +17,7 @@ import {
   SiMysql,
   SiAndroid,
   SiGithub,
+  SiNextdotjs,
 } from 'react-icons/si';
 import { getPosts, Post } from '@posts';
 import { TransparentLink } from '@components';
@@ -54,7 +54,7 @@ const About = ({ experiences }: AboutProps): JSX.Element => {
       //   url: 'https://aws.amazon.com/',
       // },
       {
-        Icon: SiNextDotJs,
+        Icon: SiNextdotjs,
         url: 'https://nextjs.org/',
       },
       // {

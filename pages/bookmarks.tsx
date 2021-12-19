@@ -8,6 +8,7 @@ import { Title, Container, Text, Grid, Link, Card } from '@components';
 
 import en from 'javascript-time-ago/locale/en';
 
+// @ts-ignore
 TimeAgo.addDefaultLocale(en);
 const timeAgo = new TimeAgo('en-US');
 

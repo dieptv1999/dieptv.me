@@ -60,7 +60,7 @@ const Links = (): JSX.Element => (
     <NavLink href="/">Home</NavLink>
     <NavLink href="/about">About</NavLink>
     <NavLink href="/blog">Blog</NavLink>
-    <NavLink href="/bookmarks">Bookmarks</NavLink>
+    <NavLink href="/cv">CV</NavLink>
     <NavLink href="/projects">Projects</NavLink>
   </>
 );
