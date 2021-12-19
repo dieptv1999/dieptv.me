@@ -59,7 +59,17 @@ const Layout: React.FC<LayoutProps> = ({ title = 'Dieptv', children }) => {
         onClose={() => setIsOpen(false)}
       />
       <Container justifyContent="space-between" alignContent="space-between">
-        {!isOpen && <main className={styles.main}>{children}</main>}
+        {!isOpen && (
+          <main className={styles.main}>
+            <div
+              className="bg-discovery w-full bg-no-repeat absolute z-0 top-0"
+              style={{
+                backgroundImage: `linear-gradient(#fffefef2,#fffefed1),url("/img/bg.jpeg")`,
+              }}
+            />
+            <div className="z-10">{children}</div>
+          </main>
+        )}
         <Footer />
       </Container>
     </div>
