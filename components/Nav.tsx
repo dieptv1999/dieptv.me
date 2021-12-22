@@ -94,12 +94,15 @@ const Nav = ({ isOpen, onOpen, onClose }: NavProps): JSX.Element => {
         {isOpen ? (
           <Close
             size="2rem"
-            style={{ margin: '-0.3rem' }}
+            style={{ margin: '-0.3rem', zIndex: 10 }}
             onClick={(evt) => evt.type === 'click' && onClose()}
           />
         ) : (
           <Menu
             size="1.6rem"
+            style={{
+              zIndex: 10,
+            }}
             onClick={(evt) => evt.type === 'click' && onOpen()}
           />
         )}
