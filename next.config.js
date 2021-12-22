@@ -1,7 +1,7 @@
 module.exports = {
   target: 'serverless',
   images: {
-    domains: ['rdl.ink'],
+    domains: ['rdl.ink', 'www.notion.so'],
   },
   webpack: (config, { isServer }) => {
     if (!isServer) {

@@ -2,16 +2,29 @@ import Head from 'next/head';
 import styled from 'styled-components';
 import { GetStaticPropsResult, NextPage } from 'next';
 import { NotionAPI } from 'notion-client';
+import Image from 'next/image';
 
 import { getPageInfo, Page, POSTS } from '@posts/notion';
-import { Title, Link, Container, Grid, Card, Image, Text } from '@components';
+import { Title, Link, Container, Grid, Text } from '@components';
+import React from 'react';
 
 interface BlogProps {
   pages: Page[];
 }
 
-const BlogImage = styled(Image)`
-  border-radius: 5px;
+const BlogImage = styled.div`
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+`;
+
+const BlogContainer = styled(Container)`
+  :hover > * img {
+    transform: scale(1.03);
+  }
 `;
 
 const Blog: NextPage<BlogProps> = ({ pages }) => {
@@ -32,42 +45,51 @@ const Blog: NextPage<BlogProps> = ({ pages }) => {
           .
         </Text>
       </Container>
-      <Grid gridTemplateColumns={['1fr', '1fr 1fr']} gridGap={['3rem', '2rem']}>
+      <Grid
+        p="4rem"
+        gridTemplateColumns={['1fr', 'repeat(2, 1fr)']}
+        width="100%"
+        gridGap="10%"
+      >
         {pages.map(({ title, uri, date, cover }, i) => (
-          <Link key={i} href={uri}>
-            <Card padding={[0]} margin={[0]}>
-              <Grid
-                gridTemplateColumns={'1fr'}
-                justifyItems={['center', 'flex-start']}
-                gridGap="1rem"
+          <BlogContainer
+            key={title}
+            flexDirection="column"
+            alignItems="flex-start"
+            width="100%"
+            height="100%"
+            gridGap="1.5rem"
+          >
+            <Link key={i} href={uri}>
+              <BlogImage>
+                <Image
+                  src={cover || '/blur.jpeg'}
+                  blurDataURL={'/blur.jpeg'}
+                  placeholder={'blur'}
+                  layout={'fill'}
+                  objectFit={'cover'}
+                  className="ease-in-out duration-300"
+                />
+              </BlogImage>
+              <Container
+                gridGap=".5rem"
+                alignItems={['center', 'flex-start']}
+                paddingTop={15}
               >
-                {cover && (
-                  <BlogImage
-                    src={cover}
-                    width="100%"
-                    height="auto"
-                    alt={title}
-                  />
-                )}
-                <Container
-                  gridGap=".5rem"
-                  alignItems={['center', 'flex-start']}
+                <Title
+                  as="h2"
+                  fontSize="1.5rem"
+                  textAlign={['center', 'left']}
+                  margin={0}
                 >
-                  <Title
-                    as="h2"
-                    fontSize="1.5rem"
-                    textAlign={['center', 'left']}
-                    margin={0}
-                  >
-                    {title}
-                  </Title>
-                  <Text margin={0} fontWeight="initial" fontSize=".9rem">
-                    {date}
-                  </Text>
-                </Container>
-              </Grid>
-            </Card>
-          </Link>
+                  {title}
+                </Title>
+                <Text margin={0} fontWeight="initial" fontSize=".9rem">
+                  {date}
+                </Text>
+              </Container>
+            </Link>
+          </BlogContainer>
         ))}
       </Grid>
     </Container>
