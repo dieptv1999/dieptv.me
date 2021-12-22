@@ -119,10 +119,10 @@ const About = ({ experiences }: AboutProps): JSX.Element => {
           Developer & passionate
         </Title>
         <Container maxWidth={['100%', '700px']} marginY="2rem">
-          <Text>
+          <Text textAlign={'center'}>
             I&apos;m a Full-Stack/DevOps developer living in Hanoi Viet Nam.
           </Text>
-          <Text>
+          <Text textAlign={'center'}>
             During my free time I like going playing game, jogging, make design
             and make video edits on After Effects. You can check some cool drone
             edits on my{' '}

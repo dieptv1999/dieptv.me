@@ -2,6 +2,7 @@ import React from 'react';
 import Head from 'next/head';
 import styled from 'styled-components';
 import { GetStaticProps } from 'next';
+import Image from 'next/image';
 
 import { Title, Container, Text, Button, Grid, Link, List } from '@components';
 import { getPosts, Post } from '@posts';
@@ -10,16 +11,13 @@ interface ProjectProps {
   projects: Post[];
 }
 
-const ProjectImage = styled.img`
+const ProjectImage = styled.div`
   width: 100%;
   height: 300px;
   object-fit: cover;
-  border-radius: 4px;
-  transition: 0.2s ease-in-out 0s;
-
-  :hover {
-    transform: scale(1.02);
-  }
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
 `;
 
 const ProjectContainer = styled(Container)`
@@ -54,7 +52,7 @@ const Projects = ({ projects }: ProjectProps): JSX.Element => (
       </Text>
     </Container>
     <Grid
-      py="4rem"
+      p="4rem"
       gridTemplateColumns={['1fr', 'repeat(2, 1fr)']}
       width="100%"
       gridGap="10%"
@@ -69,7 +67,15 @@ const Projects = ({ projects }: ProjectProps): JSX.Element => (
           gridGap="1.5rem"
         >
           <Link href={data.url} width="100%" target={'_blank'}>
-            <ProjectImage src={data.preview} />
+            <ProjectImage>
+              <Image
+                src={data.preview || '/blur.jpeg'}
+                blurDataURL={'/blur.jpeg'}
+                placeholder={'blur'}
+                layout={'fill'}
+                className="ease-in-out duration-300"
+              />
+            </ProjectImage>
           </Link>
           <Container
             flexDirection="row"

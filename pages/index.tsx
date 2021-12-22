@@ -3,7 +3,6 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 
 import { Container, Title, Button, Grid, Link, Text } from '@components';
-import styles from '@styles/Home.module.css';
 
 const Home = (): JSX.Element => (
   <Container>
@@ -20,10 +19,12 @@ const Home = (): JSX.Element => (
         <Image
           src="/me.jpg"
           alt="Dieptv"
-          width="120px"
-          height="120px"
+          width={120}
+          height={120}
           objectFit="cover"
-          className={styles.image}
+          blurDataURL={'/blur.jpeg'}
+          placeholder={'blur'}
+          className="ease-in-out duration-300 rounded-full"
         />
         <Title>Dieptv</Title>
         <Title
