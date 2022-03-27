@@ -1,6 +1,11 @@
 import Head from 'next/head';
 import { GetStaticPaths, GetStaticPropsResult, NextPage } from 'next';
-import { NotionRenderer, NotionRendererProps, Code } from 'react-notion-x';
+import {
+  NotionRenderer,
+  NotionRendererProps,
+  Code,
+  Equation,
+} from 'react-notion-x';
 import { NotionAPI } from 'notion-client';
 
 import { getPageInfo, Page, POSTS } from '@posts/notion';
@@ -20,12 +25,14 @@ const Blog: NextPage<BlogProps> = ({ page, recordMap }) => (
     <NotionRenderer
       fullPage
       className="notion-container"
+      bodyClassName="max-w-screen-lg w-full mx-0"
       recordMap={recordMap}
       components={{
         code: Code,
+        equation: Equation,
       }}
     />
-    <Container textAlign="center" gridGap=".4rem" my="3rem">
+    <Container textAlign="center" gridGap=".4rem" mb="3rem">
       <Text margin={0}>Dieptv</Text>
       <small>{page.date}</small>
     </Container>

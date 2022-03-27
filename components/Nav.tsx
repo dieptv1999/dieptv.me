@@ -85,7 +85,7 @@ const Nav = ({ isOpen, onOpen, onClose }: NavProps): JSX.Element => {
       gridTemplateColumns={['1fr', '1fr', '1fr 1fr 1fr']}
       alignContent="center"
       justifyContent={['center', 'center', 'space-between']}
-      margin="3rem 0"
+      margin="2rem 0"
     >
       <Container display={['none', 'none', 'flex']}>
         <NavLink href="/">Dieptv</NavLink>

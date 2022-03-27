@@ -67,3 +67,7 @@ a:hover {
 .notion-full-page {
   padding-bottom: 0 !important;
 }
+
+.notion-viewport {
+ position: relative !important;
+}
