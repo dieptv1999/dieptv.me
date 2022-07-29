@@ -8,7 +8,6 @@ const CV: React.FC<CVProps> = () => {
       <div>
         <img src={'/img/cv1.jpg'} className="object-cover" />
       </div>
-      <img src={'/img/cv2.jpg'} />
     </div>
   );
 };
