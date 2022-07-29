@@ -6,7 +6,7 @@ const CV: React.FC<CVProps> = () => {
   return (
     <div className="flex flex-col max-w-screen-lg">
       <div>
-        <img src={'/img/cv1.jpg'} className="object-cover" />
+        <img src={'/img/cv1.png'} className="object-cover" />
       </div>
     </div>
   );
