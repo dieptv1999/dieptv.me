@@ -3,7 +3,7 @@ import { getPageTitle } from 'notion-utils';
 
 export const POSTS = {
   'nft-tutorial': {
-    date: new Date('2021-12-19').toDateString(),
+    date: new Date('2022-8-1').toDateString(),
     uri: 'sharp-peach-033.notion.site/Get-started-with-Trustkeys-NFT-Marketplace-f43972b1bc074636af0d47e9408e1d85',
   },
   'real-time-application-arduino-with-android-firebase': {
