@@ -17,16 +17,16 @@ const Home = (): JSX.Element => (
     >
       <Container alignItems="center" alignContent="center">
         <Image
-          src="/me.jpg"
+          src="/logo.png"
           alt="Dieptv"
-          width={120}
-          height={120}
-          objectFit="cover"
+          width={200}
+          height={150}
+          objectFit="contain"
           blurDataURL={'/blur.jpeg'}
           placeholder={'blur'}
           className="ease-in-out duration-300 rounded-full"
         />
-        <Title>Dieptv</Title>
+        <Title>DIEPTV</Title>
         <Title
           fontSize="2rem"
           color="rgba(0, 0, 0, 0.6)"

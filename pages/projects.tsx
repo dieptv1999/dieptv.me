@@ -52,7 +52,7 @@ const Projects = ({ projects }: ProjectProps): JSX.Element => (
       </Text>
     </Container>
     <Grid
-      p="4rem"
+      pb="4rem"
       gridTemplateColumns={['1fr', 'repeat(2, 1fr)']}
       width="100%"
       gridGap="10%"
