@@ -1,66 +1,77 @@
 {
-  "name": "dieptv.me",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "postbuild": "next-sitemap",
-    "lint": "next lint",
-    "start": "next start",
-    "format": "prettier --write ."
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.+(ts|tsx)": [
-      "prettier --write"
-    ]
+  "name": "portfolio",
+  "version": "1.0.0",
+  "homepage": "https://techlens.tech",
+  "description": "Portfolio site for Tech Lens",
+  "repository": "https://github.com/HamishMW/portfolio.git",
+  "author": "Tech Lens <techlensglobal@gmail.com>",
+  "devDependencies": {
+    "@mapbox/rehype-prism": "^0.8.0",
+    "@storybook/addon-a11y": "^6.5.10",
+    "@storybook/addon-actions": "^6.5.10",
+    "@storybook/addon-controls": "^6.5.10",
+    "@storybook/addon-toolbars": "^6.5.10",
+    "@storybook/builder-webpack5": "^6.5.10",
+    "@storybook/manager-webpack5": "^6.5.10",
+    "@storybook/react": "^6.5.10",
+    "@svgr/webpack": "^6.3.1",
+    "esbuild": "^0.15.2",
+    "eslint": "^8.21.0",
+    "eslint-config-next": "^12.2.5",
+    "fs-extra": "^10.1.0",
+    "globby": "^13.1.2",
+    "postcss": "^8.4.16",
+    "postcss-flexbugs-fixes": "^5.0.2",
+    "postcss-preset-env": "^7.7.2",
+    "prettier": "^2.7.1",
+    "puppeteer": "^16.1.0",
+    "reading-time": "^1.5.0",
+    "rehype-img-size": "^1.0.1",
+    "rehype-preset-minify": "^6.0.0",
+    "rehype-slug": "^5.0.1",
+    "storybook": "^6.5.10",
+    "storybook-addon-next": "^1.6.7",
+    "stylelint": "^14.9.1",
+    "stylelint-config-css-modules": "^4.1.0",
+    "stylelint-config-prettier": "^9.0.3",
+    "stylelint-config-standard": "^26.0.0"
   },
   "dependencies": {
-    "@nivo/bar": "^0.79.1",
-    "@types/javascript-time-ago": "^2.0.3",
-    "@types/styled-components": "^5.1.9",
-    "@types/styled-system": "^5.1.11",
-    "babel-plugin-styled-components": "^1.12.0",
-    "fast-glob": "^3.2.5",
-    "framer-motion": "^4.1.17",
-    "gray-matter": "^4.0.2",
-    "javascript-time-ago": "^2.3.8",
-    "lodash": "^4.17.21",
-    "next": "^11.1.2",
-    "next-mdx-remote": "^3.0.1",
-    "next-seo": "^4.29.0",
-    "notion-client": "^4.8.6",
-    "notion-utils": "^4.8.6",
-    "prettier": "^2.4.0",
-    "prismjs": "^1.25.0",
-    "raw-loader": "^4.0.2",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-icons": "^4.2.0",
-    "react-notion-x": "^4.9.0",
-    "sass": "^1.45.0",
-    "styled-components": "^5.3.1",
-    "styled-system": "^5.1.5"
+    "fathom-client": "^3.5.0",
+    "framer-motion": "^7.1.0",
+    "mdx-bundler": "^9.0.1",
+    "next": "^12.2.5",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "three": "^0.143.0",
+    "three-stdlib": "^2.13.0"
   },
-  "devDependencies": {
-    "@types/react": "^17.0.3",
-    "@typescript-eslint/parser": "^4.21.0",
-    "autoprefixer": "^10.4.0",
-    "eslint": "^7.31.0",
-    "eslint-config-next": "^11.0.1",
-    "eslint-config-prettier": "^8.1.0",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-prettier": "^3.3.1",
-    "husky": "4",
-    "lint-staged": "^11.0.1",
-    "next-sitemap": "^1.6.168",
-    "postcss": "^8.4.5",
-    "tailwindcss": "^3.0.7",
-    "typescript": "^4.4.3"
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build && next export -o build/",
+    "build:storybook": "build-storybook -o build-storybook && node scripts/draco-storybook",
+    "deploy": "aws s3 sync --delete build/ s3://hamish-portfolio-site",
+    "deploy:storybook": "aws s3 sync --delete build-storybook s3://hamish-portfolio-storybook",
+    "deploy:functions": "cd functions && npm run deploy",
+    "start": "next start",
+    "test": "echo 'write some tests'",
+    "storybook": "start-storybook -p 9009 -h localhost"
+  },
+  "browserslist": {
+    "production": [
+      ">10%",
+      "not dead",
+      "not ie 11",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "engines": {
+    "npm": ">=8.6.0",
+    "node": ">=18.0.0"
   }
 }
