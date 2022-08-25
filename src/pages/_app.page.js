@@ -14,6 +14,7 @@ import { useRouter } from 'next/router';
 import { Fragment, createContext, useEffect, useReducer } from 'react';
 import { msToNum } from 'utils/style';
 import { ScrollRestore } from '../layouts/App/ScrollRestore';
+import Script from 'next/script';
 
 export const AppContext = createContext({});
 
@@ -58,6 +59,19 @@ const App = ({ Component, pageProps }) => {
   return (
     <AppContext.Provider value={{ ...state, dispatch }}>
       <ThemeProvider themeId={state.theme}>
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-Q2MGPQX0JE"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){window.dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'G-Q2MGPQX0JE');
+        `}
+        </Script>
         <LazyMotion features={domAnimation}>
           <Fragment>
             <Head>
