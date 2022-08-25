@@ -20,7 +20,7 @@ export const AppContext = createContext({});
 const repoPrompt = `
 __  __  __
 \u005C \u005C \u005C \u005C \u005C\u2215\n \u005C \u005C\u2215\u005C \u005C\n  \u005C\u2215  \u005C\u2215
-\n\nTaking a peek huh? Check out the source code: https://github.com/HamishMW/portfolio
+\n\nTaking a peek huh? Check out the source code: https://github.com/dieptv1999/dietv.me
 `;
 
 const App = ({ Component, pageProps }) => {

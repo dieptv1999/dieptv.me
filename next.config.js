@@ -2,7 +2,7 @@ module.exports = {
   reactStrictMode: true,
   trailingSlash: true,
   pageExtensions: ['page.js', 'api.js'],
-  webpack(config, { isServer }) {
+  webpack(config, { isServer, defaultLoaders }) {
     // Run custom scripts
     if (isServer) {
       require('./scripts/generate-sitemap');
