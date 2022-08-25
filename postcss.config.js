@@ -8,6 +8,9 @@ module.exports = {
       stage: 3,
       features: {
         'nesting-rules': true,
+        'custom-properties': {
+          warnings: false,
+        },
         'custom-media-queries': {
           importFrom: 'src/layouts/App/global.css',
         },

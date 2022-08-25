@@ -76,3 +76,8 @@ body {
     transform-origin: right;
   }
 }
+
+.social-icon-linkedin {
+  width: 20px;
+  height: 20px;
+}
