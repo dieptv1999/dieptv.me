@@ -84,8 +84,8 @@ export const Home = () => {
         index={1}
         title="Discover, collect, and sell extraordinary NFTs"
         description="TheOnly.biz - is a premier decentralized NFT platform, developed by TrustKeys Network"
-        buttonText="View project"
-        buttonLink="/projects/smart-sparrow"
+        buttonText="View website"
+        buttonLink="https://theonly.biz/"
         model={{
           type: 'laptop',
           alt: 'Smart Sparrow lesson builder',

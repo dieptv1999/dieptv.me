@@ -1,0 +1,104 @@
+---
+title: 'Các kiểu dữ liệu trong ngôn ngữ lập trình Go'
+abstract: Các kiểu dữ liệu trong Go là các loại dữ liệu có thể tồn tại trong Go. Trong Go có thể chia làm 4 loại.
+date: '2022-08-26'
+banner: https://i.ibb.co/JcBYFDd/datatype.jpg
+---
+
+# Kiểu dữ liệu trong Go
+Các kiểu dữ liệu trong Go là các loại dữ liệu có thể tồn tại trong Go. Trong Go có thể chia làm 4 loại:
+- Loại cơ bản : các kiểu chuỗi , các kiểu số, boolean,...
+- Loại tổng hợp (aggregate): mảng, các cấu trúc
+- Loại tham chiếu (reference):con trỏ (poiter), map, function, ...
+- Loại giao diện (interface type).
+## Các loại dữ liệu cơ bản
+Được chia ra làm ba loại: kiểu số, kiểu chuỗi , kiểu boolean
+### Kiểu số (numbers)
+Được chia ra làm ba loại nhỏ hơn là : kiểu số nguyên, kiểu thực (dấu chấm động), và kiểu số phức.
+**Kiểu số nguyên**
+
+| <div style={{"width":"150px","textAlign": "left"}}>Data type</div> | <div style={{"textAlign": "left"}}>Description</div>  |
+|------|---------|
+|   int8      |  Số nguyên có dấu 8 bit |
+|    int16     | Số nguyên có dấu 16bit  |
+|    int32     | Số nguyên có dấu 32bit  |
+|    int64     | Số nguyên có dấu 64bit  |
+|    uint8     | Số nguyên không dấu 8bit  |
+|    uint16     | Số nguyên không dấu 16bit  |
+|    uint32     | Số nguyên không dấu 32bit  |
+|    uint64     | Số nguyên không dấu 64bit  |
+|    int     | Kiểu số nguyên có dấu 32bit hoặc 64bit tùy vào hệ điều hành  |
+|    uint     | Kiểu số nguyên không dấu 32bit hoặc 64bit  |
+|    rune     | Nó giống với kiểu int32 và có thể biểu diễn mã unicode  |
+|    byte     | Giống kiểu int8  |
+|    uintptr     | Là một kiểu số nguyên không dấu, nhưng có độ dài không xác định nhưng nó có thể chứa tất cả các bit của một con trỏ  |
+
+**Kiểu số thực (dấu chấm động)**
+
+
+| <div style={{"textAlign": "left"}}>Data type</div> | <div style={{"textAlign": "left"}}>Description</div>  |
+|---------|---|
+|   float32     | Số dấu phẩy động 32bit chuẩn IEEE 754  |
+|   float64     | Số dấu phẩy động 64bit chuẩn IEEE 754  |
+
+**Kiểu số phức (complex )**
+
+| <div style={{"textAlign": "left"}}>Data type</div> | <div style={{"textAlign": "left"}}>Description</div>  |
+|---------|---|
+|   complex64     | Số phức có phần thực và phần ảo là 2 số float32  |
+|   complex128     | Số phức có phần thực và phần ảo là 2 số float64  |
+
+### Kiểu boolean
+
+Kiểu dữ liệu này có độ dài 1 bit và không thể chuyển đổi sang kiểu dữ liệu khác (không rõ ràng hoặc không hoàn toàn).
+
+### Kiểu chuỗi (strings)
+
+Kiểu chuỗi là một chuỗi các kí tự Unicode, có thể định nghĩa một chuỗi trong Go là một chuỗi các byte bất biến, tức là khi nó được tạo ra thì không thể thay đổi giá trị của nó.
+
+## Kiểu dữ liệu tổng hợp
+
+**Array**
+*Array* trong Go thì cũng tương tự các ngôn ngữ khác, tuy nhiên trong Go nó có kích thước cố định và các kiểu dữ liệu của từng phần tử mảng phải đồng nhất.
+
+*Array* trong Go không phải dạng tham chiếu (reference types) mà ở dạng tham trị (value types) tức là khi gán giá trị của nó cho một mảng khác thì mảng đó sẽ được tạo mới hoàn toàn và chỉ đc gán giá trị của mảng ban đầu.
+
+**Slices (lát cắt :v )**
+
+![ảnh từ kipalog](https://i.ibb.co/QHxDLWg/5jozo13v25-go-slice-array.jpg)
+
+*Slice* là một tham chiếu đến một *Array* hoặc một phần hoặc toàn bộ. Nó có kích thước động, có thể linh hoạt.
+*Slice* sẽ có 2 thuộc tính là *length* và *capacity*. *Length* để chỉ số phần tử chứa trong slice và *capacity* để chỉ số phần tử mà slice tham chiếu đến array.
+Cách tạo Slices:
+- Tạo từ mảng với 2 chỉ số low và high.
+
+```
+var s []int = a[low:high] với a là một mảng đã khai báo
+```
+- Khai báo như một mảng nhưng không chỉ ra kích thước mảng
+```
+s := []int{2,3,4,5,6}
+```
+- Khai báo với hàm make : func make([]T, len, cap) []T
+```
+s := make([]int, 0, 5)
+```
+## Loại tham chiếu
+
+**Con trỏ (poiter)**
+
+Nếu ai đã làm quen với con trỏ trong C/C++ thì con trỏ trong Go cũng như thế, con trỏ dùng để lưu trữ biến địa chỉ của biến khác hoặc con trỏ khác trong bộ nhớ chính.
+
+![con trỏ](https://i.ibb.co/DQ137B2/Pointers-in-Golang.jpg)
+
+*Ảnh được tham khảo trên trang geeksforgeeks*
+
+Có hai toán tử con trỏ sử dụng :
+- toán tử * : toán tử này dùng để khai báo con trỏ và truy cập vào giá trị mà con trỏ trỏ đến.
+- toán từ &: là toán tử địa chỉ, giống như C/C++, toán tử này lấy ra địa chỉ của một biến hoặc để truy cập giá trị của một biến tới 1 con trỏ.
+Cách khai báo :
+
+```
+var pointer_name *Data_Type
+```
+*Bài viết đến đây là kết thúc. Chúc mọi người một ngày vui vẻ*

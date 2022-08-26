@@ -1,0 +1,78 @@
+---
+title: 'Xây dựng ứng dụng realtime theo dõi nhiệt độ, độ ẩm, ánh sáng sử dụng Firebase Phần II'
+abstract: Tiếp nối dự án về ứng dụng theo dõi nhiệt độ, độ ẩm, ánh sáng. Trong bài viết này t sẽ bắt tay và phân tích và thiết kế hệ thống đối với ứng dụng này.
+date: '2020-08-25'
+banner: https://i.ibb.co/gT1Rvv5/fig-caption-firebase-android-arduino.png
+---
+
+Tiếp nối dự án về ứng dụng theo dõi nhiệt độ, độ ẩm, ánh sáng. Trong bài viết này t sẽ bắt tay và phân tích và thiết kế hệ thống đối với ứng dụng này. Phần trước về Arduino các bạn có thể theo dõi tại [Link]()
+
+## Sơ đồ luồng dữ liệu của hệ thống
+
+<div class="mermaid">
+  graph LR
+  A[Android App] --> B{'Realtime Database'}
+  B --> A
+  B --> D{'Uno wifi'}
+  D --> B
+  D --> C(Adapter)
+  E(Sensor) --> D
+</div>
+
+## 1. Tính năng của ứng dụng
+
+- Hiển thị nhiệt độ, độ ẩm, ánh sáng trên màn hình theo thời gian thực tại từng vị trí có thiết bị đo, giúp người dùng theo dõi và giám sát môi trường tại từng vị trí.
+
+- Theo dõi nhiều vị trí cùng một thời điểm.
+
+- Hiển thị màn hình điều khiển và điều khiển từ xa các thiết bị tai từng vị trí có thiết bị.
+
+- Điều khiển thiết bị từ xa.
+## 2. Tạo ứng dụng và cấu hình thư viện
+Vì là ứng dụng Android nên chúng ta sẽ sử dụng Android Studio để lập trình. Các bạn cài đặt trước Android Studio.
+
+Sau khi khởi động Android Studio, thực hiện theo các bước để tạo dự án:
+
+> File => New => New Project => Empty Activity => đặt tên dự án và Finish
+
+> Yêu cầu hệ thống đối với ứng dụng:
+
+- API level 21 hoặc hơn
+
+- Gradle 4.1 hoặc hơn
+
+- com.android.tools.build:gradle v3.2.1 hoặc lớn hơn
+
+- compileSdkVersion 29
+
+> Thêm google.services.plugin: tại app/build.gradle thêm vào
+```
+    apply plugin: 'com.android.application'
+    apply plugin: 'com.google.gms.google-services'// Google Services plugin**
+```
+> Thêm Firebase SDKs vào ứng dụng: tại app/build.gradle thêm vào
+```
+    dependencies {
+	    implementation 'com.google.firebase:firebase-auth:19.2.0'
+	    implementation 'com.google.firebase:firebase-firestore:21.4.1'
+    }
+```
+Đồng bộ ứng dụng và quá trình tạo project hoàn thành.
+
+## 3. Phân tích thiết kế ứng dụng
+### 3.1. Biểu đồ ca sử dụng tổng quan
+
+![Biểu đồ ca sử dụng tổng quan](https://i.ibb.co/bRdrLXf/bieu-do-ca-su-dung-tong-quan.png)
+
+### 3.2 Biểu đồ trình tự
+#### 3.2.1 Biểu đồ trình tự xem thông tin của từng module.
+
+![Xem thông tin từng module](https://i.ibb.co/X8sTxDg/bieu-do-trinh-tu-xem-thong-tin-tung-module.png)
+
+#### 3.2.2 Biểu đồ trình tự chọn module theo vị trí.
+
+![Chọn module theo vị trí](https://i.ibb.co/BCGPfqr/bieu-do-trinh-tu-chon-module-theo-vi-tri.png)
+
+#### 3.2.3 Biểu đồ trình tự điều khiển thiết bị từ xa
+
+![Điều khiển thiết bị từ xa](https://i.ibb.co/JpRwvGC/bieu-do-trinh-tu-dieu-khien-thiet-bi-tu-xa.png)

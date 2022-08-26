@@ -1,0 +1,252 @@
+---
+title: 'Xây dựng ứng dụng realtime theo dõi nhiệt độ, độ ẩm, ánh sáng sử dụng Firebase Phần I'
+abstract: Đây là bài viết khởi đầu cho chuỗi bài viết về dự án *Xây dựng ứng dụng theo dõi nhiệt độ, độ ẩm, ánh sáng sử dụng Firebase*. Công nghệ sử dụng Java/Android, Firebase
+date: '2020-08-25'
+banner: https://i.ibb.co/gT1Rvv5/fig-caption-firebase-android-arduino.png
+---
+
+# Xây dựng ứng dụng realtime theo dõi nhiệt độ, độ ẩm, ánh sáng sử dụng Firebase Phần I
+Đây là bài viết khởi đầu cho chuỗi bài viết về dự án: *xây dựng ứng dụng theo dõi nhiệt độ, độ ẩm, ánh sáng sử dụng Firebase*
+Cách tạo project và kết nối Firebase và Arduino tôi đã viết trong bài viết:
+[Link](), các bạn có thể tham khảo.
+
+>Let's go
+## I. Giới thiệu dự án
+Dự án này gồm 2 phần chính:
+
+Ứng dụng trên Android dùng để đọc dữ liệu nhiệt độ, độ ẩm, ánh sáng trên Firebase, cũng như điều khiển  thiết bị qua Firebase (thay đổi trạng thái dữ liệu trên firebase, và firebase tự cập nhật về Arduino).
+Nhiều module ESP8266 để đọc dữ liệu của nhiều vị trí khác nhau. Vị trí của module được cấu hình tĩnh trong code bằng tọa độ GPS.
+Cụ thể trong dự án này tôi dùng Wemos D1.
+
+
+### Mục tiêu
+
+- Xây dựng và phát triển hệ thống thu thập dữ liệu thời gian thực gồm nhiều module thu thập thông tin độc lập. Những thông tin này gồm có nhiệt độ, độ ẩm, ánh sáng được đồng bộ thời gian thực lên cloud, cụ thể là firebase.
+
+- Xây dựng ứng dụng di động có khả năng theo dõi và điều khiển các module từ xa thông qua cloud.
+## II. Các linh kiện, thiết bị cần thiết.
+
+- Wemos D1 (sử dụng ESP8266) : có bán nhiều ở các cửa hàng linh kiện dành cho sinh viên.
+- DHT11: giá khoảng 50k (theo kinh nghiệm cá nhân thì là dễ hỏng, các bạn mua nên cẩn thận). Có điều kiện kinh tế hơn thì dùng DHT22 ^.^
+
+![dht11](https://i.ibb.co/L5w03M8/DHT11.jpg)
+- Cảm biến ánh sáng: con cảm biến này rẻ, 3-5k, mình không rõ tên.
+- Hai đèn led 3.3-5V.
+- Điện thoại sử dụng hệ điều hành Android ^.^.
+## III. Sơ đồ nguyên lí và lắp mạch.
+
+Trong proteus tôi không có thư viện wemos d1 nên t dùng Arduino Uno R3 để mô phỏng. Đây là sơ đồ nguyên lí mạch. Rất đơn giản như sau:
+
+![so-do-nguye-li](https://i.ibb.co/nwbXB5P/so-do-nguyen-li-wemos-d1.png)
+
+> Sơ đồ rất đơn giản nên các bạn có thể tự lắp mạch thật cho mình. Chân 2 của uno là chân D9 của wemos (cũng có thể tùy thuộc nhà sản xuất mà các bạn tùy biến cho phù hợp).
+Đây là một module mà mình làm:
+
+![module-project-ii](https://i.ibb.co/m6n6gBY/module-wemos-d1.jpg)
+
+## IV. Cấu trúc lưu dữ liệu trên Realtime Database
+Các bạn nếu đã làm việc với Firebase chắc cũng đã hiểu Realtime Database là gì. Dữ liệu trong Realtime Database sử dụng cấu trúc lưu trữ JSON. Các bạn muốn tìm hiểu thêm về Realtime DB của firebase có thể tham khảo tại [link](https://viblo.asia/p/lam-viec-voi-firebase-realtime-database-ZjlvalVXkqJ).
+Dữ liệu gồm có 2 phần status và storage.
+
+- status dùng để lưu trữ trạng thái của 2 đèn led (dùng để điều khiển 2 đèn LED ứng với từng module), thời gian thu thập dữ liệu TIME_COLLECTION.
+- storage dùng để lưu dữ liệu của các module gửi lên. Trong phần I sẽ dùng chủ yếu storage này.
+![root-data](https://i.ibb.co/x3xZ52v/root-data.png)
+![status-data](https://i.ibb.co/Wz92FYC/status-data.png)
+![storage-data](https://i.ibb.co/z4Ch90S/storage-data.png)
+
+> Giải thích: trong storage và status có dữ liệu con là các module, id là vị trí của module đó (latitude và longitude nhân với 1000 cho dễ lưu trữ). Đối với status có 3 trường LED1 (điều khiển LED1), LED2 (điều khiển LED2), TIME_COLLECTION (thời gian thu thập dữ liệu).
+> Đối với storage, trong mỗi module lưu trữ các dữ liệu lưu trữ tại từng thời điểm. Có các trường như trong hình vẽ. Có lẽ nó rất tường minh nên tôi có thể không cần giải thích.
+
+Như vậy, chúng ta đã giải quyết xong vấn đề lưu trữ dữ liệu trên Firebase. Tiếp theo, chúng ta sẽ bắt tay vào code cho phần Arduino.
+
+## V. Thư viện và chương trình.
+Trong dự án Arduino này tôi có sử dụng các thư viện như sau:
+
+- DHT.h
+- NTPClient.h
+- ESP8266WiFi.h
+- Firebase.h
+- FirebaseCloudMessaging.h
+- WifiLocation.h
+Những thư viện này hầu hết đều có sẵn trong trình quản lí thư viện của Arduino IDE, các bạn có thể tự tải về. Với thư viện NTPClient các bạn có thể tải tại [https://github.com/arduino-libraries/NTPClient](https://github.com/arduino-libraries/NTPClient).<br/>
+Code:
+```
+	    #include <Adafruit_Sensor.h>
+        #include <DHT.h>
+        #include <WiFiUdp.h>
+        #include <WifiLocation.h>
+        #include <NTPClient.h>
+
+        #include <ESP8266WiFi.h>
+
+        #include <Firebase.h>
+        #include <FirebaseArduino.h>
+        #include <FirebaseCloudMessaging.h>
+        #include <string.h>
+
+        #define WIFI_SSID "xxxxxxx"
+        #define WIFI_PASSWORD "xxxxxxxx"
+        #define FIREBASE_HOST "controlarduino-xxxxx.firebaseio.com"
+        #define FIREBASE_AUTH "xxxxxxxxx"
+        #define R1 8200
+        #define Vin 5
+        #define LED_PIN1 12// là chân D6
+        #define LED_PIN2 13// chân D7
+        #define M 100000
+
+
+        String pos="20114:106163";
+        const int quangtro=A0;
+        const int DHTTYPE = DHT11;
+        const int DHTPIN = 2; //chân D9
+        unsigned long time_collection=900000;
+        byte mac[6];
+        unsigned long cycle1 = 0;
+        unsigned long cycle2 = 0;
+        WiFiUDP ntpUDP;
+        NTPClient timeClient(ntpUDP);
+        DHT dht(DHTPIN, DHTTYPE);
+
+        void setup()
+        {
+          Serial.begin(9600);
+          delay(2000);
+          Serial.println('\n');
+          wifiConnect();
+          timeClient.begin();
+          timeClient.setTimeOffset(25200);
+          Firebase.begin(FIREBASE_HOST, FIREBASE_AUTH);
+          Firebase.stream("/status/" + pos);
+          pinMode(quangtro,INPUT);
+          pinMode(LED_PIN1,OUTPUT);
+          pinMode(LED_PIN2,OUTPUT);
+          dht.begin();
+          WiFi.macAddress(mac);
+          delay(2000);
+        }
+
+        void loop()
+        {
+          StaticJsonBuffer<200> jsonBuffer;
+          JsonObject& root = jsonBuffer.createObject();
+          /---------------------------------------------------------/
+          unsigned long curr=(unsigned long)millis();
+          if (curr - cycle1 > time_collection){
+            timeClient.update();
+            String formattedDate = timeClient.getFormattedDate();
+            /----------------------------------------------------/
+            float t = dht.readTemperature();
+            float h = dht.readHumidity();
+            float ADC=analogRead(quangtro);
+        //    Serial.println(Vin);
+        //    float Vout = ADC * (Vin / 1024.0);
+        //    Serial.println(Vout);
+        //    float RLDR = (R1 * (Vin - Vout))/Vout;
+            if (isnan(t) || isnan(h)) {
+                Serial.println("Failed to read from DHT sensor!");
+                if (isnan(t)) t = M;
+                if (isnan(h)) h = M;
+            }
+            root["mac_add"]=binToString(mac,6);
+            root["temp"]=t;
+            root["lux"]=ADC;
+            root["humidity"]=h;
+            /*************************************/
+            String jsonStr = "";
+            root.printTo(jsonStr);
+            String path="storage/" + pos + "/" + formattedDate;
+            Firebase.set(path, root);
+            if (Firebase.success())
+            {
+              Serial.println("SET JSON --------------------");
+              Serial.println("PASSED");
+              Serial.println();
+            }else {
+              Serial.println("SET DATA FAILED");
+              Serial.println("------------------------------------");
+              Serial.println();
+            }
+            /***********************************/
+            if (Firebase.failed()) {
+              Serial.println(Firebase.error());
+              Serial.print("fail!");
+            }
+            cycle1 = curr;
+          }// kết thúc chu kì gửi dữ liệu
+          else if (curr-cycle2>51){
+            if (Firebase.failed()) {
+              Serial.println("streaming error");
+              Serial.println(Firebase.error());
+              Firebase.stream("/status/" + pos);
+              return;
+            }
+            if (Firebase.available()) {
+             FirebaseObject event = Firebase.readEvent();
+             String eventType = event.getString("type");
+             if (eventType=="put"){
+               Serial.print("data: ");
+               String data=event.getString("data");
+               Serial.println(data);
+               DynamicJsonBuffer jsonBuffer;
+               JsonObject& r = jsonBuffer.parseObject(data);
+               String path = r.get<String>("path");
+               if (path=="/"){
+                JsonObject& conf=jsonBuffer.parseObject(r.get<String>("data"));
+                analogWrite(LED_PIN1,int(conf.get<float>("LED1")));
+                analogWrite(LED_PIN2,int(conf.get<float>("LED2")));
+                time_collection=conf.get<int>("TIME_COLLECTION");
+                time_collection=conf.get<int>("TIME_COLLECTION");
+               }else if (path=="/LED1"){
+                analogWrite(LED_PIN1,int(r.get<float>("data")));
+               }else if (path=="/LED2"){
+                analogWrite(LED_PIN2,int(r.get<float>("data")));
+               }else if (path==""){
+                time_collection=r.get<int>("data");
+               }
+             }
+            }
+            cycle2 = curr;
+          }
+          if(WiFi.status() != WL_CONNECTED){
+            wifiConnect();
+          }
+        }
+
+        //-----------------------------------------end loop---------------------
+        String binToString(byte *inputData, int dataLength) {
+          char asciiString[dataLength*2 +1];   // 2 characters per byte plus a null at the end.
+          for (int i = 0; i < dataLength; i++) {
+            sprintf(asciiString+2*i,"%02X",*(inputData+i));
+          }
+          asciiString[dataLength*2] = 0; // in theory redundant, the last sprintf should have done this but just to be sure...
+          return String(asciiString);
+        }
+
+        void wifiConnect()
+        {
+          WiFi.begin(WIFI_SSID, WIFI_PASSWORD);             // Connect to the network
+          Serial.print("Connecting to ");
+          Serial.print(WIFI_SSID); Serial.println(" ...");
+          int teller = 0;
+          while (WiFi.status() != WL_CONNECTED)
+          {                                       // Wait for the Wi-Fi to connect
+            delay(1000);
+            Serial.print(++teller); Serial.print(' ');
+          }
+          Serial.println('\n');
+          Serial.println("Connection established!");
+          Serial.print("IP address:\t");
+          Serial.println(WiFi.localIP());         // Send the IP address of the ESP8266 to the computer
+        }
+```
+Các bạn thay mật khẩu wifi và firebase id, auth bằng wifi và project của mình nhé. Code này tôi có thể tham khảo ở một số nguồn, nếu các bạn có cách tốt hơn hoặc phát hiện ra lỗi, các bạn có thể góp ý cho tôi qua mail hoặc facebook.
+## VI. Lời kết.
+
+*Lập trình với Arduino cũng rất thú vị. Nhưng điều quan trọng nhất vẫn là kiên trì fixbug.*
+
+Vậy là tôi đã hướng dẫn xong các bạn lập trình cho Arduino đọc dữ liệu và gửi lên Firebase, cũng như cấu trúc lưu dữ liệu trên Realtime DB.
+Trong phần code đã có cả điều khiển LED, TIME_COLLECTION, tôi sẽ hướng dẫn ở phần sau.
+Chúc các bạn thành công.
+Kết quả project tôi đã làm.
+
+[link youtube](https://www.youtube.com/embed/wWUSbN1LrHA)

@@ -12,6 +12,8 @@ import { POSTS_PATH, postFilePaths } from 'utils/mdx';
 import { formatTimecode } from 'utils/timecode';
 import rehypePrism from '@mapbox/rehype-prism';
 import { generateOgImage } from './og-image';
+import rehypeRemark from 'rehype-remark';
+import remarkGfm from 'remark-gfm';
 
 export default function PostPage({ frontmatter, code, timecode, ogImage }) {
   const MDXComponent = useMemo(() => getMDXComponent(code), [code]);
@@ -30,9 +32,10 @@ export const getStaticProps = async ({ params }) => {
   const { code, frontmatter, matter } = await bundleMDX({
     source,
     mdxOptions(options) {
-      options.remarkPlugins = [...(options.remarkPlugins ?? [])];
+      options.remarkPlugins = [...(options.remarkPlugins ?? []), remarkGfm];
       options.rehypePlugins = [
         ...(options.rehypePlugins ?? []),
+        // rehypeRemark,
         rehypePrism,
         rehypeSlug,
         rehypeMinify,
