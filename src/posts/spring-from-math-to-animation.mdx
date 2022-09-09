@@ -1,0 +1,27 @@
+---
+title: 'Spring Animations: from math to animation'
+abstract: Chắc hẳn đối với các frontender thì đã không còn xa lạ gì với spring animation. Nhưng không phải ai cũng hiểu chi tiết về các animation này cũng như những thứ toán học, vật lý đằng sau chúng.
+date: '2022-09-09'
+banner: https://img.freepik.com/free-vector/metal-springs-isolated-set_107791-6034.jpg?w=2000
+---
+
+# Spring Animations: from math to animation
+
+Trong 1-2 tháng trở lại đây, tôi đã trở thành một tín đồ của framer motion và react-spring. Chúng dường như làm cho công việc code giao diện tưởng chừng như nhàm chán có một chút
+đặc sắc hơn.
+Trước khi tiếp cận với những thứ như hiệu ứng này, công việc frontend thực sự là quá nhàm chán. Công việc xoay quanh chỉnh sửa [Ant design](https://ant.design/docs/react/introduce)
+và [MUI](https://mui.com/), việc đọc code và chỉnh sửa thực sự là không cần tư duy nhiều lắm. Mọi sự thích thú bắt đầu từ việc làm việc với animation và tối ưu hiệu năng
+của các ứng dụng web.
+Bạn muốn trở thành 1 animator thực thụ thì không thể nào thiếu springs. Tôi cũng như nhiều người làm frontend khác chỉ biết về spring với việc "nó biết nảy". Trong quá trình
+viết bài viết này tôi cũng đã học hỏi được thêm nhiều điều.
+
+Spring animation gắn liền với một số thông số như mas, stiffmess và damping. Hầu hết đồng nghiệp làm frontend với tôi đều không hiểu ý nghĩa cuả những thông số này, việc của họ chỉ là dùng nó.
+Thật may, mọi người đều có khởi đầu từ trường đại học và không khó để hiểu những thứ toán học đằng sau chúng.
+
+Bài viết này mục đích để làm rõ các hoạt động của spring animation trong thư viện [Framer motion](https://www.framer.com/motion/), và demo một số tùy chọn mà bạn có thể cài đặt cho spring.
+
+# Hooke's Law
+
+Đầu tiên tôi sơ lược qua về lò xo trong thế giới thực của chúng ta. Lò xo như chúng ta biết là một thứ được làm từ thép, hợp kim,... và có đặc tính đàn hồi (thô thì gọi là nảy).
+Tại sao lại nói về lò xo, vì spring animation có tên này vì nó dựa trên định luật vật lý của lò xo gọi là bộ dao động điều hòa. Cơ bản nó là một dạng sóng như sau:
+<WavyCurve />
