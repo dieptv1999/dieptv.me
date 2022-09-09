@@ -6,6 +6,7 @@ import { curveBasisOpen } from '@visx/curve';
 import useDimensions from '../../hooks/useDimensions';
 import styles from './MdxWidgets.module.css';
 import Image from 'next/image';
+import { useTheme } from '../ThemeProvider';
 
 const getPoints = (stiffness, mass, damping, nloop = 600) => {
   /* Spring Length, set to 1 for simplicity */
@@ -55,6 +56,7 @@ export const SpringAnimationDamping = ({ className = '', withDamping = false }) 
   const ref = useRef();
   const { width, height } = useDimensions(ref);
   const [count, setCount] = useState(0);
+  const {themeId} = useTheme();
 
   const initialData = getPoints(stiffness, mass, damping);
   const [data, setData] = useState(initialData);
@@ -96,7 +98,7 @@ export const SpringAnimationDamping = ({ className = '', withDamping = false }) 
   }, [mass, stiffness, damping]);
 
   return (
-    <div className={`${className}`}>
+    <div className={`${className}`} data-theme={themeId}>
       <div style={{ display: 'inline-flex' }}>
         <div>Stiffness: {stiffness} |</div>
         <div style={{ marginLeft: 5 }}>Damping: {damping} |</div>
@@ -149,8 +151,13 @@ export const SpringAnimationDamping = ({ className = '', withDamping = false }) 
             padding: 3,
             borderRadius: 5,
             cursor: 'pointer',
+            width: 'fit-content',
+            display: 'flex',
+            alignItems: 'center',
+            height: 'fit-content',
+            backgroundColor: themeId === 'dark' ? 'white' : 'transparent',
           }} onClick={() => setCount(count + 1)}>
-          <Image src={'/static/reload.png'} width={30} height={30} />
+          <Image src={'/static/refresh.svg'} width={30} height={30} className={styles.refresh} style={{}}/>
         </motion.div>
       </div>}
     </div>
