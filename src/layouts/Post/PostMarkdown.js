@@ -5,10 +5,10 @@ import { Link } from 'components/Link';
 import { List, ListItem } from 'components/List';
 import { Text } from 'components/Text';
 import { Children } from 'react';
-const WavyCurve = dynamic(() => import('../../components/MdxWidgets').then(mod => mod.WavyCurve), {ssr: false})
 import styles from './PostMarkdown.module.css';
 import dynamic from 'next/dynamic';
 import { ButtonSpring, SpringAnimationDamping } from '../../components/MdxWidgets';
+const WavyCurve = dynamic(() => import('../../components/MdxWidgets').then(mod => mod.WavyCurve), {ssr: false});
 
 const PostHeadingLink = ({ id }) => {
   return (

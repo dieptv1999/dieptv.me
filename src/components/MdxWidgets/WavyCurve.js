@@ -105,4 +105,4 @@ export const WavyCurve = ({className = ''}) => {
       </motion.svg>
     </div>
   );
-}
+};
