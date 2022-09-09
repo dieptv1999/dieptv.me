@@ -38,6 +38,9 @@
   },
   "dependencies": {
     "@bomdi/codebox": "^1.0.12",
+    "@visx/curve": "^2.1.0",
+    "@visx/scale": "^2.2.2",
+    "@visx/shape": "^2.12.2",
     "axios": "^0.27.2",
     "dante3": "^1.1.5",
     "fathom-client": "^3.5.0",

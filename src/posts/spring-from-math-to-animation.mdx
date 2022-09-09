@@ -23,5 +23,127 @@ Bài viết này mục đích để làm rõ các hoạt động của spring an
 # Hooke's Law
 
 Đầu tiên tôi sơ lược qua về lò xo trong thế giới thực của chúng ta. Lò xo như chúng ta biết là một thứ được làm từ thép, hợp kim,... và có đặc tính đàn hồi (thô thì gọi là nảy).
-Tại sao lại nói về lò xo, vì spring animation có tên này vì nó dựa trên định luật vật lý của lò xo gọi là bộ dao động điều hòa. Cơ bản nó là một dạng sóng như sau:
+Tại sao lại nói về lò xo, giải thích đơn giản là animation này có tên là spring vì nó dựa trên định luật vật lý của lò xo gọi là bộ dao động điều hòa. Cơ bản nó là một dạng sóng như sau:
 <WavyCurve />
+
+Để vẽ được đường lượn sóng như trên, đầu tiên phải có vận tốc (một điểm di duyển thì tất nhiên là có vận tốc), gia tốc và giảm tốc (như hình trên thì giảm tốc = 0).
+Và nếu có gia tốc hoặc giảm tốc thì phải có 1 lực tác động để tạo nên điều đó.
+
+Lại nói về lò xo, lò xo khi đứng yên thì không có lực, muốn nó có thể dao động thì phải có một lực để nén lại hoặc kéo lò xo dãn ra.
+
+Và khi nó được kéo thì sẽ có 1 lực sẽ kéo ngược lại nó về vị trí ban đầu. Và định luật Hooke's mô tả lực kéo ngược đó.
+
+Nó được biểu diễn như sau:
+
+> F = -kx (khối lượng không liên quan đến lực này)
+
+Trong đó:
+- F: mô men lực
+- k: hệ số đàn hồi hay độ cứng của lò xo (stiffness)
+- x: độ rời khỏi vị trí cân bằng
+
+Sau khi đã tính được lực, tôi sẽ đi tính gia tốc:
+
+> a = F / m
+
+Trong đó:
+- a: Gia tốc của vật
+- m: Khối lượng của vật (mass)
+
+Đối với sử dụng cho animation thì chúng ta sẽ mặc định khối lượng là 1(vì chỉ quan tâm đến dao động)
+
+Khi đó ta có biến đổi:
+> a = (-kx) / m
+
+Bây giờ tôi có một phương trình mà từ đó có thể tính gia tốc dựa trên độ dịch chuyển của lò xo và khối lượng của vật gán vào lò xo.
+Từ gia tốc thì có thể xác định được:
+- Vận tốc tại 1 thời điểm.
+> v2 = v1 + a * t
+- Vị trí tại 1 thời điểm.
+> p2 = p1 + v * t
+
+Nói 1 chút về thời gian trên công thức. Thời gian ở đây được tính theo khung hình trên giây (fps). Thông thường là 60fps = 1 / 60 = 0.016s.
+
+## Triển khai thực tế đối với 1 component
+
+<SpringAnimationDamping withDamping={false}/>
+
+> Hoạt ảnh trên sẽ được lặp vô hạn gì không có dao động tắt dần.
+
+# Giảm chấn (damping) / Dao động tắt dần
+
+Vấn đề tiếp theo: như dao động trên hình trên, bạn có thấy sóng dao động là vô hạn không. Điều đó không tốt có các animation chúng ta cần.
+Vậy nên tôi cần một thứ có thể dừng dao động lại theo thời gian -> đó chính là giảm chấn (dao động tắt dần).
+
+Công thức của lực tắt dần như sau:
+> F = -dv
+Trong đó:
+- d: hệ số tắt dần
+- v: vận tốc.
+
+Công thức tính hệ số tắt dần:
+> Damping Ratio = 2 * m * (√k/m) * d
+
+Bây giờ chúng ta đã có lực tắt dần -> chỉ cần thêm nó vào lực kéo lò xo là lò xo sẽ dừng lại.
+Từ đó ta sẽ có công thức tính gia tốc như sau:
+> a = (Fs + Fd) / m = ((-kx) + (-dv)) / m
+
+Nó sẽ trông giống như sau:
+<SpringAnimationDamping withDamping={true} />
+
+Như trên chúng ta có 1 animation spring với hệ số tắt dần là 0.3. Hệ số càng lớn thì tắt dần càng nhanh.
+
+## Ví dụ đối với một nút nhấn sử dụng spring của framer motion.
+
+<ButtonSpring />
+
+```jsx
+import styles from './MdxWidgets.module.css';
+import { motion } from 'framer-motion';
+
+export const ButtonSpring = () => {
+  return (
+    <div className={styles.buttonSpringContainer}>
+      <motion.button
+        className={styles.buttonSpring}
+        whileTap={{
+          scale: 1.3,
+          borderRadius: '6px',
+        }}
+        transition={{ type: 'spring', stiffness: 100, damping: 4, mass: 1 }}
+      >
+        Submit
+      </motion.button>
+    </div>
+  );
+};
+```
+
+```css
+.buttonSpring {
+  width: 180px;
+  height: 60px;
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(180deg, rgba(18,204,246,.55) 0%, #5b5cf0 100%);
+  border-radius: 8px;
+  color: white;
+  font-weight: 600;
+}
+
+.buttonSpringContainer {
+  height: 200px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+```
+
+Trong quá trình viết còn nhiều thiếu sót mong mọi người thông cảm. Mọi góp ý xin được gửi qua [Contact](/contact)
+
+Bài viết tham khảo trên hai nguồn:
+- [The physics behind spring animations](https://blog.maximeheckel.com/posts/the-physics-behind-spring-animations/)
+- [Spring Animations](https://www.edwardsanchez.me/post/spring-animations)
