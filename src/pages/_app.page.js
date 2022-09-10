@@ -29,7 +29,7 @@ const App = ({ Component, pageProps }) => {
   const [storedTheme] = useLocalStorage('theme', 'dark');
   const [state, dispatch] = useReducer(reducer, initialState);
   const { route, events, asPath } = useRouter();
-  const canonicalRoute = route === '/' ? '' : `${asPath}`;
+  // const canonicalRoute = route === '/' ? '' : `${asPath}`;
   useFoucFix();
 
   useEffect(() => {
