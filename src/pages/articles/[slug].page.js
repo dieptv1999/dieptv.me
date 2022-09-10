@@ -12,7 +12,7 @@ import { POSTS_PATH, postFilePaths } from 'utils/mdx';
 import { formatTimecode } from 'utils/timecode';
 import rehypePrism from '@mapbox/rehype-prism';
 import { generateOgImage } from './og-image';
-import rehypeRemark from 'rehype-remark';
+// import rehypeRemark from 'rehype-remark';
 import remarkGfm from 'remark-gfm';
 
 export default function PostPage({ frontmatter, code, timecode, ogImage }) {

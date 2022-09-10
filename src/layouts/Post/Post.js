@@ -13,13 +13,17 @@ import RouterLink from 'next/link';
 import { useRef, useState, useEffect } from 'react';
 import { clamp } from 'utils/clamp';
 import { formatDate } from 'utils/date';
+import { NextSeo } from "next-seo";
 import { cssProps, msToNum, numToMs } from 'utils/style';
 import styles from './Post.module.css';
+import { useRouter } from 'next/router';
 
 export const Post = ({ children, title, date, abstract, banner, timecode, ogImage }) => {
   const scrollToHash = useScrollToHash();
   const imageRef = useRef();
   const [dateTime, setDateTime] = useState(null);
+  const { route, events, asPath } = useRouter();
+  const canonicalRoute = route === '/' ? '' : `${asPath}`;
   
   useEffect(() => {
     setDateTime(formatDate(date));
@@ -37,6 +41,31 @@ export const Post = ({ children, title, date, abstract, banner, timecode, ogImag
 
   return (
     <article className={styles.post}>
+      <NextSeo
+        title={title}
+        description={abstract}
+        openGraph={{
+          url: `${process.env.NEXT_PUBLIC_SEO_DEFAULT_URL}/${canonicalRoute}`,
+          title: title,
+          description: abstract || '',
+          images: [
+            {
+              url: ogImage,
+              width: 800,
+              height: 600,
+              alt: title,
+              type: 'image/png',
+            },
+          ],
+          site_name: title,
+        }}
+        twitter={{
+          handle: '@handle',
+          site: '@site',
+          cardType: 'summary_large_image',
+        }}
+        facebook={{}}
+      />
       <Meta title={title} prefix="" description={abstract} ogImage={ogImage} />
       <Section>
         {banner && (

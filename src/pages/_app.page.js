@@ -1,6 +1,7 @@
 import 'layouts/App/reset.css';
 import 'layouts/App/global.css';
 
+import seo from '../../next-seo.config';
 import { Navbar } from 'components/Navbar';
 import { ThemeProvider } from 'components/ThemeProvider';
 import { tokens } from 'components/ThemeProvider/theme';
@@ -9,12 +10,12 @@ import { AnimatePresence, LazyMotion, domAnimation, m } from 'framer-motion';
 import { useFoucFix, useLocalStorage } from 'hooks';
 import styles from 'layouts/App/App.module.css';
 import { initialState, reducer } from 'layouts/App/reducer';
-import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { Fragment, createContext, useEffect, useReducer } from 'react';
 import { msToNum } from 'utils/style';
 import { ScrollRestore } from '../layouts/App/ScrollRestore';
 import Script from 'next/script';
+import { DefaultSeo } from 'next-seo';
 
 export const AppContext = createContext({});
 
@@ -31,7 +32,6 @@ const App = ({ Component, pageProps }) => {
   const canonicalRoute = route === '/' ? '' : `${asPath}`;
   useFoucFix();
 
-  // Handle analytics pageview recording
   useEffect(() => {
     if (process.env.NODE_ENV === 'development') return;
 
@@ -39,13 +39,11 @@ const App = ({ Component, pageProps }) => {
       // Fathom.trackPageview({ url: window.location.pathname });
     };
 
-    // Record a pageview when route changes
     events.on('routeChangeComplete', onRouteChangeComplete);
 
     return () => {
       events.off('routeChangeComplete', onRouteChangeComplete);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -74,12 +72,7 @@ const App = ({ Component, pageProps }) => {
         </Script>
         <LazyMotion features={domAnimation}>
           <Fragment>
-            <Head>
-              <link
-                rel="canonical"
-                href={`${process.env.NEXT_PUBLIC_WEBSITE_URL}${canonicalRoute}`}
-              />
-            </Head>
+            <DefaultSeo {...seo} />
             <VisuallyHidden
               showOnFocus
               as="a"
