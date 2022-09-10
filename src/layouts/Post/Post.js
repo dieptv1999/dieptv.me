@@ -51,8 +51,8 @@ export const Post = ({ children, title, date, abstract, banner, timecode, ogImag
           images: [
             {
               url: ogImage,
-              width: 640,
-              height: 442,
+              width: 1200,
+              height: 630,
               alt: title,
               type: 'image/png',
             },
