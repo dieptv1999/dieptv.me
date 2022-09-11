@@ -35,7 +35,6 @@ export const NextPost = ({ name, description, time = '-1', path = '/'}) => {
             textOverflow: 'ellipsis',
           }}>{name}</div>
           <div style={{
-            color: 'rgba(0,0,0,0.6)',
             fontSize: 16,
           }}>{time === '-1' ? 'Upcoming' : time}</div>
         </div>

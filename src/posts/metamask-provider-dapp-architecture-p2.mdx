@@ -6,3 +6,304 @@ banner: https://i.ibb.co/ZxJV88G/metamask-provider.png
 ---
 
 ## Phần 2: Đào sâu vào trong code react-native của Browser Metamask
+
+Đầu tiên, để hiều được các Browser của Metamask hoạt động như thế nào thì chúng ta phải biết cách webview hoạt động như thế nào?.
+Thế nên, tôi sẽ sơ lược qua về cách hoạt động của webview trong react-native.
+
+Ở đây chúng ta sử dụng thư viện [react-native-webview](https://github.com/react-native-webview/react-native-webview).
+React Native Webview là một WebView hiện đại, đa nền tảng và được hỗ trợ tốt cho React Native. Thư viện này được thiết kế để thay thế WebView trong core của RN.
+
+## Cài đặt WebView
+Để cài đặt chúng ta dùng lệnh
+```shell
+npm i --save react-native-webview
+```
+
+Vì đây là một hướng dẫn đơn giản, tôi sẽ không đi vào chi tiết về cài đặt dự án/ thư viện. Sau đây là một đoạn mã đơn giản được thêm vào
+*App.js* thể hiện một ví dụ đơn giản.
+
+```js
+import React, { Component } from 'react';
+import { SafeAreaView } from "react-native";
+import { WebView } from 'react-native-webview';
+
+class MyWeb extends Component {
+  render() {
+    return (
+      <SafeAreaView style={{ flex: 1 }}>
+        <WebView
+          source={{ uri: 'https://techlens.tech/' }}
+        />
+      </SafeAreaView>
+    );
+  }
+}
+```
+
+> Cung cấp một URL cho thành phần WebView là chúng ta đã có thể chạy trang web trên ứng dụng của mình.
+
+Kết quả chúng ta sẽ có được một hình ảnh tương tự như sau:
+
+<img src="https://i.ibb.co/1X38mTX/photo-2022-09-11-12-47-02.jpg" width={'250'} />
+
+## Giao tiếp giữa WebView và Native
+
+### WebView nhận dữ liệu từ Native
+
+Để gửi dữ liệu từ Native không có phương thức gửi đến biến trực tiếp mà chúng ta phải thông qua các inject javascript vào trang web.
+> Cách này khá nguy hiểm vì chúng ta có thể kiểm soát toàn bộ trang web.
+Thành phần webview có một phương thức *injectedJavaScript* và *postMessage*
+
+- Với *injectedJavaScript*: chúng ta sẽ định nghĩa một đoan javascript và chuyển nó vào trong mã js của trang web đích.
+
+```js
+const INJECTED_JAVASCRIPT = `(function() {
+    window.ReactNativeWebView.postMessage(JSON.stringify(window.location));
+})();`;
+
+function onMessage(data) {
+    console.log(data.nativeEvent.data);
+}
+
+<WebView
+  source={{ uri: 'https://reactnative.dev' }}
+  injectedJavaScript={INJECTED_JAVASCRIPT}
+  onMessage={onMessage}
+/>;
+```
+> Kết quả ta sẽ thấy location của web qua console native.
+
+- Đối với *postMessage*: phương thức này sẽ gửi data đến event message đang được lắng nghe bởi web.
+```js
+const webviewRef = useRef();
+function onMessage(data) {
+  alert(data.nativeEvent.data);
+  sendDataToWebView()
+}
+
+function sendDataToWebView() {
+  webviewRef.current.postMessage('Data from React Native App');
+}
+
+```
+
+```html
+<html>
+          <head>
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+          </head>
+          <body
+            style="
+              display: flex;
+              justify-content: center;
+              flex-direction: column;
+              align-items: center;
+            "
+          >
+            <button
+            onclick="sendDataToReactNativeApp()"
+              style="
+                padding: 20px;
+                width: 200px;
+                font-size: 20px;
+                color: white;
+                background-color: #6751ff;
+              "
+            >
+              Send Data To React Native App
+            </button>
+            <script>
+              const sendDataToReactNativeApp = async () => {
+                window.ReactNativeWebView.postMessage('Data from WebView / Website');
+              };
+              window.addEventListener("message", message => {
+                alert(message.data)
+              });
+            </script>
+          </body>
+        </html>
+```
+
+> Giải thích: Khi html được tải, web sẽ gửi về một message "Data from WebView / Website" -> ứng dụng nhận được sẽ thông báo cho người dùng.
+Sau khi nhận được native sẽ gửi một thông báo qua phương thức *postMessage* -> web nhận được qua *window.addEventListener* với event message và thông báo cho người dùng web.
+
+### Native nhận dữ liệu từ WebView
+Với thành phần WebView chúng ta có một thuộc tính *onMessage* để nhận dữ liệu gửi về từ javascript của WebView bằng hàm *window.ReactNativeWebView.postMessage*.
+Tôi định nghĩa hàm onMessage như sau:
+```js
+function onMessage(data) {
+    console.log(data.nativeEvent.data);
+}
+```
+
+```js
+<WebView
+    scalesPageToFit={false}
+    mixedContentMode="compatibility"
+    source={{ uri: 'https://techlens.tech/' }}
+    onMessage={onMessage}
+    source={{html:'' }}
+/>
+```
+
+Và tôi tạo ra một trang web có mã html như sau để có thể gửi message về cho native
+
+```html
+<html>
+          <head>
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+          </head>
+          <body
+            style="
+              display: flex;
+              justify-content: center;
+              flex-direction: column;
+              align-items: center;
+            "
+          >
+            <button
+            onclick="sendDataToReactNativeApp()"
+              style="
+                padding: 20px;
+                width: 200px;
+                font-size: 20px;
+                color: white;
+                background-color: #6751ff;
+              "
+            >
+              Send Data To React Native App
+            </button>
+            <script>
+              const sendDataToReactNativeApp = async () => {
+                window.ReactNativeWebView.postMessage('Data from WebView / Website');
+              };
+            </script>
+          </body>
+        </html>
+```
+
+> Khi mã html được tải ở trên webview, log của native sẽ nhận đc message *Data from WebView / Website*
+
+### Như vậy chúng ta đã hiểu cơ bản về WebView, tiếp theo chúng ta tìm hiểu cách mà metamask sử dụng.
+
+**Thành phần WebView trong Metamask.
+
+Path file: app/components/Views/BrowserTab
+Đầu tiên, để định nghĩa một số phương thức của provider trong webview, metamask đã tạo ra một file js gọi là InpageBridgeWeb3.js
+chuyên dùng để giao tiếp với native. Thật đáng tiếc metamask không công khai file này, nhưng may thay dựa vào những thứ chúng ta có thì vẫn có thể hiểu những gì mà metamask làm.
+
+Đầu tiên khi load trang metamask phải inject được file này vào trước. Hàm để inject như sau:
+```js
+useEffect(() => {
+  ...
+  const getEntryScriptWeb3 = async () => {
+      const entryScriptWeb3 = await EntryScriptWeb3.get();
+      setEntryScriptWeb3(entryScriptWeb3 + SPA_urlChangeListener);
+  };
+
+  getEntryScriptWeb3();
+  ...
+}, [])
+```
+
+> entryScriptWeb3 là đoạn js được lấy từ file InpageBridgeWeb3.js
+SPA_urlChangeListener cũng là một đoạn js thực hiện những tác vụ nhỏ như lấy height, width, kiểm tra các thẻ meta, ...
+
+Tiếp theo và khi bắt đầu load web, metamask sẽ kiểm tra các url có hợp lệ hay không, sau đó sẽ inject một đoạn js để thêm những thứ như analysis, bookmarks, và đánh dấu một event
+Cuối cùng của phương thức chính là khởi tại một bridge cho trang web này (mỗi trang web khi chạy sẽ được thêm vào trong danh sách bridge).
+
+```js
+const onLoadStart = async ({ nativeEvent }) => {
+    const { hostname } = new URL(nativeEvent.url);
+
+    if (
+      nativeEvent.url !== url.current &&
+      nativeEvent.loading &&
+      nativeEvent.navigationType === 'backforward'
+    ) {
+      changeAddressBar({ ...nativeEvent });
+    }
+
+    if (!isAllowedUrl(hostname)) {
+      return handleNotAllowedUrl(nativeEvent.url);
+    }
+    webviewUrlPostMessagePromiseResolve.current = null;
+    setError(false);
+
+    changeUrl(nativeEvent);
+
+    icon.current = null;
+    if (isHomepage(nativeEvent.url)) {
+      injectHomePageScripts();
+    }
+
+    // Reset the previous bridges
+    backgroundBridges.current.length &&
+      backgroundBridges.current.forEach((bridge) => bridge.onDisconnect());
+    backgroundBridges.current = [];
+    const origin = new URL(nativeEvent.url).origin;
+    initializeBackgroundBridge(origin, true);
+  };
+```
+
+Chúng ta đi vào chi tiết của hàm cuối cùng *initializeBackgroundBridge*:
+
+```js
+const initializeBackgroundBridge = (urlBridge, isMainFrame) => {
+    const newBridge = new BackgroundBridge({
+      webview: webviewRef,
+      url: urlBridge,
+      getRpcMethodMiddleware: ({ hostname, getProviderState }) =>
+        getRpcMethodMiddleware({
+          hostname,
+          getProviderState,
+          navigation: props.navigation,
+          getApprovedHosts,
+          setApprovedHosts,
+          approveHost: props.approveHost,
+          // Website info
+          url,
+          title,
+          icon,
+          // Bookmarks
+          isHomepage,
+          // Show autocomplete
+          fromHomepage,
+          toggleUrlModal,
+          // Wizard
+          wizardScrollAdjusted,
+          tabId: props.id,
+          injectHomePageScripts,
+        }),
+      isMainFrame,
+    });
+    backgroundBridges.current.push(newBridge);
+  };
+```
+
+> Ở hàm này metamask đã tạo ra một middleware bridge xử lý tất cả các phương thức được gửi về native. Các phương thức được xử lý trong hàm *getRpcMethodMiddleware*:
+Đường dẫn của *getRpcMethodMiddleware* là: app/core/RPCMethods/RPCMethodMiddleware.ts
+Tóm tắt các phương thức xử lý trong hàm này:
+- eth_getTransactionByHash: lấy dữ liệu giao dịch từ mã hash
+- eth_getTransactionByBlockHashAndIndex
+- eth_getTransactionByBlockNumberAndIndex
+- eth_chainId: Lấy chain id của mạng hiện tại (từ NetworkController)
+- net_version: trả về networkId (do app định nghĩa, nhưng tôi thấy trong repo này trùng với chain id)
+- eth_requestAccounts: trả về địa chỉ account đang hoạt động, yêu cầu là 1 mảng, được yêu cầu khi web chưa được kết nối (chỗ này dùng 1 account nhưng lại trả về một mảng, ai có thể giải thích điều này được không)
+- eth_accounts: tương tự *eth_requestAccounts* nhưng method này là sau khi web đã kết nối
+- eth_coinbase: trả về địa chỉ account của người dùng.
+- eth_sendTransaction: gửi giao dịch
+- eth_signTransaction: //method hiện tại đang không được support.
+- eth_sign: Tham khảo tại [eth_sign](http://man.hubwiz.com/docset/Ethereum.docset/Contents/Resources/Documents/eth_sign.html)
+- personal_sign: Ký message
+- eth_signTypedData
+- eth_signTypedData_v3
+- eth_signTypedData_v4
+- web3_clientVersion
+- wallet_watchAsset: Theo dõi (thêm) một token vào danh sách coin có trong native
+- wallet_scanQRCode
+- metamask_removeFavorite
+- wallet_addEthereumChain: thêm một chain vào NetworkController
+- wallet_switchEthereumChain: chuyển đổi chain (network)
+
+> Còn một số thứ tôi không nêu ở đây (nó quá dài để viết :v, người đọc có thể tham khảo thêm ở các website khác)
