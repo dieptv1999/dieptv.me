@@ -1,4 +1,4 @@
-import profileKatakana from 'assets/katakana-profile.svg?url';
+import profileKatakana from 'assets/techlens-profile.svg?url';
 import profileImgLarge from 'assets/profile2.jpg';
 import profileImgPlaceholder from 'assets/profile-placeholder.jpg';
 import profileImg from 'assets/profile_small.jpg';
@@ -83,7 +83,7 @@ export const Profile = ({ id, visible, sectionRef }) => {
                   placeholder={profileImgPlaceholder}
                   srcSet={[profileImg, profileImgLarge]}
                   sizes={`(max-width: ${media.mobile}px) 100vw, 480px`}
-                  alt="Me standing in front of the Torii on Miyajima, an island off the coast of Hiroshima in Japan"
+                  alt="Me standing in front of the Dinh Cong on Hanoi, Viet Nam"
                 />
                 <svg
                   aria-hidden="true"
@@ -93,7 +93,7 @@ export const Profile = ({ id, visible, sectionRef }) => {
                   className={styles.svg}
                   data-visible={visible}
                 >
-                  <use href={`${profileKatakana}#katakana-profile`} />
+                  <use href={`${profileKatakana}#techlens-profile`} />
                 </svg>
               </div>
             </div>

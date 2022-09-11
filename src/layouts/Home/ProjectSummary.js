@@ -1,4 +1,4 @@
-import projectKatakana from 'assets/katakana-project.svg?url';
+import projectKatakana from 'assets/techlens-project.svg?url';
 import { Button } from 'components/Button';
 import { Divider } from 'components/Divider';
 import { Heading } from 'components/Heading';
@@ -41,16 +41,16 @@ export const ProjectSummary = ({
   const renderKatakana = (device, visible) => (
     <svg
       aria-hidden="true"
-      width="750"
-      height="137"
-      viewBox="0 0 750 137"
+      width="671"
+      height="114"
+      viewBox="0 0 671 114"
       data-visible={visible}
       data-light={theme.themeId === 'light'}
       style={cssProps({ opacity: svgOpacity })}
       className={styles.svg}
       data-device={device}
     >
-      <use href={`${projectKatakana}#katakana-project`} />
+      <use href={`${projectKatakana}#techlens-project`} />
     </svg>
   );
 

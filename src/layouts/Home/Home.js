@@ -4,9 +4,9 @@ import gamestackTexture2 from 'assets/trustkey-2.png';
 import gamestackTextureLarge from 'assets/trustkey.png';
 import gamestackTexturePlaceholder from 'assets/gamestack-login-placeholder.jpg';
 import gamestackTexture from 'assets/trustkey.png';
-import sliceTextureLarge from 'assets/slice-app-large.jpg';
+import sliceTextureLarge from 'assets/vcs.png';
 import sliceTexturePlaceholder from 'assets/slice-app-placeholder.jpg';
-import sliceTexture from 'assets/slice-app.jpg';
+import sliceTexture from 'assets/vcs.png';
 import sprTextureLarge from 'assets/TheOnly_cover-09.jpg';
 import sprTexturePlaceholder from 'assets/spr-lesson-builder-dark-placeholder.jpg';
 import sprTexture from 'assets/TheOnly_cover-09_small.jpg';
@@ -127,13 +127,13 @@ export const Home = () => {
         sectionRef={projectThree}
         visible={visibleSections.includes(projectThree.current)}
         index={3}
-        title="Biomedical image collaboration"
-        description="Increasing the amount of collaboration in Slice, an app for biomedical imaging"
-        buttonText="View project"
-        buttonLink="/projects/slice"
+        title="VCS Express"
+        description="Global e-commerce shipping (USA, Canada)."
+        buttonText="View website"
+        buttonLink="https://vcs.express/"
         model={{
           type: 'laptop',
-          alt: 'Annotating a biomedical image in the Slice app',
+          alt: 'Annotating a website image in the VCS app',
           textures: [
             {
               srcSet: [sliceTexture, sliceTextureLarge],
