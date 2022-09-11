@@ -1,13 +1,16 @@
 ---
 title: 'Web3 Provider: Tìm hiểu về cách metamask tạo ra một provider web3'
 abstract: Bài viết này trình bày về cách metamask tạo ra một browser có thể giao tiếp trực tiếp với Dapp mà không thông qua Wallet Connect. Nhờ đó độc giả có thể hiểu rõ hơn về cách hoạt động của một web3 web.
-date: '2022-09-12'
+date: '2022-09-11'
 banner: https://i.ibb.co/ZxJV88G/metamask-provider.png
 ---
+
+## Phần 1: Tổng quan về kiến trúc
 
 Để có thể hiểu được bài viết này tôi sẽ sơ lược qua một số khái niệm cơ bản sau:
 
 > Metamask: là một loại ví lưu trữ tiền điện từ và là công cụ cho phép người dùng tương tác và trải nghiệm trên Web3.
+
 > Dapp: viết tắt của Decentralized Application là ứng dụng phi tập trung. Xem thêm tại [Dapp](https://en.wikipedia.org/wiki/Decentralized_application)
 
 Bài viết này nghiên cứu mã nguồn của metamask tại: [Metamask mobile](https://github.com/MetaMask/metamask-mobile)
@@ -40,6 +43,7 @@ Sau đây là chi tiết về các Engine:
 - *util*: tập hợp các tiện ích cho các hoạt động phổ biến của ứng dụng như ước tính phí, tạo URL mua bán tiền điện tử.
 
 > Tổng hợp: các controller này dùng để xây dựng mô hình dữ liệu (data models) cho toàn bộ ứng dụng, mỗi controller đều quản lý trạng thái của một hoặc một số đối tương (object).
+> ![Controller Method](https://i.ibb.co/xMf42Xt/metamask-controller.png)
 
 Về phía các module liên kết với dịch vụ bên ngoài cũng khá nhiều nên tôi sẽ sơ lược qua một số module cần quan tâm:
 - DeepLinkManager: Quản lý truy cập [deeplink](https://www.techtarget.com/whatis/definition/deep-link#:~:text=A%20deep%20link%20is%20a,can%20thus%20be%20considered%20deep)
@@ -50,7 +54,7 @@ của ứng dụng. Ở đây ứng dụng có để xử lý những deeplink b
 
 ### Wallet Segment
 
-[//]: # (![Metamask Homepage]&#40;https://i.ibb.co/h89VwV0/metamask-home.jpg&#41;{width=150})
+[//]  # (![Metamask Homepage]&#40;https://i.ibb.co/h89VwV0/metamask-home.jpg&#41;{width=150})
 <img src="https://i.ibb.co/h89VwV0/metamask-home.jpg" width="250" alt={'Metamask Homepage'} />
 
 Hình ảnh trên là trang chính của metamask, như chúng ta thấy nó sẽ có 2 tab token và NFT. Đó chính là hai thứ mà phần Wallet này quản lý.
@@ -71,3 +75,27 @@ Nếu muốn truyền một thứ từ app sang webview thì chúng ta sẽ ph�
 Thật là không may, việc giao tiếp giữa browser (webview) và app native của metamask đúng vào trường hợp này. Nó phải giao tiếp và truyền dữ liệu thực sự nhiều.
 Và để giải quyết vấn đề này các lập trình viên provip của metamask đã tạo ra Background Bridge.
 
+Mô hình của một Background Bridge như sau:
+
+![Background Bridge](https://i.ibb.co/8xSNjxK/metamask-background-bridge.png)
+
+> Khi người dùng bắt đầu một tab mới ở trình duyệt metamask, app sẽ tự động tạo ra một Background Bridge, nó sẽ subcribe các module engine NetworkController,
+PreferencesController, KeyringController để lấy ra các thông tin liên quan đến inject trước vào web như chainId, networkVersion, ...
+
+>Khi webview có một yêu cầu đến app native thì sẽ gửi một message đến Background Bridge, nó sẽ phân loại các yêu cầu này và gửi đến các engine hoặc json-rpc-engine để thực hiện.
+Nếu yêu cầu nào cần trả về kết quả thì middleware sẽ trả về cho webview thông qua một **MobilePortStream** (cũng là một class để thực hiện inject javascript).
+
+Chi tiết code ở đường dẫn: *app/core/BackgroundBridge.js*
+
+### Browser
+Đây là một tính năng của Metamask để người dùng có trải nghiệm web3 hoàn hảo trên ứng dụng metamask.
+Người dùng có thể dùng trực tiếp các Dapp bằng browser này.
+Cốt lõi của Browser này là một tập hợp các tab cấu tạo bằng webview và một số trình quản lý các tab đó (lịch sử, ...).
+
+Như vậy, chúng ta đã sơ lược qua về kiến trúc tổng quan của Metamask. Bài viết tiếp theo của series tôi sẽ đi vào cụ thể cách metamask thực hiện browser này trong code của họ.
+
+<NextPost
+  name={'Web3 Provider: Cấu tạo chi tiết của Browser trong app Metamask'}
+  description={'Các lập trình viên của Metamask đã kết nối browser với background bridge như thế nào?'}
+  path={'/articles/metamask-provider-dapp-architecture-p2/'}
+/>
