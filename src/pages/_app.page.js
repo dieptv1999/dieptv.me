@@ -6,16 +6,18 @@ import { Navbar } from 'components/Navbar';
 import { ThemeProvider } from 'components/ThemeProvider';
 import { tokens } from 'components/ThemeProvider/theme';
 import { VisuallyHidden } from 'components/VisuallyHidden';
-import { AnimatePresence, LazyMotion, domAnimation, m } from 'framer-motion';
+import { AnimatePresence, LazyMotion, domAnimation, m, useCycle } from 'framer-motion';
 import { useFoucFix, useLocalStorage } from 'hooks';
 import styles from 'layouts/App/App.module.css';
 import { initialState, reducer } from 'layouts/App/reducer';
 import { useRouter } from 'next/router';
-import { Fragment, createContext, useEffect, useReducer } from 'react';
+import { Fragment, createContext, useEffect, useReducer, useRef } from 'react';
 import { msToNum } from 'utils/style';
 import { ScrollRestore } from '../layouts/App/ScrollRestore';
 import Script from 'next/script';
 import { DefaultSeo } from 'next-seo';
+import dynamic from 'next/dynamic';
+// const Music = dynamic(() => import('../components/Music').then(mod => mod.Music), {ssr: false});
 
 export const AppContext = createContext({});
 
@@ -25,9 +27,12 @@ __  __  __
 \n\nTaking a peek huh? Check out the source code: https://github.com/dieptv1999/dietv.me
 `;
 
+
 const App = ({ Component, pageProps }) => {
   const [storedTheme] = useLocalStorage('theme', 'dark');
   const [state, dispatch] = useReducer(reducer, initialState);
+  const [isOpen, toggleOpen] = useCycle(false, true);
+  const containerMusicRef = useRef();
   const { route, events, asPath } = useRouter();
   // const canonicalRoute = route === '/' ? '' : `${asPath}`;
   useFoucFix();
@@ -99,6 +104,7 @@ const App = ({ Component, pageProps }) => {
                 >
                   <ScrollRestore />
                   <Component {...pageProps} />
+                  {/*<Music />*/}
                 </m.div>
               </AnimatePresence>
             </main>

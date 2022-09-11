@@ -1,5 +1,10 @@
 module.exports = {
   reactStrictMode: true,
+  images: {
+    domains: ['learningcontainer.com'],
+    // domains: [],
+    // dangerouslyAllowAllDomains: true,
+  },
   trailingSlash: true,
   pageExtensions: ['page.js', 'api.js'],
   webpack(config, { isServer, defaultLoaders }) {

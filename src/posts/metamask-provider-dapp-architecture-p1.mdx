@@ -3,6 +3,71 @@ title: 'Web3 Provider: Tìm hiểu về cách metamask tạo ra một provider w
 abstract: Bài viết này trình bày về cách metamask tạo ra một browser có thể giao tiếp trực tiếp với Dapp mà không thông qua Wallet Connect. Nhờ đó độc giả có thể hiểu rõ hơn về cách hoạt động của một web3 web.
 date: '2022-09-12'
 banner: https://i.ibb.co/ZxJV88G/metamask-provider.png
-hidden: true
 ---
+
+Để có thể hiểu được bài viết này tôi sẽ sơ lược qua một số khái niệm cơ bản sau:
+
+> Metamask: là một loại ví lưu trữ tiền điện từ và là công cụ cho phép người dùng tương tác và trải nghiệm trên Web3.
+> Dapp: viết tắt của Decentralized Application là ứng dụng phi tập trung. Xem thêm tại [Dapp](https://en.wikipedia.org/wiki/Decentralized_application)
+
+Bài viết này nghiên cứu mã nguồn của metamask tại: [Metamask mobile](https://github.com/MetaMask/metamask-mobile)
+Các bạn có thể tải về và cài đặt theo hướng dẫn có trong repo.
+
+Trước tiên chúng ta đi qua tổng quan về thiết kế của metamask app:
+
+![Metamask Architecture](https://raw.githubusercontent.com/MetaMask/metamask-mobile/main/architecture.svg)
+
+Hình ảnh này được chính metamask.
+
+Thiết kế được chia ra làm 4 phần chính:
+### Core
+Phần này là tập hợp những thao tác cơ bản của toàn bộ ứng dụng. Được chia thành Engine là tập hợp các module tạo thành tập hợp một bộ API cho các hoạt động
+phổ biến như cấu hình, quản lý trạng thái và subscription và các các module liên kết với các dịch vụ bên ngoài.
+Tập hợp các module Engine được trình bày chi tiết trong lib [@metamask/controllers](https://www.npmjs.com/package/@metamask/controllers).
+
+Sau đây là chi tiết về các Engine:
+- *AccountTrackerController*: Theo dõi thông tin của một tài khoản cụ thể.
+- *AddressBookController*: Tổ hợp các chức năng để quản lý danh sách địa chỉ và các nickname liên quan.
+- *ComposableController*: Sử dụng để kết hợp các bộ điều khiển với nhau thành một bộ điều khiển duy nhất.
+- *CurrencyRateController*: theo dõi tỉ giá hối đoái giữa ETH và các đồng fiat.
+- *KeyringController*: Thiết lập và quản lý danh tính dựa trên địa chỉ Ethereum
+- *NetworkController*: Có chức năng tạo và quản lý một provider cơ bản. Tức là trong một thời điểm trên app metamask sẽ có một controller
+để lưu trữ blockchain đang dùng và trang thái của nó như thế nào. Các trạng thái được lưu bên trong controller này như: ticker, network, networkType, chainId, ...
+- *PhishingController*: Thăm dò thụ động các danh sách do cộng đồng duy trình về các trang web hợp lệ và không hợp lệ. Dùng cho trình duyệt trên app.
+- *PreferencesController*: Quản lý cài đặt của toàn bộ app và cung cấp các phương thức để có thể dễ dàng cập nhật các cài đặt này.
+- *TokenRatesController*: Thăm dò thụ động trên một khoảng thời gian (polling) tỉ giá hối đoái giữa các token và fiat.
+- *TransactionController*: Gửi và quản lý các giao dịch.
+- *util*: tập hợp các tiện ích cho các hoạt động phổ biến của ứng dụng như ước tính phí, tạo URL mua bán tiền điện tử.
+
+> Tổng hợp: các controller này dùng để xây dựng mô hình dữ liệu (data models) cho toàn bộ ứng dụng, mỗi controller đều quản lý trạng thái của một hoặc một số đối tương (object).
+
+Về phía các module liên kết với dịch vụ bên ngoài cũng khá nhiều nên tôi sẽ sơ lược qua một số module cần quan tâm:
+- DeepLinkManager: Quản lý truy cập [deeplink](https://www.techtarget.com/whatis/definition/deep-link#:~:text=A%20deep%20link%20is%20a,can%20thus%20be%20considered%20deep)
+của ứng dụng. Ở đây ứng dụng có để xử lý những deeplink browser, WalletConnect, gửi nhận giao dịch, chia sẻ, ...
+- WalletConnectManager: Xử lý liên kết với [WalletConnect Protocol](https://walletconnect.com/). Trong đây xử lý các kiểu phương thức (method) được yêu cầu và sau đó gửi
+đến từng module trong Engine để xử lý.
+- SecureKeyChain: Quản lý mật khẩu và các thao tác xác thực của ứng dụng như vân tay, lưu trữ mật khẩu, ...
+
+### Wallet Segment
+
+[//]: # (![Metamask Homepage]&#40;https://i.ibb.co/h89VwV0/metamask-home.jpg&#41;{width=150})
+<img src="https://i.ibb.co/h89VwV0/metamask-home.jpg" width="250" alt={'Metamask Homepage'} />
+
+Hình ảnh trên là trang chính của metamask, như chúng ta thấy nó sẽ có 2 tab token và NFT. Đó chính là hai thứ mà phần Wallet này quản lý.
+Phần này quản lý cách mà các token và collectibles (NFT) được lấy từ các module Engine và hiển thị cho người dùng.
+
+
+### Background bridge
+
+Là một midddleware để kết nối giữa Browser với phần core (Engine của ứng dụng).
+
+> Tại sao lại cần một thứ như background bridge?
+
+Chắc hẳn ai làm việc với WebView trên các ứng dụng di động đều biết, chúng ta không thể giao tiếp 2 chiều trực tiếp giữa app và webview được.
+Nếu muốn truyền một thứ từ app sang webview thì chúng ta sẽ phải inject một đoạn mã javascript / hoặc gửi một event thông quan **window.postMessage**
+(cũng là inject) đến component webview, và ngược lại muốn gửi thông điệp từ webview về app native phải thông qua hàm **window.ReactNativeWebView.postMessage**.
+Điều này thực sự khó khăn và khiến cho mã code của chúng ta thực sự phức tạp nếu phải thao tác nhiều giữa app và webview.
+
+Thật là không may, việc giao tiếp giữa browser (webview) và app native của metamask đúng vào trường hợp này. Nó phải giao tiếp và truyền dữ liệu thực sự nhiều.
+Và để giải quyết vấn đề này các lập trình viên provip của metamask đã tạo ra Background Bridge.
 

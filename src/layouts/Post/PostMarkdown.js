@@ -9,39 +9,40 @@ import styles from './PostMarkdown.module.css';
 import dynamic from 'next/dynamic';
 import { ButtonSpring, SpringAnimationDamping } from '../../components/MdxWidgets';
 import { CompileHtml } from '../../components/MdxWidgets/CompileHtml';
-const WavyCurve = dynamic(() => import('../../components/MdxWidgets').then(mod => mod.WavyCurve), {ssr: false});
+
+const WavyCurve = dynamic(() => import('../../components/MdxWidgets').then(mod => mod.WavyCurve), { ssr: false });
 
 const PostHeadingLink = ({ id }) => {
   return (
-    <a className={styles.headingLink} href={`#${id}`} aria-label="Link to heading">
-      <Icon icon="link" />
+    <a className={styles.headingLink} href={`#${id}`} aria-label='Link to heading'>
+      <Icon icon='link' />
     </a>
   );
 };
 
 const PostH1 = ({ children, id, ...rest }) => (
-  <Heading className={styles.heading} id={id} level={2} as="h1" {...rest}>
+  <Heading className={styles.heading} id={id} level={2} as='h1' {...rest}>
     <PostHeadingLink id={id} />
     {children}
   </Heading>
 );
 
 const PostH2 = ({ children, id, ...rest }) => (
-  <Heading className={styles.heading} id={id} level={3} as="h2" {...rest}>
+  <Heading className={styles.heading} id={id} level={3} as='h2' {...rest}>
     <PostHeadingLink id={id} />
     {children}
   </Heading>
 );
 
 const PostH3 = ({ children, id, ...rest }) => (
-  <Heading className={styles.heading} id={id} level={4} as="h3" {...rest}>
+  <Heading className={styles.heading} id={id} level={4} as='h3' {...rest}>
     <PostHeadingLink id={id} />
     {children}
   </Heading>
 );
 
 const PostH4 = ({ children, id, ...rest }) => (
-  <Heading className={styles.heading} id={id} level={5} as="h4" {...rest}>
+  <Heading className={styles.heading} id={id} level={5} as='h4' {...rest}>
     <PostHeadingLink id={id} />
     {children}
   </Heading>
@@ -57,7 +58,7 @@ const PostParagraph = ({ children, ...rest }) => {
   }
 
   return (
-    <Text className={styles.paragraph} size="l" as="p" {...rest}>
+    <Text className={styles.paragraph} size='l' as='p' {...rest}>
       {children}
     </Text>
   );
@@ -105,23 +106,25 @@ const PostStrong = props => {
 
 const PostImage = ({ src, alt, width, height, ...rest }) => {
   return (
-    <img
-      className={styles.image}
-      src={src}
-      decoding="async"
-      loading="lazy"
-      alt={alt}
-      width={width}
-      height={height}
-      {...rest}
-    />
+    <div className={styles.containerImg}>
+      <img
+        className={styles.image}
+        src={src}
+        decoding='async'
+        loading='lazy'
+        alt={alt}
+        width={width}
+        height={height}
+        {...rest}
+      />
+    </div>
   );
 };
 
 const Embed = ({ src }) => {
   return (
     <div className={styles.embed}>
-      <iframe src={src} loading="lazy" />
+      <iframe src={src} loading='lazy' />
     </div>
   );
 };

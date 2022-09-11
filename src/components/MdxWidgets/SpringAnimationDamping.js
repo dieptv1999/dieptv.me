@@ -157,7 +157,7 @@ export const SpringAnimationDamping = ({ className = '', withDamping = false }) 
             height: 'fit-content',
             backgroundColor: themeId === 'dark' ? 'white' : 'transparent',
           }} onClick={() => setCount(count + 1)}>
-          <Image src={'/static/refresh.svg'} width={30} height={30} className={styles.refresh} style={{}}/>
+          <Image src={'/static/refresh.svg'} width={30} height={30} className={styles.refresh} alt={'refresh'}/>
         </motion.div>
       </div>}
     </div>
