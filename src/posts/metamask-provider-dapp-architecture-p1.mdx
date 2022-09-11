@@ -43,7 +43,7 @@ Sau đây là chi tiết về các Engine:
 - *util*: tập hợp các tiện ích cho các hoạt động phổ biến của ứng dụng như ước tính phí, tạo URL mua bán tiền điện tử.
 
 > Tổng hợp: các controller này dùng để xây dựng mô hình dữ liệu (data models) cho toàn bộ ứng dụng, mỗi controller đều quản lý trạng thái của một hoặc một số đối tương (object).
-> ![Controller Method](https://i.ibb.co/xMf42Xt/metamask-controller.png)
+> ![Controller Method](https://i.ibb.co/pwJ2qmc/metamask-controller.png)
 
 Về phía các module liên kết với dịch vụ bên ngoài cũng khá nhiều nên tôi sẽ sơ lược qua một số module cần quan tâm:
 - DeepLinkManager: Quản lý truy cập [deeplink](https://www.techtarget.com/whatis/definition/deep-link#:~:text=A%20deep%20link%20is%20a,can%20thus%20be%20considered%20deep)
@@ -76,7 +76,7 @@ Và để giải quyết vấn đề này các lập trình viên provip của m
 
 Mô hình của một Background Bridge như sau:
 
-![Background Bridge](https://i.ibb.co/8xSNjxK/metamask-background-bridge.png)
+![Background Bridge](https://i.ibb.co/VSkJbB8/metamask-background-bridge.png)
 
 > Khi người dùng bắt đầu một tab mới ở trình duyệt metamask, app sẽ tự động tạo ra một Background Bridge, nó sẽ subcribe các module engine NetworkController,
 PreferencesController, KeyringController để lấy ra các thông tin liên quan đến inject trước vào web như chainId, networkVersion, ...
