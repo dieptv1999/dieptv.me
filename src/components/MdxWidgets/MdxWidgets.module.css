@@ -32,4 +32,8 @@
   padding: 10px;
   border-radius: 5px;
   background: white;
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+  margin-bottom: 15px;
 }

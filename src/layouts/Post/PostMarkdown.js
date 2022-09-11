@@ -8,6 +8,7 @@ import { Children } from 'react';
 import styles from './PostMarkdown.module.css';
 import dynamic from 'next/dynamic';
 import { ButtonSpring, SpringAnimationDamping } from '../../components/MdxWidgets';
+import { CompileHtml } from '../../components/MdxWidgets/CompileHtml';
 const WavyCurve = dynamic(() => import('../../components/MdxWidgets').then(mod => mod.WavyCurve), {ssr: false});
 
 const PostHeadingLink = ({ id }) => {
@@ -145,4 +146,5 @@ export const postMarkdown = {
   WavyCurve,
   SpringAnimationDamping,
   ButtonSpring,
+  CompileHtml,
 };
