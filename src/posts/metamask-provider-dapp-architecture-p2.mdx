@@ -246,7 +246,7 @@ const onLoadStart = async ({ nativeEvent }) => {
   };
 ```
 
-Chúng ta đi vào chi tiết của hàm cuối cùng *initializeBackgroundBridge*:
+Chúng ta đi vào chi tiết của hàm cuối cùng của đoạn code trên *initializeBackgroundBridge*:
 
 ```js
 const initializeBackgroundBridge = (urlBridge, isMainFrame) => {
@@ -307,3 +307,61 @@ Tóm tắt các phương thức xử lý trong hàm này:
 - wallet_switchEthereumChain: chuyển đổi chain (network)
 
 > Còn một số thứ tôi không nêu ở đây (nó quá dài để viết :v, người đọc có thể tham khảo thêm ở các website khác)
+
+Một hàm rất quan trọng nữa đó là hàm *onMessage*:
+
+```js
+const onMessage = ({ nativeEvent }) => {
+    let data = nativeEvent.data;
+    try {
+      data = typeof data === 'string' ? JSON.parse(data) : data;
+      if (!data || (!data.type && !data.name)) {
+        return;
+      }
+      if (data.name) {
+        backgroundBridges.current.forEach((bridge) => {
+          if (bridge.isMainFrame) {
+            const { origin } = data && data.origin && new URL(data.origin);
+            bridge.url === origin && bridge.onMessage(data);
+          } else {
+            bridge.url === data.origin && bridge.onMessage(data);
+          }
+        });
+        return;
+      }
+
+      switch (data.type) {
+        /**
+				* Disabling iframes for now
+				case 'FRAME_READY': {
+					const { url } = data.payload;
+					onFrameLoadStarted(url);
+					break;
+				}*/
+        case 'GET_WEBVIEW_URL': {
+          const { url } = data.payload;
+          if (url === nativeEvent.url)
+            webviewUrlPostMessagePromiseResolve.current &&
+              webviewUrlPostMessagePromiseResolve.current(data.payload);
+        }
+      }
+    } catch (e) {
+      Logger.error(e, `Browser::onMessage on ${url.current}`);
+    }
+  };
+```
+Như mọi người đã biết tác dụng của hàm *onMessage*, nó sẽ nhận sự kiện từ web và trả về native.
+Chúng ta xem xét đoạn code trên, hàm *onMessage* có đầu vào là một event, data (type string) sẽ được lấy ra và xử lý trong mỗi background bridge
+```js
+bridge.url === origin && bridge.onMessage(data);
+```
+Phần chi tiết về Background Bridge tôi sẽ trình bày trong bài viết sau.
+Vậy là chúng ta đã đi qua một chút về BrowserTab và những phương thức chính của thành phần WebView của nó.
+Bài viết này dung lượng đã khá dài, nên tôi sẽ viết tiếp về Background Bridge và dự đoán một chút về file InpageBridgeWeb3.js vào bài viết sau.
+Mong mọi người đón đọc.
+
+<NextPost
+  name={'Web3 Provider: Cấu tạo chi tiết của Browser trong app Metamask phần 2'}
+  description={'Các lập trình viên của Metamask đã kết nối browser với background bridge như thế nào?'}
+  path={'/articles/metamask-provider-dapp-architecture-p2/'}
+/>
