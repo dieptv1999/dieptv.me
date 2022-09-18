@@ -87,16 +87,57 @@ Kết quả thực tế
 ## Các thuộc tính của SVG
 
 - height: xác định chiều cao của svg trong hệ tọa độ người dùng. Tham khảo thêm tại [link](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/height)
+- width: xác định chiều rộng của svg trong hệ tọa độ ngưởi dùng. Tham khảo thêm tại [link](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/width)
 - preserveAspectRatio: cho biết cách một phần tử đã có viewBox cung cấp một tỉ lệ khung hình như thế nào so với tỉ lệ khung hình phần tử cha của nó.
   > **Syntax**: preserveAspectRatio="align meetOrSlice"
   Alignment value(prop: align):
   - none: không bắt buộc tỉ lệ khung hình đồng nhất. meetOrSlice sẽ không có tác dụng.
-  - xMinYMin: 
-  <SvgPresersve />
+  - xMinYMin:
+    x nhỏ nhất và y nhỏ nhất viewPort
+  - xMidYMin:
+    trung điểm của viewPort trục x của phần tử trùng với trung điểm trục x của viewPort svg. vị trí y nhỏ nhất
+  - xMaxYMin:
+    giá trị vị trí x = min-x + width, y nhỏ nhất viewPort
+  - xMinYMid:
+    tương tự như những align trên, x nhỏ nhất, trung điểm của viewPort trục y của phần tử trùng với trung điểm trục y của viewPort svg.
+  - xMidYMid
+  - xMaxYMid
+  - xMinYMax
+  - xMidYMax
+  - xMaxYMax
+
+- viewBox: xác định vị trí và kích thước trong không gian người dùng
+  giá trị của viewBox gồm danh sách gồm 4 số: min-x, min-y, width, height. Các số được phân cách với nhau bởi dấu cách hoặc dấy phẩy.
+  Ví dụ:
+  ```html
+  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  </svg>
+  ```
+
+- x: tọa độ x của svg trong vùng chứa của svg xác định bằng viewPort
+- y: tọa độ y của svg trong vùng chứa của svg xác định bằng viewPort
+
+<SvgPresersve />
 
 > Có một số thuộc tính không được khuyến nghị (not recommended) sẽ không được trình bày ở đây
 
 ## Các thành phần của SVG
+
+Ở đây tôi sẽ đi qua một số thành phần thông dụng nhất. Độc giả có thể tham khảo thêm tại [link](https://developer.mozilla.org/en-US/docs/Web/SVG/Element)
+
+- \<circle\>: là một hình dạng cơ bản của svg, sử dụng để vẽ đường tròn dựa trên tâm và bán kinh:
+```html
+  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="50" cy="50" r="50" />
+  </svg>
+```
+<CompileHtml>
+  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" height={100} width={100}>
+    <circle cx="50" cy="50" r="50" />
+  </svg>
+</CompileHtml>
+
+- \<clipPath\>:
 
 
 ![To be continued](https://i.ibb.co/GdkG6xN/41c-Ero-Z19i-L-AC-SY355.jpg)
