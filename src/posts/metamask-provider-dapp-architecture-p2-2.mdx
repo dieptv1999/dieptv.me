@@ -10,6 +10,144 @@ Trong bài viết trước tôi đã sơ lược qua về WebView và giải th�
 
 Đầu tiên, vì để cho người đọc dễ hiểu hơn, tôi đã tổng hợp và vẽ một mô hình về browser này. Mọi người có thể quan sát và hiểu được tác dụng luồng hoạt động của dapp - browser.
 
+![Communication Dapp With Browser](https://i.ibb.co/4tHtS3t/Picture1.png)
 
+![Listener Event](https://i.ibb.co/jVZ7PF5/Picture2.png)
 
-![To be continued](https://i.ibb.co/GdkG6xN/41c-Ero-Z19i-L-AC-SY355.jpg)
+Như trong mô tả tổng quan về metamask (xem thêm tại [Metamask section 1](/articles/metamask-provider-dapp-architecture-p1/)) mỗi bridge sẽ được tạo ra
+mỗi khi một tab được tạo ra. Ở đây một tab tương ứng với một đường link được mở ra. Và trong mỗi bridge sẽ quản lý những phần sau:
+- Port
+
+  Gửi dữ liệu lên WebView (inject javascript)
+- MobilePortStream (input là một Port)
+
+  Một class để lưu trữ tạm thời message được gửi đến (tương tự queue), để giúp không bị miss yêu cầu gửi đến middleware.
+  Class này kế thừa class Duplex ([readable-stream](https://www.npmjs.com/package/readable-stream))
+
+- [json-rpc-engine](https://github.com/MetaMask/json-rpc-engine)
+
+  Công cụ để xử lý các yêu cầu và phản hồi JSON-RPC
+  Trong bridge nó được sử dụng để xử lý log, nghe các sự kiện về asset (các token, coin) và middleware để xử lý các yêu cầu từ dapp
+- RPCMethodMiddleware
+
+  Là một middleware thêm vào json-rpc-engine để xử lý các yêu cầu từ Dapp. Các phương thức xử lý trong middleware này được tôi trình bày trong  phần 1, mọi người có thể tìm đọc.
+
+- Phần để lắng nghe sự kiện (như hình 2)
+
+  Khi một bridge được khởi tạo, nó sẽ lắng nghe các sự kiện được trả về từ các controller: NetworkController, KeyringController, PreferencesController (như hình 2).
+  Khi có sự kiện được trả về, nó sẽ gọi hàm *onStateUpdate*. Hàm này lấy dữ liệu về network hiện tại: chainId, network version và thông qua hàm *sendNotification* gửi đến Port
+  sau đó trả về kết quả cho WebView.
+
+Vậy là tôi đã trình bày toàn bộ tác dụng của class *BackgroundBridge.js*. Sau đây tôi sẽ đi vào chi tiết một số đoạn code mà tôi cho là quan trọng trong file này.
+
+Đầu tiên sẽ là class Port:
+
+```js
+class Port extends EventEmitter {
+  constructor(window, isMainFrame) {
+    super();
+    this._window = window;
+    this._isMainFrame = isMainFrame;
+  }
+
+  postMessage = (msg, origin = '*') => {
+    const js = this._isMainFrame
+      ? JS_POST_MESSAGE_TO_PROVIDER(msg, origin)
+      : JS_IFRAME_POST_MESSAGE_TO_PROVIDER(msg, origin);
+    if (this._window.webViewRef && this._window.webViewRef.current) {
+      this._window && this._window.injectJavaScript(js);
+    }
+  };
+}
+```
+
+```js
+export const JS_POST_MESSAGE_TO_PROVIDER = (message, origin) => `(function () {
+  try {
+    window.postMessage(${JSON.stringify(message)}, '${origin}');
+  } catch (e) {
+    //Nothing to do
+  }
+})()`;
+
+export const JS_IFRAME_POST_MESSAGE_TO_PROVIDER = (message, origin) =>
+  `(function () {})()`;
+```
+
+Giải thích: Port kế thừa EventEmitter, chứa một literal object events để lưu trữ tất cả các sự kiện, 2 phương thức prototype là on và emit (lắng nghe và yêu cầu).
+  Khi nó nghe được sự kiện sẽ gọi đến hàm postMessage gửi một đoạn mã *JS_POST_MESSAGE_TO_PROVIDER* đến WebView. Biến isMainFrame để xác định là có inject hay không.
+
+Đoạn code là phương pháp để cung cấp ethereum provider theo một luồng nhất định (tạo luồng dữ liệu cho json-rpc-engine)
+
+```js
+/**
+   * A method for serving our ethereum provider over a given stream.
+   * @param {*} outStream - The stream to provide over.
+   */
+  setupProviderConnection(outStream) {
+    this.engine = this.setupProviderEngine();
+
+    // setup connection
+    const providerStream = createEngineStream({ engine: this.engine });
+
+    pump(outStream, providerStream, outStream, (err) => {
+      // handle any middleware cleanup
+      this.engine._middleware.forEach((mid) => {
+        if (mid.destroy && typeof mid.destroy === 'function') {
+          mid.destroy();
+        }
+      });
+      if (err) Logger.log('Error with provider stream conn', err);
+    });
+  }
+```
+
+Khởi tạo json-rpc-engine và thêm vào các middleware
+
+```js
+/**
+   * A method for creating a provider that is safely restricted for the requesting domain.
+   **/
+  setupProviderEngine() {
+    const origin = this.hostname;
+    // setup json rpc engine stack
+    const engine = new JsonRpcEngine();
+    const provider = this._providerProxy;
+
+    const blockTracker = this._blockTrackerProxy;
+
+    // create filter polyfill middleware
+    const filterMiddleware = createFilterMiddleware({ provider, blockTracker });
+
+    // create subscription polyfill middleware
+    const subscriptionManager = createSubscriptionManager({
+      provider,
+      blockTracker,
+    });
+    subscriptionManager.events.on('notification', (message) =>
+      engine.emit('notification', message),
+    );
+
+    // metadata
+    engine.push(createOriginMiddleware({ origin }));
+    engine.push(createLoggerMiddleware({ origin }));
+    // filter and subscription polyfills
+    engine.push(filterMiddleware);
+    engine.push(subscriptionManager.middleware);
+    // watch asset
+
+    // user-facing RPC methods
+    engine.push(
+      this.createMiddleware({
+        hostname: this.hostname,
+        getProviderState: this.getProviderState.bind(this),
+      }),
+    );
+
+    // forward to metamask primary provider
+    engine.push(providerAsMiddleware(provider));
+    return engine;
+  }
+```
+
+Mong bài viết này sẽ có ích với ai mong muốn tìm hiểu kiến trúc của Metamask. Bài viết còn nhiều thiếu sót, mong đọc giả góp ý.
