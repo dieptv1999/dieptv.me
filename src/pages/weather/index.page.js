@@ -1,1 +1,1 @@
-export { Weather as default } from './weather.page';
+export { Weather as default } from './weather';
