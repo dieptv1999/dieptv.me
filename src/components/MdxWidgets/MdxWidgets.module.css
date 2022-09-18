@@ -49,3 +49,18 @@
   align-items: center;
   cursor: pointer;
 }
+
+.path {
+  fill: yellow;
+  stroke: black;
+  stroke-width: 8px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+
+.rect:hover,
+.rect:active {
+  outline: 1px solid red;
+}
+

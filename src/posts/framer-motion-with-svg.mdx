@@ -20,7 +20,9 @@ dùng những điểm được định nghĩa để vẽ hình ảnh mà chúng 
 ## Ưu điểm của SVG
 
 > Sở hữu kích thước nhỏ: hình ảnh dạnh vector, bitmap nên chúng ta có thể hiển thị, co dãn ảnh thoải mái mà không bị vỡ
+
 > Hỗ trợ đầy đủ ở tất cả các trình duyệt phổ biến
+
 > Animation: Tất cả các thuộc tính của SVG đều có thể animate được. Chúng ta có thể sử dụng một SVG duy nhất kết hợp với css và javascript để làm animation cho từng thành phần,
 nó làm giảm bớt dung lượng của web và làm cho web của chúng ta load cực kỳ nhanh.
 
@@ -81,6 +83,18 @@ Kết quả thực tế
     </g>
   </svg>
 </CompileHtml>
+
+## Các thuộc tính của SVG
+
+- height: xác định chiều cao của svg trong hệ tọa độ người dùng. Tham khảo thêm tại [link](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/height)
+- preserveAspectRatio: cho biết cách một phần tử đã có viewBox cung cấp một tỉ lệ khung hình như thế nào so với tỉ lệ khung hình phần tử cha của nó.
+  > **Syntax**: preserveAspectRatio="align meetOrSlice"
+  Alignment value(prop: align):
+  - none: không bắt buộc tỉ lệ khung hình đồng nhất. meetOrSlice sẽ không có tác dụng.
+  - xMinYMin: 
+  <SvgPresersve />
+
+> Có một số thuộc tính không được khuyến nghị (not recommended) sẽ không được trình bày ở đây
 
 ## Các thành phần của SVG
 
