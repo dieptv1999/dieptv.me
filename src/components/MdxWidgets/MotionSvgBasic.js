@@ -1,4 +1,4 @@
-import styles from './MdxWidgets.module.css'
+import styles from './MdxWidgets.module.css';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { useTheme } from 'components/ThemeProvider';
@@ -24,8 +24,8 @@ export const MotionSvgBasic = ({ type = 'line' }) => {
     };
 
     useEffect(() => {
-        setCount(count + 1)
-    }, [themeId])
+        setCount(count + 1);
+    }, [themeId]);
 
     return (
         <div className={styles.motionSvgBasic}>
@@ -142,5 +142,5 @@ export const MotionSvgBasic = ({ type = 'line' }) => {
                 </motion.div>
             </div>
         </div>
-    )
-}
+    );
+};

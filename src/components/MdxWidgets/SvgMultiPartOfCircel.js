@@ -15,7 +15,6 @@ export const SvgMultiPartOfCircel = () => {
             return {
                 opacity: 1,
                 transition: {
-                    pathLength: 1,
                     pathLength: { delay, type: "spring", duration: 1.5, bounce: 0 },
                     opacity: { delay, duration: 0.01 }
                 }
@@ -54,5 +53,5 @@ export const SvgMultiPartOfCircel = () => {
                     <Image src={'/static/refresh.svg'} width={30} height={30} className={styles.refresh} alt={'refresh'} />
                 </motion.div>
         </div>
-    )
-}
+    );
+};

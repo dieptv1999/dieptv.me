@@ -5,5 +5,5 @@ export const TobeContinued = () => {
         <div className={styles.tobeContinued}>
             To be Continued
         </div>
-    )
-}
+    );
+};
