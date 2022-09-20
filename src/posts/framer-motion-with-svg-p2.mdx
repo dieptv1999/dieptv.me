@@ -10,10 +10,147 @@ banner: https://i.ibb.co/wNVTNpc/framer-motion-svg.png
 Các bạn có thể tìm hiểu thêm tổng quan về SVG trong phần 1 tại [link](/articles/framer-motion-with-svg/)
 
 ## Các thành phần svg cơ bản trong framer motion
+
+> Các thành phần này kế thừa những thuộc tính của các thành phần svg tôi đã nêu trong phần 1. Vậy nên trong phần này t chỉ liệt kê một số thuộc tính
+và đưa ra các ví dụ tương ứng.
+
+Dưới đây là những motion svg thông dụng. Chúng cùng có một thuộc tính **variants**=\{draw\} giống nhau để định nghĩa animate khi ẩn (hidden) cũng như khi xuất hiện (visible)
+
+```js
+const draw = {
+        hidden: { pathLength: 0, opacity: 0 },
+        visible: (i) => {
+            const delay = 1 + i * 0.5;
+            return {
+                pathLength: 1,
+                opacity: 1,
+                transition: {
+                    pathLength: { delay, type: "spring", duration: 1.5, bounce: 0 },
+                    opacity: { delay, duration: 0.01 }
+                }
+            };
+        }
+    };
+```
+
+> Đoạn code này dùng kiểu animate là *spring* mọi người có thể tham khảo bài viết sau [link](/articles/spring-from-math-to-animation/)
+
 - \<motion.path/\>
-- \<motion.line/\>
+
+```js
+<motion.svg viewBox="0 0 340 333">
+    <motion.path
+        class="path"
+        fill="transparent"
+        stroke="#50C878"
+        stroke-width="4"
+        strokeDasharray={[20]}
+        strokeDashoffset={[0]}
+        transition={{
+            type: 'spring',
+            repeat: Infinity,
+            duration: 10,
+        }}
+        animate={{
+            strokeDashoffset: 1000
+        }}
+        d="M66.039,133.545c0,0-21-57,18-67s49-4,65,8 s30,41,53,27s66,4,58,32s-5,44,18,57s22,46,0,45s-54-40-68-16s-40,88-83,48s11-61-11-80s-79-7-70-41 C46.039,146.545,53.039,128.545,66.039,133.545z"
+    />
+</motion.svg>
+```
+
+<MotionSvgBasic type="path"/>
+
+- \<motion.line/\>: cũng tương tự thẻ \<line\> nó kẻ một đường thẳng từ điểm A đến điểm B
+
+```js
+<motion.line
+    x1="120"
+    y1="15"
+    x2="460"
+    y2="270"
+    stroke="#00cc88"
+    strokeWidth={6}
+    variants={draw}
+    custom={0}
+/>
+```
+
+<MotionSvgBasic type="line"/>
+
 - \<motion.circle/\>
+
+```js
+<motion.circle
+    cx="300"
+    cy="150"
+    r="110"
+    stroke="yellow"
+    fill={'transparent'}
+    strokeWidth={6}
+    variants={draw}
+    custom={0}
+/>
+```
+
+*cx, cy*: vị trí tương đối của đường tròn đối với SVG
+
+*r*: bán kính của đường tròn 
+
+<MotionSvgBasic type="circle"/>
+
 - \<motion.ellipse/\>
+
+```js
+<motion.ellipse 
+    cx="300"
+    cy="150"
+    rx={80}
+    ry={110}
+    stroke="red"
+    fill={'transparent'}
+    strokeWidth={6}
+    variants={draw}
+    custom={0}
+/>
+```
+
+Thuộc tính tương tự như circle nhưng có 2 bán kinh rx, ry
+
+<MotionSvgBasic type="ellipse"/>
+
 - \<motion.polygon/\>
 
-## Vẽ một WaveView với svg
+```js
+<motion.svg
+    width="600"
+    height="300"
+    viewBox="0 0 600 300"
+    initial="hidden"
+    animate="visible"
+    key={`${count}_basic_svg`}
+>
+    <motion.polygon 
+        points="150,300 300,100 300,200 450,0"
+        stroke="purple"
+        fill={'transparent'}
+        strokeWidth={6}
+        variants={draw}
+        custom={0}
+    />
+</motion.svg>
+```
+
+*points*: polygon được định nghĩa bởi 4 đỉnh các nhau bằng dấu cách, mỗi đỉnh là 1 cặp x, y cách nhau bởi dấu phẩy là tọa độ của mỗi đỉnh của polygon
+> tương ứng với đỉnh 1 -> 4 như trong hình.
+
+<MotionSvgBasic type="polygon"/>
+
+<SpaceMdx />
+
+- Linear Gradients: 
+## Kết hợp đơn giản giữa các svg với nhau 
+
+<SvgMultiPartOfCircel />
+
+<TobeContinued />

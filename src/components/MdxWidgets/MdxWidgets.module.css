@@ -83,3 +83,21 @@
   display: flex;
   justify-content: center;
 }
+
+.motionSvgBasic {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+
+.tobeContinued {
+  border: 1px solid;
+  border-radius: 10px;
+  padding: 20px;
+  font-size: 24px;
+  font-weight: 700;
+  text-align: center;
+  margin-top: 30px;
+}

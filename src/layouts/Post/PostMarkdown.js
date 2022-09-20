@@ -7,7 +7,18 @@ import { Text } from 'components/Text';
 import { Children } from 'react';
 import styles from './PostMarkdown.module.css';
 import dynamic from 'next/dynamic';
-import { ButtonSpring, NextPost, SpringAnimationDamping, SpaceMdx, SvgPresersve, ClipPathSvg, CompileHtml } from '../../components/MdxWidgets';
+import {
+  ButtonSpring,
+  NextPost,
+  SpringAnimationDamping,
+  SpaceMdx,
+  SvgPresersve,
+  ClipPathSvg,
+  CompileHtml,
+  MotionSvgBasic,
+  SvgMultiPartOfCircel,
+  TobeContinued,
+} from '../../components/MdxWidgets';
 
 const WavyCurve = dynamic(() => import('../../components/MdxWidgets').then(mod => mod.WavyCurve), { ssr: false });
 
@@ -153,4 +164,7 @@ export const postMarkdown = {
   SpaceMdx,
   SvgPresersve,
   ClipPathSvg,
+  MotionSvgBasic,
+  SvgMultiPartOfCircel,
+  TobeContinued,
 };

@@ -6,3 +6,6 @@ export * from './SpaceMdx';
 export * from './SvgPresersve';
 export * from './ClipPathSvg';
 export * from './CompileHtml';
+export * from './MotionSvgBasic';
+export * from './SvgMultiPartOfCircel';
+export * from './TobeContinued';
