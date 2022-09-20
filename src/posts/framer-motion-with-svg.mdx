@@ -1,8 +1,9 @@
 ---
-title: 'Framer Motion: How to draw svg'
+title: 'Framer Motion: Làm thế nào để vẽ một SVG?'
 abstract: SVG là gì? Cách để vẽ một svg? Cách áp dụng svg trong animation (framer motion) như thế nào?. Tất cả sẽ được giải đáp trong series bài viết về svg này.
 date: '2022-09-11'
 banner: https://i.ibb.co/wNVTNpc/framer-motion-svg.png
+featured: true
 ---
 
 # Phần 1: Tổng quan về SVG
@@ -137,7 +138,223 @@ Kết quả thực tế
   </svg>
 </CompileHtml>
 
-- \<clipPath\>:
+- \<clipPath\>: đường cắt hạn chế vùng có thể vẽ. Nó định nghĩa 1 đường trong svg và bên trong đường cắt đó sẽ được vẽ còn bên ngoài đường cắt thì không.
+  Ví dụ:
+```html
+<svg viewBox='0 0 100 100' height={100} width={100}>
+        <clipPath id='myClip' className={styles.myClip}>
+          <circle cx='40' cy='35' r='35' />
+        </clipPath>
 
+        <path
+          id='heart'
+          d='M10,30 A20,20,0,0,1,50,30 A20,20,0,0,1,90,30 Q90,60,50,90 Q10,60,10,30 Z' />
 
-![To be continued](https://i.ibb.co/GdkG6xN/41c-Ero-Z19i-L-AC-SY355.jpg)
+        <use clipPath='url(#myClip)' href='#heart' fill='red' />
+      </svg>
+```
+```css
+@keyframes openYourHeart {
+  from {
+    r: 0;
+  }
+  to {
+    r: 60px;
+  }
+}
+
+.myClip circle {
+  animation: openYourHeart 15s infinite;
+}
+
+.containerClipPath {
+  padding: 10px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+```
+<ClipPathSvg />
+
+  Ở đây mọi người nhìn ví dụ rất dễ hiểu thôi, văn thì nó hơi dài dòng một chút.
+
+- \<defs\>: lưu trữ các đối tượng đồ họa được sử dụng sau này (khai báo trước). Các đối tượng được tạo bên trong \<defs\> không được hiển thị trực tiếp.
+ Để hiển thị chúng, bạn phải tham chiếu đến chúng, thường tôi sử dụng \<use\>
+
+  Ví dụ:
+```html
+<svg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg" height={100} width={100}>
+    <defs>
+      <circle id="myCircle" cx="0" cy="0" r="5"/>
+
+      <linearGradient id="myGradient" gradientTransform="rotate(90)">
+        <stop offset="20%" stop-color="gold" />
+        <stop offset="90%" stop-color="red" />
+      </linearGradient>
+    </defs>
+
+    <use x="5" y="5" href="#myCircle" fill="url('#myGradient')"/>
+  </svg>
+```
+
+<CompileHtml>
+  <svg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg" height={100} width={100}>
+    <defs>
+      <circle id="myCircle" cx="0" cy="0" r="5"/>
+
+      <linearGradient id="myGradient" gradientTransform="rotate(90)">
+        <stop offset="20%" stop-color="gold" />
+        <stop offset="90%" stop-color="red" />
+      </linearGradient>
+    </defs>
+
+    <use x="5" y="5" href="#myCircle" fill="url('#myGradient')"/>
+  </svg>
+</CompileHtml>
+
+- \<g\>: phần tử này dùng để nhóm các svg/ thành phần svg lại với nhau.
+  Ví dụ:
+```html
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" height={100} width={100}>
+    <g fill="white" stroke="yellow" stroke-width="5">
+      <circle cx="40" cy="40" r="25" />
+      <circle cx="60" cy="60" r="30" />
+    </g>
+</svg>
+```
+
+<CompileHtml>
+  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" height={100} width={100}>
+    <g fill="white" stroke="yellow" stroke-width="5">
+      <circle cx="40" cy="40" r="25" />
+      <circle cx="60" cy="60" r="30" />
+    </g>
+  </svg>
+</CompileHtml>
+
+- \<image\>: chắc hẳn mọi người nhìn đều hiểu tag này để làm gì rồi, nó dùng để hiện thị các
+hình ảnh [raster image](https://developer.mozilla.org/en-US/docs/Glossary/Raster_image) hoặc các tệp svg khác.
+
+  Ví dụ:
+```html
+<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+  <image href="https://i.ibb.co/x3XQFn9/Webp-net-resizeimage.jpg" height="200" width="200" />
+</svg>
+```
+
+<CompileHtml>
+  <svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+    <image href="https://i.ibb.co/x3XQFn9/Webp-net-resizeimage.jpg" height="200" width="200" />
+  </svg>
+</CompileHtml>
+
+- \<line\>: tạo một đường thẳng nối 2 điểm.
+
+ Ví dụ:
+```html
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" height={100} width={100}>
+  <line x1="0" y1="20" x2="100" y2="80" stroke="black" />
+</svg>
+```
+
+<CompileHtml>
+  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" height={100} width={100}>
+    <line x1="0" y1="20" x2="100" y2="80" stroke="black" />
+  </svg>
+</CompileHtml>
+
+- \<linearGradient\>: phần tử cho phép có thể tạo ra 1 linear gradient dưới dạng svg
+
+ Ví dụ:
+```html
+<svg
+  viewBox="0 0 100 100"
+  height={100} width={100}
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <linearGradient id="myGradient" gradientTransform="rotate(90)">
+      <stop offset="5%" stop-color="gold" />
+      <stop offset="95%" stop-color="red" />
+    </linearGradient>
+  </defs>
+
+  <circle cx="5" cy="5" r="4" fill="url('#myGradient')" />
+</svg>
+```
+
+<CompileHtml>
+  <svg
+    viewBox="0 0 100 100"
+    height={100} width={100}
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+      <linearGradient id="myGradient" gradientTransform="rotate(90)">
+        <stop offset="5%" stop-color="gold" />
+        <stop offset="95%" stop-color="red" />
+      </linearGradient>
+    </defs>
+
+    <circle cx="50" cy="50" r="40" fill="url('#myGradient')" />
+  </svg>
+</CompileHtml>
+
+- \<path\>: là phần tử chung để xác định một hình dạng svg. Tất cả các hình dạng cơ bản của svg đề có thể được tạo ra từ *path*
+
+  Sơ lược về thuộc tính của *path*:
+  - ***d***: xác định hình dạng của path. Tham khảo thêm tại [link](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/d)
+  - ***pathLength***: xác định chiều dài của path theo đơn vị người dùng (user unit)
+
+  Ví dụ:
+```html
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <path
+    d="M 10,30
+           A 20,20 0,0,1 50,30
+           A 20,20 0,0,1 90,30
+           Q 90,60 50,90
+           Q 10,60 10,30 z" />
+</svg>
+```
+
+<CompileHtml>
+  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" height={100} width={100}>
+    <path
+      d="M 10,30
+           A 20,20 0,0,1 50,30
+           A 20,20 0,0,1 90,30
+           Q 90,60 50,90
+           Q 10,60 10,30 z" />
+  </svg>
+</CompileHtml>
+
+Định nghĩa phần thuộc tính d trong *path* này cũng khá phức tạp, tôi xin phép không trình bày tại đây, mọi người có thể tham khảo thêm tại [link](https://www.w3schools.com/graphics/svg_path.asp)
+
+- \<rect\>: thẻ này tương tự với \<circle\>, khác ở chỗ nó vẽ ra một hình chữ nhật.
+
+  Ví dụ:
+```html
+<svg viewBox="0 0 220 100" xmlns="http://www.w3.org/2000/svg" fill='blue' height='100' width='220'>
+  <rect width="100" height="100" />
+  <rect x="120" width="100" height="100" rx="15" />
+</svg>
+```
+
+<CompileHtml>
+  <svg viewBox="0 0 220 100" xmlns="http://www.w3.org/2000/svg" fill='blue' height='100' width='220'>
+    <rect width="100" height="100" />
+    <rect x="120" width="100" height="100" rx="15" />
+  </svg>
+</CompileHtml>
+
+> Ở đây tôi tổng hợp một số thẻ tôi hay dùng trong svg, mọi người có thể tham khảo thêm ở [link](https://developer.mozilla.org/en-US/docs/Web/SVG/Element)
+
+Vậy là chúng ta đã đi qua và hiểu thêm một chút về thành phần cũng như các cấu tạo của SVG. Ở bài viết tiếp theo, tôi sẽ đi
+vào các mà framer motion tạo ra một SVG, cũng như các sử dụng chúng để tạo một animation. Mời các bạn đón đọc.
+
+<NextPost
+  name={'Framer Motion: Làm thế nào để vẽ một SVG phần 2?'}
+  description={'Bài viết này hướng dẫn các sử dụng các phần tử framer motion để tạo một animation với SVG'}
+  path={'/articles/framer-motion-with-svg-p2/'}
+/>

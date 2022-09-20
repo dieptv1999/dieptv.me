@@ -64,3 +64,22 @@
   outline: 1px solid red;
 }
 
+@keyframes openYourHeart {
+  from {
+    r: 0;
+  }
+  to {
+    r: 60px;
+  }
+}
+
+.myClip circle {
+  animation: openYourHeart 15s infinite;
+}
+
+.containerClipPath {
+  padding: 10px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
