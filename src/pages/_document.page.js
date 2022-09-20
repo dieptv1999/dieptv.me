@@ -31,6 +31,11 @@ export default function Document() {
         />
         <Main />
         <NextScript />
+        <noscript
+          dangerouslySetInnerHTML={{
+            __html: `<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P8WJSFP" height="0" width="0" style="display:none;visibility:hidden"></iframe>`,
+          }}
+        />
         <div id="portal-root" />
       </body>
     </Html>

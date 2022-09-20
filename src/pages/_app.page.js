@@ -63,10 +63,10 @@ const App = ({ Component, pageProps }) => {
     <AppContext.Provider value={{ ...state, dispatch }}>
       <ThemeProvider themeId={state.theme}>
         <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-Q2MGPQX0JE"
-          strategy="afterInteractive"
+          src='https://www.googletagmanager.com/gtag/js?id=G-Q2MGPQX0JE'
+          strategy='afterInteractive'
         />
-        <Script id="google-analytics" strategy="afterInteractive">
+        <Script id='google-analytics' strategy='afterInteractive'>
           {`
           window.dataLayer = window.dataLayer || [];
           function gtag(){window.dataLayer.push(arguments);}
@@ -75,19 +75,28 @@ const App = ({ Component, pageProps }) => {
           gtag('config', 'G-Q2MGPQX0JE');
         `}
         </Script>
+        <Script id='google-tag-manager' strategy='afterInteractive'>
+          {`
+        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-P8WJSFP');
+      `}
+        </Script>
         <LazyMotion features={domAnimation}>
           <Fragment>
             <DefaultSeo {...seo} />
             <VisuallyHidden
               showOnFocus
-              as="a"
+              as='a'
               className={styles.skip}
-              href="#MainContent"
+              href='#MainContent'
             >
               Skip to main content
             </VisuallyHidden>
             <Navbar />
-            <main className={styles.app} tabIndex={-1} id="MainContent">
+            <main className={styles.app} tabIndex={-1} id='MainContent'>
               <AnimatePresence exitBeforeEnter>
                 <m.div
                   key={route}
