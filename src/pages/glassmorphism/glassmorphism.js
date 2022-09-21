@@ -142,7 +142,8 @@ export const Glassmorphism = () => {
                 ...props.style,
                 height: '6px',
                 width: '100%',
-                backgroundColor: '#ccc',
+                borderRadius: 4,
+                backgroundColor: 'rgba(255, 255, 255, 0.6)',
               }}
             >
               {children}
@@ -179,7 +180,8 @@ export const Glassmorphism = () => {
                 ...props.style,
                 height: '6px',
                 width: '100%',
-                backgroundColor: '#ccc',
+                borderRadius: 4,
+                backgroundColor: 'rgba(255, 255, 255, 0.6)',
               }}
             >
               {children}
@@ -216,7 +218,8 @@ export const Glassmorphism = () => {
                 ...props.style,
                 height: '6px',
                 width: '100%',
-                backgroundColor: '#ccc',
+                borderRadius: 4,
+                backgroundColor: 'rgba(255, 255, 255, 0.6)',
               }}
             >
               {children}
