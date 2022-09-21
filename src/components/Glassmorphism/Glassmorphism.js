@@ -25,7 +25,7 @@ export const GlassmorphismComponent = ({
     <div
       className={`${styles.container} ${className}`}
       style={{
-        background: `rgba(${hexToRgb(color).r}, ${hexToRgb(color).g}, ${hexToRgb(color).b}, ${transparency})`,
+        background: `rgba(${hexToRgb(color)?.r}, ${hexToRgb(color)?.g}, ${hexToRgb(color)?.b}, ${transparency})`,
         borderRadius: 16,
         boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
         backdropFilter: `blur(${blur}px)`,
@@ -35,7 +35,7 @@ export const GlassmorphismComponent = ({
         top: y,
         left: x,
         transform: `rotate(${deg}deg)`,
-        border: `1px solid rgba(${hexToRgb(color).r}, ${hexToRgb(color).g}, ${hexToRgb(color).b}, ${outline})`,
+        border: `1px solid rgba(${hexToRgb(color)?.r}, ${hexToRgb(color)?.g}, ${hexToRgb(color)?.b}, ${outline})`,
       }}
     >
     </div>

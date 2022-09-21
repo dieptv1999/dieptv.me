@@ -297,9 +297,10 @@ border: 1px solid rgba(${hexToRgb(color)?.r}, ${hexToRgb(color)?.g}, ${hexToRgb(
         key={`glassmorphism_mb`}
         height={120}
         width={window.innerWidth * 2 / 3}
-        transparency={0.1}
-        blur={0.5}
-        color={'white'}
+        transparency={transparency}
+        blur={blur}
+        color={color}
+        outline={outline}
         x={window.innerWidth / 2 - (window.innerWidth / 3)}
         y={70}
         deg={10}
