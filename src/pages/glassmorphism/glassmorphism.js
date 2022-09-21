@@ -17,21 +17,21 @@ const maxComp = 270;
 
 export const Glassmorphism = () => {
     const { h, w } = useWindowSize();
-    const [values, setValues] = useState([50])
+    const [values, setValues] = useState([50]);
 
     const glsComponents = useMemo(() => [...Array(10).keys()].map(i => (
         <GlassmorphismComponent
             key={`glassmorphism_${i}`}
             height={getRandomIntInclusive(minComp, maxComp)}
             width={getRandomIntInclusive(minComp, maxComp)}
-            transparentcy={0.1}
+            transparency={0.1}
             blur={0.5}
             color={'white'}
             x={getRandomIntInclusive(50, w - 50)}
             y={getRandomIntInclusive(50, h - 50)}
             deg={getRandomIntInclusive(0, 70)}
         />
-    )), [])
+    )), []);
 
     return (
         <div className={styles.container}>
@@ -154,7 +154,7 @@ export const Glassmorphism = () => {
 
                 {/* ----------------------------code------------------------------ */}
                 <div className={styles.labelValues}>css</div>
-                <div className={styles.codeValues}>/* From https://css.glass */</div>
+                <div className={styles.codeValues}>/\* From https://css.glass */</div>
                 <div className={styles.codeValues}>background: rgba(255, 255, 255, 0.19);</div>
                 <div className={styles.codeValues}>border-radius: 16px;</div>
                 <div className={styles.codeValues}>box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);</div>
@@ -167,5 +167,5 @@ export const Glassmorphism = () => {
             </div>
             {glsComponents}
         </div>
-    )
-}
+    );
+};

@@ -1,9 +1,9 @@
-import styles from './Glassmorphism.module.css'
+import styles from './Glassmorphism.module.css';
 
 export const GlassmorphismComponent = ({
     height = 0,
     width = 0,
-    transparentcy = 0,
+    transparency = 0,
     blur = 0,
     outline = 0,
     color = 'rgb(255,255,255)',
@@ -28,5 +28,5 @@ export const GlassmorphismComponent = ({
             }}
         >
         </div>
-    )
-}
+    );
+};
