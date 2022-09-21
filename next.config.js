@@ -1,7 +1,7 @@
 module.exports = {
   reactStrictMode: true,
   images: {
-    domains: ['learningcontainer.com'],
+    domains: ['learningcontainer.com', 'i.ibb.co'],
     // domains: [],
     // dangerouslyAllowAllDomains: true,
   },
