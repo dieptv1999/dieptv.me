@@ -99,13 +99,18 @@
 
     .contentTitle {
         font-size: 30px;
+        margin-bottom: 45px;
     }
 
     .labelValues {
-        font-size: 16px;
+        font-size: 12px;
     }
 
     .codeValues {
-        font-size: 14px;
+        font-size: 12px;
+    }
+
+    .space {
+        height: 0px;
     }
 }
