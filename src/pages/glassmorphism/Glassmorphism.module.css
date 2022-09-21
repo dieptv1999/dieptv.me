@@ -31,7 +31,7 @@
     padding: 20px;
     max-width: 568px;
     width: 100%;
-    z-index: 100;
+    z-index: 1;
 }
 
 .labelValues {
@@ -67,7 +67,7 @@
 }
 
 .glsComponentMb {
-    z-index: 100;
+    z-index: 1;
 }
 
 .selectColor {
