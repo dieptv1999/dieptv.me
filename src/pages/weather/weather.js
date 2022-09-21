@@ -8,9 +8,6 @@ export const Weather = () => {
       <NextSeo
         title={'Weather'}
       />
-      <Image
-        layout={'fill'} objectFit={'cover'} alt={'weather backgorund'}
-        src={'/static/afternoon.jpg'} />
       <div className={styles.containerContent}>
 
       </div>

@@ -9,3 +9,4 @@ export * from './CompileHtml';
 export * from './MotionSvgBasic';
 export * from './SvgMultiPartOfCircel';
 export * from './TobeContinued';
+export * from './HeartAnimation';

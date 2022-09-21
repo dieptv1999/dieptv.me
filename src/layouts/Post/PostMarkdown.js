@@ -18,6 +18,7 @@ import {
   MotionSvgBasic,
   SvgMultiPartOfCircel,
   TobeContinued,
+  HeartAnimation,
 } from '../../components/MdxWidgets';
 
 const WavyCurve = dynamic(() => import('../../components/MdxWidgets').then(mod => mod.WavyCurve), { ssr: false });
@@ -167,4 +168,5 @@ export const postMarkdown = {
   MotionSvgBasic,
   SvgMultiPartOfCircel,
   TobeContinued,
+  HeartAnimation,
 };
