@@ -2,7 +2,7 @@
     height: 100vh;
     width: 100vw;
     background-color: #41b14f;
-    background-image: linear-gradient(#9ec14c,#35b146);
+    background-image: linear-gradient(#9ec14c, #35b146);
     position: relative;
     display: flex;
     flex-direction: column;
@@ -36,12 +36,12 @@
 
 .labelValues {
     text-transform: uppercase;
-    font-size: 20;
-    margin: 25px 0px;
+    font-size: 18px;
+    margin: 20px 0px 10px 0px;
 }
 
 .space {
-    height: 20px;
+    height: 10px;
 }
 
 .codeValues {
@@ -54,14 +54,58 @@
     width: 100%;
     text-align: center;
     padding: 20px;
-    background: hsla(0,0%,100%,.2);
-    border: 2px solid hsla(0,0%,100%,.1);
+    background: hsla(0, 0%, 100%, .2);
+    border: 2px solid hsla(0, 0%, 100%, .1);
     border-radius: 10px;
     margin-top: 24px;
     cursor: pointer;
     transition: background-color .15s ease;
     font-weight: 400;
-    font-family: "Inter",sans-serif;
+    font-family: "Inter", sans-serif;
     letter-spacing: 0.07rem;
     color: white;
+}
+
+.glsComponentMb {
+    z-index: 100;
+}
+
+.selectColor {
+    border-radius: 5px;
+    width: 80px;
+    height: 20px;
+}
+
+.copied {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border-radius: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 100px 20px 20px 20px;
+    }
+
+    .contentTitle {
+        font-size: 30px;
+    }
+
+    .labelValues {
+        font-size: 16px;
+    }
+
+    .codeValues {
+        font-size: 14px;
+    }
 }
