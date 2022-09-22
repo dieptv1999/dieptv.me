@@ -118,7 +118,7 @@
 }
 
 .blockquote {
-  margin: var(--space3XL) 0;
+  margin: var(--space2XL) 0;
   padding: 0.8em 0 0.8em 2em;
   border-left: 2px solid rgb(var(--rgbAccent));
   color: var(--colorTextLight);
