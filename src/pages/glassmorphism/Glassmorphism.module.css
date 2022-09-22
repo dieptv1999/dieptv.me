@@ -18,13 +18,13 @@
     font-weight: 400;
     letter-spacing: 0.3rem;
 
-    text-shadow: 0 4px 10px rgb(0 0 0 / 20%);
+    text-shadow: 0 4px 10px rgba(0, 0, 0, .2);
 }
 
 .containerValues {
     background: rgba(255, 255, 255, 0.2);
     border-radius: 16px;
-    box-shadow: 0 4px 30px rgb(0 0 0 / 10%);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, .1);
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
     border: 1px solid rgba(255, 255, 255, 0.3);

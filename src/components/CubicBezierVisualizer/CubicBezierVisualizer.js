@@ -14,7 +14,7 @@ import { scaleLinear } from '@visx/scale';
 import { LinePath } from '@visx/shape';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useInterval } from 'hooks';
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from './CubicBezierVisualizer.module.css';
 
 const x0 = 0;
@@ -129,7 +129,7 @@ const options = [
     },
 ];
 
-const cubicDerivative = (P1, P2) => {
+const cubicDerivative = (P1, P2, layers = 60) => {
     const y = (t) =>
         3 * Math.pow(1 - t, 2) * (P1.y - y0) +
         6 * (1 - t) * t * (P2.y - P1.y) +
@@ -142,7 +142,7 @@ const cubicDerivative = (P1, P2) => {
 
     const res = [];
 
-    for (let t = 0; t <= 1; t = t + 1 / 60) {
+    for (let t = 0; t <= 1; t = t + 1 / layers) {
         const valX = x(t);
         const valY = y(t);
         res.push({ x: valX, y: valY });
@@ -151,7 +151,7 @@ const cubicDerivative = (P1, P2) => {
     return res;
 };
 
-const cubic = (P1, P2) => {
+const cubic = (P1, P2, layers = 60) => {
     const y = (t) =>
         Math.pow(1 - t, 3) * y0 +
         3 * Math.pow(1 - t, 2) * t * P1.y +
@@ -166,7 +166,7 @@ const cubic = (P1, P2) => {
 
     const res = [];
 
-    for (let t = 0; t <= 1; t = t + 1 / 60) {
+    for (let t = 0; t <= 1; t = t + 1 / layers) {
         const valX = x(t);
         const valY = y(t);
         res.push({ x: valX, y: valY });
@@ -216,8 +216,8 @@ const DragHandle = (props) => {
 
     return (
         <Drag
-            width={dimension.width}
-            height={dimension.height}
+            width={dimension.width || 400}
+            height={dimension.height || 120}
             x={scaleWidth(point.x)}
             y={scaleHeight(point.y)}
             onDragStart={onDragStart}
@@ -275,7 +275,7 @@ const DragHandle = (props) => {
     );
 };
 
-const Chart = ({ width, height, editable }) => {
+const Chart = ({ width, height, editable, layers = 60, onChange = () => {} }) => {
     const [P1, setP1] = React.useState({ x: 0.19, y: 0.37 });
     const [P2, setP2] = React.useState({ x: 0.84, y: 0.57 });
     const [type, setType] = React.useState(options[0].value);
@@ -293,8 +293,15 @@ const Chart = ({ width, height, editable }) => {
         height: editable ? height - 20 : height / 1.5,
     };
 
-    const data = React.useMemo(() => cubic(P1, P2), [P1, P2]);
-    const speed = React.useMemo(() => cubicDerivative(P1, P2), [P1, P2]);
+    const data = React.useMemo(() => cubic(P1, P2, layers * 5), [P1, P2]);
+    const speed = React.useMemo(() => cubicDerivative(P1, P2, layers * 5), [P1, P2]);
+
+    useEffect(() => {
+        onChange({
+            data: cubic(P1, P2, layers),
+            speed: cubicDerivative(P1, P2, layers),
+        });
+    }, [layers, P1, P2]);
 
     const getX = (d) => d.x;
     const getY = (d) => d.y;
@@ -353,10 +360,10 @@ const Chart = ({ width, height, editable }) => {
             return;
         }
 
-        if (activeStepIndex < 60) {
+        if (activeStepIndex < layers * 5) {
             setActiveStepIndex((prev) => prev + 1);
         }
-    }, 1000 / 60);
+    }, 1000 / (layers * 5));
 
     if (width === 0) {
         return null;
@@ -592,14 +599,14 @@ const Chart = ({ width, height, editable }) => {
     );
 };
 
-export const CubicBezierVisualizer = ({ editable }) => {
+export const CubicBezierVisualizer = ({ editable, layers, onChange }) => {
 
     return (
         <div
             className={styles.cubicContainer}
         >
             <ParentSize>
-                {({ width }) => <Chart width={width} height={width / 2} editable={editable} />}
+                {({ width }) => <Chart width={width} height={80} editable={editable} layers={layers} onChange={onChange} />}
             </ParentSize>
         </div>
     );

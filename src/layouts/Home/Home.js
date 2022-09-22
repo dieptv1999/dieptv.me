@@ -43,14 +43,14 @@ export const Home = () => {
           }
         });
       },
-      { rootMargin: '0px 0px -10% 0px', threshold: 0.1 }
+      { rootMargin: '0px 0px -10% 0px', threshold: 0.1 },
     );
 
     const indicatorObserver = new IntersectionObserver(
       ([entry]) => {
         setScrollIndicatorHidden(!entry.isIntersecting);
       },
-      { rootMargin: '-100% 0px 0px 0px' }
+      { rootMargin: '-100% 0px 0px 0px' },
     );
 
     sections.forEach(section => {
@@ -68,24 +68,24 @@ export const Home = () => {
   return (
     <div className={styles.home}>
       <Meta
-        title="Developer Mobile/Web"
+        title='Developer Mobile/Web'
         description="I'm a Full Stack developer with experience in Backend, Frontend and mobile development. Currently Software Engineer of Trustkeys and living in Hanoi."
       />
       <Intro
-        id="intro"
+        id='intro'
         sectionRef={intro}
         disciplines={disciplines}
         scrollIndicatorHidden={scrollIndicatorHidden}
       />
       <ProjectSummary
-        id="project-1"
+        id='project-1'
         sectionRef={projectOne}
         visible={visibleSections.includes(projectOne.current)}
         index={1}
-        title="Discover, collect, and sell extraordinary NFTs"
-        description="TheOnly.biz - is a premier decentralized NFT platform, developed by TrustKeys Network"
-        buttonText="View website"
-        buttonLink="https://theonly.biz/"
+        title='Discover, collect, and sell extraordinary NFTs'
+        description='TheOnly.biz - is a premier decentralized NFT platform, developed by TrustKeys Network'
+        buttonText='View website'
+        buttonLink='https://theonly.biz/'
         model={{
           type: 'laptop',
           alt: 'Smart Sparrow lesson builder',
@@ -98,15 +98,15 @@ export const Home = () => {
         }}
       />
       <ProjectSummary
-        id="project-2"
+        id='project-2'
         alternate
         sectionRef={projectTwo}
         visible={visibleSections.includes(projectTwo.current)}
         index={2}
-        title="TrustKeys NFT Crypto SuperApp"
-        description="Secured Wallet, Exchange, Messaging and More"
-        buttonText="View website"
-        buttonLink="https://trustkeys.network/"
+        title='TrustKeys NFT Crypto SuperApp'
+        description='Secured Wallet, Exchange, Messaging and More'
+        buttonText='View website'
+        buttonLink='https://trustkeys.network/'
         model={{
           type: 'phone',
           alt: 'App login screen',
@@ -123,14 +123,14 @@ export const Home = () => {
         }}
       />
       <ProjectSummary
-        id="project-3"
+        id='project-3'
         sectionRef={projectThree}
         visible={visibleSections.includes(projectThree.current)}
         index={3}
-        title="VCS Express"
-        description="Global e-commerce shipping (USA, Canada)."
-        buttonText="View website"
-        buttonLink="https://vcs.express/"
+        title='VCS Express'
+        description='Global e-commerce shipping (USA, Canada).'
+        buttonText='View website'
+        buttonLink='https://vcs.express/'
         model={{
           type: 'laptop',
           alt: 'Annotating a website image in the VCS app',
@@ -142,10 +142,25 @@ export const Home = () => {
           ],
         }}
       />
+      {/*<div className={styles.famousSaying}>*/}
+      {/*  <div>*/}
+      {/*    <div>*/}
+      {/*      "Make things as simple as possible, but not simpler."*/}
+      {/*    </div>*/}
+      {/*    <div>*/}
+      {/*      <div>*/}
+      {/*        //*/}
+      {/*      </div>*/}
+      {/*      <div>*/}
+      {/*        Albert Einstein*/}
+      {/*      </div>*/}
+      {/*    </div>*/}
+      {/*  </div>*/}
+      {/*</div>*/}
       <Profile
         sectionRef={details}
         visible={visibleSections.includes(details.current)}
-        id="details"
+        id='details'
       />
       <Footer />
     </div>

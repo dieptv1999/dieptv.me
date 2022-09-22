@@ -7,7 +7,142 @@
     align-items: center;
 }
 
+.containerInner {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+    width: 100vw;
+    padding: 50px 120px;
+}
+
 .containerEditCubic {
-    width: 700px;
-    height: 860px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.containerContent {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.labelValues {
+    text-transform: uppercase;
+    font-size: 14px;
+    margin: 0px 0px 10px 0px;
+}
+
+.containerValues {
+    background: rgba(223, 230, 238, 1);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 20px;
+    z-index: 1;
+}
+
+.content {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.content2 {
+    background: rgba(223, 230, 238, 1);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 20px;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    width: 550px;
+}
+
+.content3 {
+    width: 550px;
+    border-radius: 10px;
+    position: relative;
+}
+
+.btnCopy {
+    text-transform: uppercase;
+    width: 550px;
+    text-align: center;
+    padding: 20px;
+    background: rgba(223, 230, 238, 1);
+    border: 2px solid hsla(0, 0%, 100%, .1);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color .15s ease;
+    font-weight: 400;
+    font-family: "Inter", sans-serif;
+    letter-spacing: 0.07rem;
+    color: black;
+    margin: 20px 0px;
+}
+
+.containerLabel {
+    display: inline-flex;
+    justify-content: space-between;
+    width: 100%;
+    font-size: 14px;
+}
+
+.copied {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+    border-radius: 10px;
+}
+
+.codeValues {
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0.04rem;
+    display: flex;
+}
+
+.codeHighlight {
+    color: #35b146;
+    font-weight: 500;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 100px 20px 20px 20px;
+    }
+
+    .contentTitle {
+        font-size: 30px;
+        margin-bottom: 45px;
+    }
+
+    .labelValues {
+        font-size: 12px;
+    }
+
+    .codeValues {
+        font-size: 12px;
+    }
+
+    .space {
+        height: 0px;
+    }
 }
