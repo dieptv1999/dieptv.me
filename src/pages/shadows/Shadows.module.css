@@ -1,0 +1,13 @@
+.container {
+    height: 100vh;
+    width: 100vw;
+    background-color: rgb(237, 242, 247);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.containerEditCubic {
+    width: 700px;
+    height: 860px;
+}

@@ -1,0 +1,31 @@
+.select {
+    border: 1px solid var(--maximeheckel-colors-brand);
+    box-shadow: none;
+    background-color: var(--maximeheckel-colors-emphasis);
+    color: var(--maximeheckel-colors-brand);
+    height: 30px;
+    border-radius: var(--border-radius-0);
+    padding: 0px 8px 0px 8px;
+    margin-bottom: 32px;
+    justify-self: center;
+    max-width: 400px;
+    width: 100%;
+}
+
+.hightlightValues {
+    border-radius: var(--border-radius-0);
+    background-color: var(--maximeheckel-colors-emphasis);
+    color: var(--maximeheckel-colors-brand);
+    border: 2px solid var(--maximeheckel-colors-brand);
+    padding: 2px 6px;
+    font-family: var(--font-numeric);
+    font-size: var(--font-size-2);
+    display: inline-block;
+    line-height: 1rem;
+}
+
+.cubicContainer {
+    border: 1px solid black;
+    padding: 20px;
+    border-radius: 10px;
+}
