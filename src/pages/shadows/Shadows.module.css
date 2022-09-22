@@ -126,7 +126,7 @@
 
 @media (max-width: 768px) {
     .container {
-        padding: 100px 20px 20px 20px;
+        padding: 100px 10px 10px 10px;
         height: auto;
     }
 
@@ -152,6 +152,7 @@
         width: 100%;
         padding: 50px 10px;
         padding-top: 0;
+        height: 100%;
     }
 
     .btnCopy {
@@ -177,5 +178,10 @@
 
     .containerEditCubic {
         padding-bottom: 70px;
+    }
+
+    .containerValues {
+        margin: 10px 0;
+        overflow: hidden;
     }
 }
