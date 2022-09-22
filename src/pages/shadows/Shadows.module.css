@@ -161,11 +161,12 @@
     }
 
     .content3 {
-        width: auto;
+        width: 100vw;
     }
 
     .content {
         padding: 20px;
+        max-width: 100vw;
     }
 
     .content2 {
