@@ -84,7 +84,7 @@ export const Shadows = () => {
           description: 'Create a CSS Shadows snippet for your frontend project',
           images: [
             {
-              url: 'https://i.ibb.co/kMTCLvp/Screenshot-from-2022-09-21-19-50-38.png',
+              url: 'https://i.ibb.co/ysxmnG5/Screenshot-2022-09-22-163741.png',
               width: 1854,
               height: 947,
               alt: 'Og Image Alt',

@@ -31,3 +31,9 @@
     width: 420px;
     margin-top: 20px;
 }
+
+@media (max-width: 768px) {
+    .cubicContainer {
+      width: 100%;
+    }
+}

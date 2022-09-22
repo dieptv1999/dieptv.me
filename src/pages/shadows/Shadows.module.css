@@ -127,6 +127,7 @@
 @media (max-width: 768px) {
     .container {
         padding: 100px 20px 20px 20px;
+        height: auto;
     }
 
     .contentTitle {
@@ -144,5 +145,36 @@
 
     .space {
         height: 0px;
+    }
+
+    .containerInner {
+        flex-direction: column;
+        width: 100%;
+        padding: 50px 10px;
+    }
+
+    .btnCopy {
+        width: 100%;
+
+    }
+
+    .content3 {
+        width: auto;
+    }
+
+    .content {
+        padding: 20px;
+    }
+
+    .content2 {
+        width: 100%;
+    }
+
+    .codeValues {
+        font-size: 12px;
+    }
+
+    .containerEditCubic {
+        padding-bottom: 70px;
     }
 }
