@@ -151,6 +151,7 @@
         flex-direction: column;
         width: 100%;
         padding: 50px 10px;
+        padding-top: 0;
     }
 
     .btnCopy {
