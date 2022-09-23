@@ -188,3 +188,9 @@
         overflow: hidden;
     }
 }
+
+@media (max-width: 1300px) {
+    .containerInner {
+        padding: 50px 10px;
+    }
+}
