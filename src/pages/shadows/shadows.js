@@ -61,10 +61,10 @@ export const Shadows = () => {
       fallbackCopyTextToClipboard(text);
       return;
     }
-    navigator.clipboard.writeText(text).then(function() {
+    navigator.clipboard.writeText(text).then(function () {
       console.log('Async: Copying to clipboard was successful!');
       setCopied(true);
-    }, function(err) {
+    }, function (err) {
       console.error('Async: Could not copy text: ', err);
     });
   }
@@ -129,17 +129,20 @@ export const Shadows = () => {
                           <div
                             className={styles.codeHighlight}> {reduceSpread}</div>px
                           rgba(0, 0, 0, <div
-                          className={styles.codeHighlight}>{(transparency * transparencyValues[i]).toFixed(2)}</div>),
+                            className={styles.codeHighlight}>{(transparency * transparencyValues[i]).toFixed(2)}</div>),
                         </div>
                       );
                     })}
                     ;
-                      </pre>
+                  </pre>
                   {copied === true && <div className={styles.copied} onClick={() => setCopied(false)}>Copied!</div>}
                 </div>
               </div>
               <motion.div
-                onClick={() => copyTextToClipboard(cssStr)}
+                onClick={() => copyTextToClipboard(`
+                box-shadow:
+                ${cssStr}
+                `)}
                 className={styles.btnCopy}
                 whileTap={{
                   scale: 0.98,
@@ -313,9 +316,9 @@ export const Shadows = () => {
                   )}
                 />
                 <CubicBezierVisualizer key='cubic_transparency' editable={true} layers={layers}
-                                       onChange={({ data, speed }) => {
-                                         setTransparencyValues(data.map(d => d?.y));
-                                       }} />
+                  onChange={({ data, speed }) => {
+                    setTransparencyValues(data.map(d => d?.y));
+                  }} />
               </div>
               <div className={styles.containerValues}>
                 <div className={styles.containerLabel}>
@@ -395,9 +398,9 @@ export const Shadows = () => {
                   )}
                 />
                 <CubicBezierVisualizer key='cubic_dimension' editable={true} layers={layers}
-                                       onChange={({ data, speed }) => {
-                                         setDimensionValues(data.map(d => d?.y));
-                                       }} />
+                  onChange={({ data, speed }) => {
+                    setDimensionValues(data.map(d => d?.y));
+                  }} />
               </div>
             </div>
           </div>
