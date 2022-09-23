@@ -7,7 +7,7 @@ import styles from './ThemeToggle.module.css';
 
 const disableThemeRoutes = [
   /^(\/shadows)/,
-]
+];
 
 export const ThemeToggle = ({ isMobile, ...rest }) => {
   const { dispatch } = useAppContext();
@@ -20,7 +20,7 @@ export const ThemeToggle = ({ isMobile, ...rest }) => {
     dispatch({ type: 'toggleTheme' });
   };
 
-  const checkDisableTheme = !!disableThemeRoutes.find(e => e.test(asPath))
+  const checkDisableTheme = !!disableThemeRoutes.find(e => e.test(asPath));
 
   useEffect(() => {
     if (checkDisableTheme && themeId !== 'light') {
