@@ -124,7 +124,7 @@ export const TextShadows = () => {
                   data-status={true}
                   style={getDelay(tokens.base.durationXS, initDelay)}
                   label='Text preview'
-                  maxLength={20}
+                  maxLength={40}
                   {...valuesText}
                 />
               </div>
