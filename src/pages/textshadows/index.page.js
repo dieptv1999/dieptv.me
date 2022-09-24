@@ -1,0 +1,1 @@
+export { TextShadows as default } from './TextShadows';
