@@ -94,8 +94,8 @@ export const TextShadows = () => {
           images: [
             {
               url: 'https://i.ibb.co/TTQND14/Screenshot-2022-09-24-161153.png',
-              width: 1919,
-              height: 933,
+              width: 1918,
+              height: 930,
               alt: 'Og Image Alt',
               type: 'image/png',
             },
