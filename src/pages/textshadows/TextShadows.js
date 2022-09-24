@@ -13,6 +13,8 @@ import { Input } from 'components/Input';
 import { tokens } from '../../components/ThemeProvider';
 import { useFormInput } from '../../hooks';
 import { cssProps, msToNum, numToMs } from '../../utils/style';
+import { SketchPicker } from 'react-color';
+import Popup from 'reactjs-popup';
 
 function fallbackCopyTextToClipboard(text) {
   var textArea = document.createElement('textarea');
@@ -56,6 +58,7 @@ export const TextShadows = () => {
   const [transparencyValues, setTransparencyValues] = useState(new Array(layers).fill(0));
   const [copied, setCopied] = useState(false);
   const [reduceSpread, setReduceSpread] = useState([0]);
+  const [color, setColor] = useState('#000000');
   const [horizontal, setHorizontal] = useState([10]);
   const [vertical, setVertical] = useState([10]);
   const [dimensionValues, setDimensionValues] = useState(new Array(layers).fill(0));
@@ -75,8 +78,8 @@ export const TextShadows = () => {
     });
   }
 
-  const cssStr = useMemo(() => new Array(layers[0]).fill(0).map((_, i) => `rgb(0 0 0 / ${(transparency * transparencyValues[i] * 100).toFixed(0) || 0}%) ${(horizontal * dimensionValues[layers[0] - i - 1]).toFixed(0) || 0}px ${(vertical * dimensionValues[layers[0] - i - 1]).toFixed(0) || 0}px ${(blur * blurValues[layers[0] - i - 1]).toFixed(0) || 0}px ${i === layers[0] - 1 ? '' : ','}`).join('\n'),
-    [layers, blur, blurValues, transparencyValues, transparency, dimensionValues, horizontal, vertical, reduceSpread]);
+  const cssStr = useMemo(() => new Array(layers[0]).fill(0).map((_, i) => `rgb(${hexToRgb(color)?.r} ${hexToRgb(color)?.g} ${hexToRgb(color)?.b} / ${(transparency * transparencyValues[i] * 100).toFixed(0) || 0}%) ${(horizontal * dimensionValues[layers[0] - i - 1]).toFixed(0) || 0}px ${(vertical * dimensionValues[layers[0] - i - 1]).toFixed(0) || 0}px ${(blur * blurValues[layers[0] - i - 1]).toFixed(0) || 0}px ${i === layers[0] - 1 ? '' : ','}`).join('\n'),
+    [layers, blur, blurValues, transparencyValues, transparency, dimensionValues, horizontal, vertical, color]);
 
   return (
     <div className={styles.container}>
@@ -140,10 +143,7 @@ export const TextShadows = () => {
                     {new Array(layers[0]).fill(1).map((_, i) => {
                       return (
                         <div className={styles.codeValues} key={`${i}_show_values`}>
-                          <div
-                            className={styles.codeHighlight}> {reduceSpread}</div>
-                          px
-                          rgba(0, 0, 0, <div
+                          rgba({hexToRgb(color)?.r}, {hexToRgb(color)?.g}, {hexToRgb(color)?.b}, <div
                           className={styles.codeHighlight}>{(transparency * transparencyValues[i]).toFixed(2)}</div>)
                           <div
                             className={styles.codeHighlight}> {(horizontal * dimensionValues[layers - i - 1]).toFixed(1)}</div>
@@ -171,6 +171,20 @@ export const TextShadows = () => {
               >
                 copy css to clipoard
               </motion.div>
+              <div className={styles.content2}>
+                <div className={styles.containerLabel}>
+                  <div className={styles.labelValues}>color</div>
+                  <Popup trigger={<div className={styles.selectColor} style={{
+                    background: color,
+                  }}></div>} position='left bottom'>
+                    <SketchPicker
+                      color={color}
+                      disableAlpha={true}
+                      onChangeComplete={(val) => setColor(val.hex)}
+                    />
+                  </Popup>
+                </div>
+              </div>
             </div>
             <div className={styles.containerEditCubic}>
               <div className={styles.containerValues}>
