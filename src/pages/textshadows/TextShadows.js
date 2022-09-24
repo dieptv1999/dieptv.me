@@ -85,19 +85,19 @@ export const TextShadows = () => {
         description={'Create a CSS Text Shadows snippet for your frontend project'}
         canonical='https://www.techlens.tech/'
         openGraph={{
-          url: 'https://www.techlens.tech/shadows/',
+          url: 'https://www.techlens.tech/textshadows/',
           title: 'CSS Text Shadows generator',
           description: 'Create a CSS Text Shadows snippet for your frontend project',
           images: [
             {
-              url: 'https://i.ibb.co/ysxmnG5/Screenshot-2022-09-22-163741.png',
-              width: 1854,
-              height: 947,
+              url: 'https://i.ibb.co/pK2V3Vn/Screenshot-2022-09-24-161153.png',
+              width: 1919,
+              height: 933,
               alt: 'Og Image Alt',
               type: 'image/png',
             },
           ],
-          site_name: 'Glassmorphism',
+          site_name: 'Text Shadows generator',
         }}
         twitter={{
           handle: '@handle',
