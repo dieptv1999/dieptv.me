@@ -93,7 +93,7 @@ export const TextShadows = () => {
           description: 'Create a CSS Text Shadows snippet for your frontend project',
           images: [
             {
-              url: 'https://i.ibb.co/pK2V3Vn/Screenshot-2022-09-24-161153.png',
+              url: 'https://i.ibb.co/TTQND14/Screenshot-2022-09-24-161153.png',
               width: 1919,
               height: 933,
               alt: 'Og Image Alt',
