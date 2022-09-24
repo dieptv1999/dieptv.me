@@ -4,7 +4,7 @@
 }
 
 .overlay {
-    background: white;
+    background: var(--rgbBackground);
     opacity: 0.2;
     position: absolute;
     top: 0;
@@ -34,7 +34,6 @@
 }
 
 .galleryItem {
-    border-radius: 40px;
     padding: 20px;
     cursor: pointer;
     margin: 20px 0 0 20px;
@@ -45,6 +44,10 @@
     backdrop-filter: blur(3.8px);
     -webkit-backdrop-filter: blur(3.8px);
     border: 1px solid rgba(255, 255, 255, 0.36);
+    justify-content: space-between;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .singleImageContainer {
@@ -67,6 +70,9 @@
     border-top-left-radius: 150px;
     width: 90%;
     height: 80%;
+    display: flex;
+    align-items: center;
+    padding: 20px;
 }
 
 .arrowContainer {
@@ -88,4 +94,70 @@
     padding-left: 10px;
     font-size: 20px;
     cursor: pointer;
+}
+
+.containerImage {
+    width: 100%;
+    aspect-ratio: 16/ 9;
+    position: relative;
+}
+
+.title {
+    font-size: 30px;
+    font-weight: 500;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.desc {
+    font-weight: 500;
+    font-size: 20px;
+    text-align: center;
+}
+
+.button {
+    background: white;
+    border-radius: 8px;
+    padding: 10px 20px;
+    color: black;
+    font-weight: 500;
+    text-transform: uppercase;
+    font-size: 14px;
+    cursor: pointer;
+    width: fit-content;
+    margin: 20px 0;
+}
+
+.uses {
+    flex: 1;
+}
+
+.contentMain {
+    flex: 1;
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+@media (max-width: 769px) {
+    .galleryContainer {
+        flex-direction: column;
+        padding-left: 20px;
+        margin-top: 80px;
+    }
+
+    .uses {
+        display: none;
+    }
+
+    .galleryItem {
+        width: 100%;
+    }
+
+    .singleImage {
+        position: fixed;
+        border-top-left-radius: 20px;
+    }
 }
