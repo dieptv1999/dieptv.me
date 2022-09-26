@@ -5,7 +5,7 @@ date: '2022-09-11'
 banner: https://i.ibb.co/ZxJV88G/metamask-provider.png
 ---
 
-## Phần 1: Tổng quan về kiến trúc
+# Phần 1: Tổng quan về kiến trúc
 
 Để có thể hiểu được bài viết này tôi sẽ sơ lược qua một số khái niệm cơ bản sau:
 
@@ -23,7 +23,7 @@ Trước tiên chúng ta đi qua tổng quan về thiết kế của metamask ap
 Hình ảnh này được cung cấp bởi metamask.
 
 Thiết kế được chia ra làm 4 phần chính:
-### Core
+## Core
 Phần này là tập hợp những thao tác cơ bản của toàn bộ ứng dụng. Được chia thành Engine là tập hợp các module tạo thành tập hợp một bộ API cho các hoạt động
 phổ biến như cấu hình, quản lý trạng thái và subscription và các các module liên kết với các dịch vụ bên ngoài.
 Tập hợp các module Engine được trình bày chi tiết trong lib [@metamask/controllers](https://www.npmjs.com/package/@metamask/controllers).
@@ -52,7 +52,7 @@ của ứng dụng. Ở đây ứng dụng có để xử lý những deeplink b
 đến từng module trong Engine để xử lý.
 - SecureKeyChain: Quản lý mật khẩu và các thao tác xác thực của ứng dụng như vân tay, lưu trữ mật khẩu, ...
 
-### Wallet Segment
+## Wallet Segment
 
 <img src="https://i.ibb.co/h89VwV0/metamask-home.jpg" width="250" alt={'Metamask Homepage'} />
 
@@ -60,7 +60,7 @@ Hình ảnh trên là trang chính của metamask, như chúng ta thấy nó s�
 Phần này quản lý cách mà các token và collectibles (NFT) được lấy từ các module Engine và hiển thị cho người dùng.
 
 
-### Background bridge
+## Background bridge
 
 Là một midddleware để kết nối giữa Browser với phần core (Engine của ứng dụng).
 
@@ -86,7 +86,7 @@ Nếu yêu cầu nào cần trả về kết quả thì middleware sẽ trả v�
 
 Chi tiết code ở đường dẫn: *app/core/BackgroundBridge.js*
 
-### Browser
+## Browser
 Đây là một tính năng của Metamask để người dùng có trải nghiệm web3 hoàn hảo trên ứng dụng metamask.
 Người dùng có thể dùng trực tiếp các Dapp bằng browser này.
 Cốt lõi của Browser này là một tập hợp các tab cấu tạo bằng webview và một số trình quản lý các tab đó (lịch sử, ...).
