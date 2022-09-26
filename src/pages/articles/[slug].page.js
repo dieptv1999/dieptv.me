@@ -3,7 +3,7 @@ import path from 'path';
 import { Post, postMarkdown } from 'layouts/Post';
 import { bundleMDX } from 'mdx-bundler';
 import { getMDXComponent } from 'mdx-bundler/client';
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import readingTime from 'reading-time';
 import rehypeImgSize from 'rehype-img-size';
 import rehypeMinify from 'rehype-preset-minify';
@@ -14,12 +14,25 @@ import rehypePrism from '@mapbox/rehype-prism';
 import { generateOgImage } from './og-image';
 // import rehypeRemark from 'rehype-remark';
 import remarkGfm from 'remark-gfm';
+import { TableOfContent } from '../../components/TableOfContent';
 
 export default function PostPage({ frontmatter, code, timecode, ogImage }) {
   const MDXComponent = useMemo(() => getMDXComponent(code), [code]);
 
+  const [ids, setIds] = useState([]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      const titles = document.querySelectorAll('h2');
+      const idArrays = Array.prototype.slice
+        .call(titles)
+        .map((title) => ({ id: title.id, title: title.innerText }));
+      setIds(idArrays);
+    }, 500);
+  }, [frontmatter.title]);
+
   return (
-    <Post timecode={timecode} ogImage={ogImage} {...frontmatter}>
+    <Post timecode={timecode} ogImage={ogImage} {...frontmatter} tableOfContent={<TableOfContent ids={ids}/>}>
       <MDXComponent components={postMarkdown} />
     </Post>
   );

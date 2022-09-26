@@ -64,6 +64,7 @@
     "reactjs-popup": "^2.0.5",
     "rehype-remark": "^9.1.2",
     "remark-gfm": "^3.0.1",
+    "sass": "^1.55.0",
     "save": "^2.5.0",
     "sharp": "^0.31.0",
     "three": "^0.143.0",
