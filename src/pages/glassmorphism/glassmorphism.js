@@ -245,7 +245,7 @@ export const Glassmorphism = () => {
         <div className={styles.labelValues}>color</div>
         <Popup trigger={<div className={styles.selectColor} style={{
           background: color,
-        }}></div>} position='right center'>
+        }}></div>} position='right center'>`
           <SketchPicker
             color={color}
             disableAlpha={true}

@@ -7,6 +7,7 @@ import styles from './ThemeToggle.module.css';
 
 const disableThemeRoutes = [
   /^(\/shadows)/,
+  /^(\/textshadows)/,
 ];
 
 export const ThemeToggle = ({ isMobile, ...rest }) => {
