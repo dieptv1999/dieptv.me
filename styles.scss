@@ -1,0 +1,55 @@
+::-webkit-scrollbar {
+    width: 8px;
+    height: 10px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.fontPickerLight {
+    #font-picker {
+        width: 100%;
+    }
+
+    .font-list {
+        background: #eaeaea;
+    }
+
+    .dropdown-button {
+        background-color: #cbcbcb;
+    }
+
+    .dropdown-icon finished:before{
+        border-top: black;
+    }
+}
+
+.fontPickerDark {
+    #font-picker {
+        width: 100%;
+    }
+
+    .font-list {
+        background-color: rgba(0,0,0,0.9);
+    }
+
+    .dropdown-button {
+        background-color: rgba(0,0,0,0.3) !important;
+    }
+
+    .dropdown-icon:before{
+        border-top-color: white !important;
+    }
+}

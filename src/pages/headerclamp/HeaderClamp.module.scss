@@ -1,0 +1,171 @@
+$base-color: rgba(255, 255, 255, 0.5);
+$base-color-dark: rgba(255, 255, 255, 0.5);
+
+.container {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  padding: 100px;
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.containerSelect {
+  width: 400px;
+  background: $base-color;
+  border-radius: 8px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10);
+  -webkit-backdrop-filter: blur(10);
+  overflow: hidden;
+  padding: 20px;
+}
+
+.content2 {
+  /* From https://css.glass */
+  background: $base-color;
+  border-radius: 8px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10);
+  -webkit-backdrop-filter: blur(10);
+  overflow: hidden;
+  margin-right: 20px;
+  margin-left: 20px;
+  max-width: 100%;
+}
+
+.btnCopy {
+  text-transform: uppercase;
+  text-align: center;
+  padding: 20px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  background: rgba(223, 230, 238, 1);
+  border: 2px solid hsla(0, 0%, 100%, .1);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color .15s ease;
+  font-weight: 400;
+  font-family: "Inter", sans-serif;
+  letter-spacing: 0.07rem;
+  color: black;
+  margin: 20px 0px;
+}
+
+.headerContent {
+  height: 1.75rem;
+  width: 100%;
+  background-color: rgba(75,85,99,1);
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.circleAction {
+  border-radius: 999px;
+  height: 0.75rem;
+  width: 0.75rem;
+}
+
+.h1Container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.h1Content {
+  line-height: 1.1;
+}
+
+.label {
+  //position: absolute;
+  //top: 50%;
+  //left: 0;
+  //transform: translateY(-50%);
+  margin-right: 12px;
+  width: 20px;
+}
+
+.content3 {
+  padding: 20px;
+}
+
+.warning {
+  display: none;
+}
+
+.labelValues {
+  text-transform: uppercase;
+  font-size: 14px;
+}
+
+.space {
+  height: 40px;
+}
+
+.containerLabel {
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  font-size: 14px;
+  margin-bottom: 18px;
+}
+
+.containerInput {
+  margin-bottom: 30px;
+  width: 100%;
+}
+
+.input {
+  width: 100%;
+}
+
+.fontPicker {
+  width: 100%;
+}
+
+@media (max-width: 1250px) {
+  .container {
+    flex-direction: column;
+    align-items: center;
+    height: auto;
+  }
+
+  .containerSelect {
+    max-width: 100%;
+  }
+
+  .content2 {
+    width: 100% !important;
+  }
+}
+
+@media (max-width: 1000px) {
+  .container {
+    padding: 100px 10px;
+  }
+
+  .content2 {
+    height: auto;
+    width: 100%;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  .warning {
+    display: block;
+    background: $base-color;
+  }
+
+  .containerInput {
+    width: 100%;
+    margin-top: 30px;
+  }
+}

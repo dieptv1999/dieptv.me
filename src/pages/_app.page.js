@@ -16,7 +16,7 @@ import { msToNum } from 'utils/style';
 import { ScrollRestore } from '../layouts/App/ScrollRestore';
 import Script from 'next/script';
 import { DefaultSeo } from 'next-seo';
-import '../../styles.css';
+import '../../styles.scss';
 import dynamic from 'next/dynamic';
 // const Music = dynamic(() => import('../components/Music').then(mod => mod.Music), {ssr: false});
 

@@ -6,7 +6,6 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 
 export const Gallery = () => {
-  const numColors = 3;
   const colors = [{
     color: 'rgba(255,0,255,0.3)',
     colorMain: 'rgba(255,0,255,1)',
