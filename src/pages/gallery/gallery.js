@@ -27,6 +27,13 @@ export const Gallery = () => {
     image: 'https://i.ibb.co/TTQND14/Screenshot-2022-09-24-161153.png',
     description: 'Create a CSS Text Shadows snippet for your frontend project',
     url: '/textshadows',
+  }, {
+    color: 'rgba(0, 127, 255,0.3)',
+    colorMain: 'rgba(255,255,0,1)',
+    name: 'Header Clamp Generator',
+    image: 'https://i.ibb.co/RHnKjPY/Screenshot-from-2022-09-27-13-34-14.png',
+    description: 'Create a header CSS Clamp function snippet for your frontend project',
+    url: '/headerclamp',
   }];
 
   const router = useRouter();
@@ -91,8 +98,6 @@ export const Gallery = () => {
               </motion.li>
             ))}
           </ul>
-          <div className={styles.arrowContainer}>
-          </div>
         </div>
         <AnimatePresence>
           {index !== false && (

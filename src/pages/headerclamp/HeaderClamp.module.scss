@@ -14,6 +14,7 @@ $base-color-dark: rgba(255, 255, 255, 0.5);
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  position: relative;
 }
 
 .containerSelect {
@@ -129,6 +130,13 @@ $base-color-dark: rgba(255, 255, 255, 0.5);
 
 .fontPicker {
   width: 100%;
+}
+
+.note {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 @media (max-width: 1250px) {

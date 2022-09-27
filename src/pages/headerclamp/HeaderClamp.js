@@ -219,6 +219,7 @@ line-height: 1.1;
         >
           copy css to clipoard
         </motion.div>
+        <div className={styles.note}>Use CSS function clamp for header style</div>
       </div>
       <div
         className={`${styles.containerSelect} ${themeId === 'dark' ? 'fontPickerDark' : 'fontPickerLight'}`}
