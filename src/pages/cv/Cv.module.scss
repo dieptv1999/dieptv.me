@@ -1,0 +1,151 @@
+.container {
+  //background: radial-gradient(64.9% 34.2308% at 0% 0%, rgba(138, 255, 255, 0.45) 0%, rgb(255, 255, 255) 100%);
+  width: 100vw;
+  min-height: 100vh;
+  flex-shrink: 0;
+  height: min-content; /* 1211px */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  overflow: visible;
+  position: relative;
+  padding: 90px 20px;
+  align-content: center;
+  flex-wrap: nowrap;
+  gap: 10px;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.avatarContainer {
+  display: flex;
+  max-width: 800px;
+  width: 100%;
+  margin-bottom: 50px;
+}
+
+.avatar {
+  position: relative;
+  overflow: visible;
+  width: 66px;
+  height: var(--framer-aspect-ratio-supported, 66px);
+  flex: 0 0 auto;
+  aspect-ratio: 1 / 1;
+  border-radius: 33px;
+  box-shadow: rgb(104 196 187 / 70%) 0px 10px 25px 0px;
+}
+
+.nameContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 25px;
+}
+
+.name {
+  font-size: 30px;
+  color: #333333;
+  font-weight: 700;
+}
+
+.description {
+  font-size: 18px;
+  font-weight: 500;
+  color: rgba(51, 51, 51, 0.6);
+  white-space: pre;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 400;
+  color: rgba(34, 34, 34, 0.7);
+  margin-bottom: 30px;
+}
+
+.title2 {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.position {
+  font-size: 16px;
+  font-style: italic;
+}
+
+.duration {
+  font-size: 14px;
+  color: rgb(143, 143, 143);
+  font-weight: 400;
+  margin-bottom: 25px;
+  margin-top: 6px;
+}
+
+.detail {
+  display: inline-flex;
+  align-items: center;
+  padding-top: 6px;
+}
+
+.innerDetail {
+  margin-left: 10px;
+}
+
+.space {
+  height: 50px;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 800px;
+  align-items: flex-start;
+}
+
+.containerRow {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.workplace {
+  font-size: 16px;
+  font-style: italic;
+}
+
+.label {
+  font-weight: 700;
+  margin-right: 5px;
+}
+
+.showMore {
+  font-style: italic;
+  margin-top: 20px;
+}
+.contact {
+  display: flex;
+  flex-wrap: wrap-reverse;
+  align-items: center;
+  width: 100%;
+  max-width: 800px;
+}
+
+.phone {
+  font-size: 12px;
+  font-style: italic;
+  margin-left: 3px;
+  margin-right: 10px;
+}
+
+@media (max-width: 1050px) {
+  .container {
+    padding-left: 100px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 90px 20px;
+  }
+}
