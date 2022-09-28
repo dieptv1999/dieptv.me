@@ -137,6 +137,20 @@
   margin-right: 10px;
 }
 
+.svgWhite {
+  fill: white;
+  g {
+    fill: white;
+  }
+}
+
+.svgBlack {
+  fill: black;
+  g {
+    fill: black;
+  }
+}
+
 @media (max-width: 1050px) {
   .container {
     padding-left: 100px;

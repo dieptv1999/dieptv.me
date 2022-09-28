@@ -54,7 +54,7 @@ export const Cv = () => {
       <div className={styles.contact}>
         <PhoneCall width={10} height={10} fill={themeId === 'dark' ? 'white' : 'black'} />
         <div className={styles.phone}>+84-339-210-372</div>
-        <GithubIcon width={10} height={10} fill={themeId === 'dark' ? 'white' : 'black'} />
+        <GithubIcon width={10} height={10} fill={themeId === 'dark' ? 'white' : 'black'} className={themeId === 'dark' ? styles.svgWhite : styles.svgBlack}/>
         <a className={styles.phone} href={'https://github.com/dieptv1999'}>dieptv1999</a>
         <EmailIcon width={10} height={10} fill={themeId === 'dark' ? 'white' : 'black'} />
         <a className={styles.phone} href={'mailto:techlensglobal@gmail.com'}>techlensglobal@gmail.com</a>
