@@ -45,8 +45,10 @@ export const Cv = () => {
           <Image src={'/static/sun.png'} width={66} height={66} objectFit={'cover'} />
         </div>
         <div className={styles.nameContainer}>
-          <div className={styles.name}>Tran Van Diep</div>
-          <div className={styles.description}>Developer</div>
+          <div className={styles.name}
+               style={{color: themeId === 'dark' ? '#cccccc' : '#333333'}}>Tran Van Diep</div>
+          <div className={styles.description}
+               style={{color: themeId === 'dark' ? '#aaaaaa' : '#333333'}}>Developer</div>
         </div>
       </div>
       <div className={styles.contact}>
@@ -60,7 +62,8 @@ export const Cv = () => {
 
       <div className={styles.section}>
         {/*------------------------------------------- Experience -----------------------------*/}
-        <div className={styles.title}>Experience</div>
+        <div className={styles.title}
+             style={{color: themeId === 'darkId' ? 'rgba(220, 220, 220, 0.7)' : 'color: rgba(34, 34, 34, 0.7)'}}>Experience</div>
         {/*------------------------------------------- trustkeys -----------------------------*/}
         <div className={styles.title2}>TrustKeys Network</div>
         <div className={styles.containerRow}>
@@ -119,7 +122,8 @@ export const Cv = () => {
         </div>
         {/*------------------------------------------- Education -----------------------------*/}
         <div className={styles.space} />
-        <div className={styles.title}>Education</div>
+        <div className={styles.title}
+             style={{color: themeId === 'darkId' ? 'rgba(220, 220, 220, 0.7)' : 'color: rgba(34, 34, 34, 0.7)'}}>Education</div>
         <div className={styles.title2}>Hanoi University of Science and Technology</div>
         <div className={styles.containerRow}>
           <div className={styles.position}>Computer Engineering</div>
@@ -128,7 +132,8 @@ export const Cv = () => {
         <div className={styles.duration}>2017 – 2022</div>
         {/*------------------------------------------- Projects -----------------------------*/}
         <div className={styles.space} />
-        <div className={styles.title}>Projects</div>
+        <div className={styles.title}
+             style={{color: themeId === 'darkId' ? 'rgba(220, 220, 220, 0.7)' : 'color: rgba(34, 34, 34, 0.7)'}}>Projects</div>
         <div className={styles.title2}>NFT Marketplace</div>
         <div className={styles.containerRow}>
           <div className={styles.position}>https://theonly.biz</div>
@@ -182,7 +187,8 @@ export const Cv = () => {
 
         {/*------------------------------------------------- skills -----------------------------------------*/}
         <div className={styles.space} />
-        <div className={styles.title}>Skills</div>
+        <div className={styles.title}
+             style={{color: themeId === 'darkId' ? 'rgba(220, 220, 220, 0.7)' : 'color: rgba(34, 34, 34, 0.7)'}}>Skills</div>
         <div className={styles.detail}>
           <div className={styles.label}>Language</div>
           <div>Javascript, Golang, Dart, Nodejs, C++</div>
