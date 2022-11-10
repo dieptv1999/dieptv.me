@@ -16,3 +16,14 @@
     margin-top: 0;
   }
 }
+
+.canvasV1 {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.heartContainer {
+  height: 100vh;
+  width: 100vw;
+}
