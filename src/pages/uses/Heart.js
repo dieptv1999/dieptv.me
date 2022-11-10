@@ -2,6 +2,7 @@ import styles from './Uses.module.css';
 import Script from 'next/script';
 import { useEffect, useRef } from 'react';
 import Head from 'next/head';
+import { NextSeo } from 'next-seo';
 
 export const Heart = () => {
   const canvasRef = useRef(null);
@@ -282,10 +283,31 @@ export const Heart = () => {
 
   return (
     <div className={styles.heartContainer}>
-      <Head>
-        <title>Heart</title>
-        <meta name='viewport' content='initial-scale=1.0, width=device-width' />
-      </Head>
+      <NextSeo
+        title={'Heart'}
+        description={'Heart animation'}
+        canonical="https://www.techlens.tech/"
+        openGraph={{
+          url: 'https://www.techlens.tech/uses/heart',
+          title: 'Heart',
+          description: 'Heart animation',
+          images: [
+            {
+              url: 'https://i.ibb.co/4dH5V0g/Screenshot-2022-11-10-173351.png',
+              width: 1513,
+              height: 681,
+              alt: 'Og Image Alt',
+              type: 'image/png',
+            },
+          ],
+          site_name: 'Heart',
+        }}
+        twitter={{
+          handle: '@handle',
+          site: '@site',
+          cardType: 'summary_large_image',
+        }}
+      />
       <Script src='/script-v1.js' />
       <canvas ref={canvasRef} id='pinkboard' className={styles.canvasV1}></canvas>
     </div>
