@@ -1,6 +1,7 @@
 import styles from './Uses.module.css';
 import Script from 'next/script';
 import { useEffect, useRef } from 'react';
+import Head from 'next/head'
 
 export const Heart = () => {
   const canvasRef = useRef(null);
@@ -251,6 +252,10 @@ export const Heart = () => {
 
   return (
     <div className={styles.heartContainer}>
+      <Head>
+        <title>Heart</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
       <Script src='/script-v1.js' />
       <canvas ref={canvasRef} id='pinkboard' className={styles.canvasV1}></canvas>
     </div>
