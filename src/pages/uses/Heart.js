@@ -1,7 +1,7 @@
 import styles from './Uses.module.css';
 import Script from 'next/script';
 import { useEffect, useRef } from 'react';
-import Head from 'next/head'
+import Head from 'next/head';
 
 export const Heart = () => {
   const canvasRef = useRef(null);
@@ -10,7 +10,7 @@ export const Heart = () => {
     if (canvasRef.current) {
       execute();
     }
-  }, [])
+  }, []);
 
   const execute = () => {
     /*
@@ -18,18 +18,41 @@ export const Heart = () => {
         */
     let settings = {
       particles: {
-        length:   500, // maximum amount of particles
-        duration:   2, // particle duration in sec
+        length: 500, // maximum amount of particles
+        duration: 2, // particle duration in sec
         velocity: 100, // particle velocity in pixels/sec
         effect: -0.75, // play with this for a nice effect
-        size:      30, // particle size in pixels
+        size: 30, // particle size in pixels
       },
     };
 
     /*
     * RequestAnimationFrame polyfill by Erik Möller
     */
-    (function(){let b=0;let c=["ms","moz","webkit","o"];for(let a=0;a<c.length&&!window.requestAnimationFrame;++a){window.requestAnimationFrame=window[c[a]+"RequestAnimationFrame"];window.cancelAnimationFrame=window[c[a]+"CancelAnimationFrame"]||window[c[a]+"CancelRequestAnimationFrame"]}if(!window.requestAnimationFrame){window.requestAnimationFrame=function(h,e){let d=new Date().getTime();let f=Math.max(0,16-(d-b));let g=window.setTimeout(function(){h(d+f)},f);b=d+f;return g}}if(!window.cancelAnimationFrame){window.cancelAnimationFrame=function(d){clearTimeout(d)}}}());
+    (function() {
+      let b = 0;
+      let c = ['ms', 'moz', 'webkit', 'o'];
+      for (let a = 0; a < c.length && !window.requestAnimationFrame; ++a) {
+        window.requestAnimationFrame = window[c[a] + 'RequestAnimationFrame'];
+        window.cancelAnimationFrame = window[c[a] + 'CancelAnimationFrame'] || window[c[a] + 'CancelRequestAnimationFrame'];
+      }
+      if (!window.requestAnimationFrame) {
+        window.requestAnimationFrame = function(h, e) {
+          let d = new Date().getTime();
+          let f = Math.max(0, 16 - (d - b));
+          let g = window.setTimeout(function() {
+            h(d + f);
+          }, f);
+          b = d + f;
+          return g;
+        };
+      }
+      if (!window.cancelAnimationFrame) {
+        window.cancelAnimationFrame = function(d) {
+          clearTimeout(d);
+        };
+      }
+    }());
 
     /*
     * Point class
@@ -39,6 +62,7 @@ export const Heart = () => {
         this.x = (typeof x !== 'undefined') ? x : 0;
         this.y = (typeof y !== 'undefined') ? y : 0;
       }
+
       Point.prototype.clone = function() {
         return new Point(this.x, this.y);
       };
@@ -69,6 +93,7 @@ export const Heart = () => {
         this.acceleration = new Point();
         this.age = 0;
       }
+
       Particle.prototype.initialize = function(x, y, dx, dy) {
         this.position.x = x;
         this.position.y = y;
@@ -89,6 +114,7 @@ export const Heart = () => {
         function ease(t) {
           return (--t) * t * t + 1;
         }
+
         let size = image.width * ease(this.age / settings.particles.duration);
         context.globalAlpha = 1 - this.age / settings.particles.duration;
         context.drawImage(image, this.position.x - size / 2, this.position.y - size / 2, size, size);
@@ -102,8 +128,8 @@ export const Heart = () => {
     let ParticlePool = (function() {
       let particles,
         firstActive = 0,
-        firstFree   = 0,
-        duration    = settings.particles.duration;
+        firstFree = 0,
+        duration = settings.particles.duration;
 
       function ParticlePool(length) {
         // create and populate particle pool
@@ -111,13 +137,14 @@ export const Heart = () => {
         for (let i = 0; i < particles.length; i++)
           particles[i] = new Particle();
       }
+
       ParticlePool.prototype.add = function(x, y, dx, dy) {
         particles[firstFree].initialize(x, y, dx, dy);
 
         // handle circular queue
         firstFree++;
-        if (firstFree   == particles.length) firstFree   = 0;
-        if (firstActive == firstFree       ) firstActive++;
+        if (firstFree == particles.length) firstFree = 0;
+        if (firstActive == firstFree) firstActive++;
         if (firstActive == particles.length) firstActive = 0;
       };
       ParticlePool.prototype.update = function(deltaTime) {
@@ -146,13 +173,13 @@ export const Heart = () => {
       ParticlePool.prototype.draw = function(context, image) {
         // draw active particles
         if (firstActive < firstFree) {
-          for (i = firstActive; i < firstFree; i++)
+          for (let i = firstActive; i < firstFree; i++)
             particles[i].draw(context, image);
         }
         if (firstFree < firstActive) {
-          for (i = firstActive; i < particles.length; i++)
+          for (let i = firstActive; i < particles.length; i++)
             particles[i].draw(context, image);
-          for (i = 0; i < firstFree; i++)
+          for (let i = 0; i < firstFree; i++)
             particles[i].draw(context, image);
         }
       };
@@ -172,16 +199,17 @@ export const Heart = () => {
       function pointOnHeart(t) {
         return new Point(
           160 * Math.pow(Math.sin(t), 3),
-          130 * Math.cos(t) - 50 * Math.cos(2 * t) - 20 * Math.cos(3 * t) - 10 * Math.cos(4 * t) + 25
+          130 * Math.cos(t) - 50 * Math.cos(2 * t) - 20 * Math.cos(3 * t) - 10 * Math.cos(4 * t) + 25,
         );
       }
 
       // creating the particle image using a dummy canvas
       let image = (function() {
-        let canvas  = document.createElement('canvas'),
+        let canvas = document.createElement('canvas'),
           context = canvas.getContext('2d');
-        canvas.width  = settings.particles.size;
+        canvas.width = settings.particles.size;
         canvas.height = settings.particles.size;
+
         // helper function to create the path
         function to(t) {
           let point = pointOnHeart(t);
@@ -189,6 +217,7 @@ export const Heart = () => {
           point.y = settings.particles.size / 2 - point.y * settings.particles.size / 350;
           return point;
         }
+
         // create the path
         context.beginPath();
         let t = -Math.PI;
@@ -215,7 +244,7 @@ export const Heart = () => {
         requestAnimationFrame(render);
 
         // update time
-        let newTime   = new Date().getTime() / 1000,
+        let newTime = new Date().getTime() / 1000,
           deltaTime = newTime - (time || newTime);
         time = newTime;
 
@@ -237,9 +266,10 @@ export const Heart = () => {
 
       // handle (re-)sizing of the canvas
       function onResize() {
-        canvas.width  = canvas.clientWidth;
+        canvas.width = canvas.clientWidth;
         canvas.height = canvas.clientHeight;
       }
+
       window.onresize = onResize;
 
       // delay rendering bootstrap
@@ -248,16 +278,16 @@ export const Heart = () => {
         render();
       }, 10);
     })(document.getElementById('pinkboard'));
-  }
+  };
 
   return (
     <div className={styles.heartContainer}>
       <Head>
         <title>Heart</title>
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <meta name='viewport' content='initial-scale=1.0, width=device-width' />
       </Head>
       <Script src='/script-v1.js' />
       <canvas ref={canvasRef} id='pinkboard' className={styles.canvasV1}></canvas>
     </div>
   );
-}
+};
