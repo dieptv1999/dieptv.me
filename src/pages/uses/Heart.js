@@ -1,7 +1,7 @@
 import styles from './Uses.module.css';
 import Script from 'next/script';
 import { useEffect, useRef } from 'react';
-import Head from 'next/head';
+import random from 'lodash/random';
 import { NextSeo } from 'next-seo';
 
 export const Heart = () => {
@@ -231,7 +231,8 @@ export const Heart = () => {
         }
         context.closePath();
         // create the fill
-        context.fillStyle = '#ea80b0';
+        // context.fillStyle = '#ea80b0';
+        context.fillStyle = '#880808';
         context.fill();
         // create the image
         let image = new Image();
@@ -265,6 +266,31 @@ export const Heart = () => {
         particles.draw(context, image);
       }
 
+      function renderBubble() {
+        // next animation frame
+        requestAnimationFrame(render);
+
+        // update time
+        let newTime = new Date().getTime() / 1000,
+          deltaTime = newTime - (time || newTime);
+        time = newTime;
+
+        // clear canvas
+        context.clearRect(0, 0, canvas.width, canvas.height);
+
+        // create new particles
+        let amount = particleRate * deltaTime;
+        for (let i = 0; i < amount; i++) {
+          let pos = new Point(random(5, canvasRef.current.clientWidth), random(5, canvasRef.current.clientHeight));
+          let dir = pos.clone().length(settings.particles.velocity);
+          particles.add(pos.x, pos.y, dir.x, -dir.y);
+        }
+
+        // update and draw particles
+        particles.update(deltaTime);
+        particles.draw(context, image);
+      }
+
       // handle (re-)sizing of the canvas
       function onResize() {
         canvas.width = canvas.clientWidth;
@@ -277,6 +303,7 @@ export const Heart = () => {
       setTimeout(function() {
         onResize();
         render();
+        renderBubble();
       }, 10);
     })(document.getElementById('pinkboard'));
   };
