@@ -58,7 +58,7 @@ export const TakashiHiraide = () => {
             <div className={styles.source}>
               <p>Cuộc gặp gỡ mùa hè,&nbsp;Takashi Hiraide.</p>
               <p>Hôm nay, lại một ngày nữa trôi qua mà, thật vô vị</p>
-              <p>Tôi lại ngồi đọc blog và nghĩ về cuộc đời mình. Đọc được trích dẫn này từ cuốn tiểu thuyết "Cuộc gặp gỡ mùa hè" thật hợp tâm trạng</p>
+              <p>Tôi lại ngồi đọc blog và nghĩ về cuộc đời mình. Đọc được trích dẫn này từ cuốn tiểu thuyết <span className='text-blue-500'>Cuộc gặp gỡ mùa hè</span> thật hợp tâm trạng</p>
               <p>Lại một tuần nữa qua đi và tôi vẫn chưa làm được gì mà bản thân thấy có ích. Đời người thì có được bao nhiêu tuần như thế!</p>
               <p>Vậy nên, giữa một ngày nồm ẩm mùa đông, tôi lưu trữ lại khoảnh khoắc này của cuộc đời mình.</p>
               <p>Như một lời nhắc nhở về tương lai.</p>
