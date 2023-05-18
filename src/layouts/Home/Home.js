@@ -4,6 +4,8 @@ import gamestackTexture2 from 'assets/trustkey-2.png';
 import gamestackTextureLarge from 'assets/trustkey.png';
 import gamestackTexturePlaceholder from 'assets/gamestack-login-placeholder.jpg';
 import gamestackTexture from 'assets/trustkey.png';
+import aioTexture from 'assets/aio_1.webp';
+import aioTexture2 from 'assets/aio_2.webp';
 import sliceTextureLarge from 'assets/vcs.png';
 import sliceTexturePlaceholder from 'assets/slice-app-placeholder.jpg';
 import sliceTexture from 'assets/vcs.png';
@@ -27,10 +29,11 @@ export const Home = () => {
   const projectOne = useRef();
   const projectTwo = useRef();
   const projectThree = useRef();
+  const projectFour = useRef();
   const details = useRef();
 
   useEffect(() => {
-    const sections = [intro, projectOne, projectTwo, projectThree, details];
+    const sections = [intro, projectOne, projectFour, projectTwo, projectThree, details];
 
     const sectionObserver = new IntersectionObserver(
       (entries, observer) => {
@@ -93,6 +96,31 @@ export const Home = () => {
             {
               srcSet: [sprTexture, sprTextureLarge],
               placeholder: sprTexturePlaceholder,
+            },
+          ],
+        }}
+      />
+      <ProjectSummary
+        id='project-4'
+        alternate
+        sectionRef={projectFour}
+        visible={visibleSections.includes(projectFour.current)}
+        index={2}
+        title='All in one | Lifecare App'
+        description='Application for buying and selling, managing construction products, home appliance repair services'
+        buttonText='View website'
+        buttonLink='https://play.google.com/store/apps/details?id=com.viettel.aioapp/'
+        model={{
+          type: 'phone',
+          alt: 'App homepage aio screen',
+          textures: [
+            {
+              srcSet: [aioTexture, aioTexture],
+              placeholder: gamestackTexturePlaceholder,
+            },
+            {
+              srcSet: [aioTexture2, aioTexture2],
+              placeholder: gamestackTexture2Placeholder,
             },
           ],
         }}

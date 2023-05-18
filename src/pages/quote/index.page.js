@@ -1,1 +1,1 @@
-export {Quote as default} from './quote';
+export {Quote as default} from './takashi-hiraide';

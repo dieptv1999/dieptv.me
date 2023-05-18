@@ -44,7 +44,7 @@ export const Quote = () => {
             <div className={styles.containerAuthor}>
               <div className={styles.avatar}>
                 <div className={styles.avatarImage}>
-                  <Image src={'/favicon.png'} layout={'fill'} objectFit={'cover'} />
+                  <Image src={'/favicon.png?v=1'} layout={'fill'} objectFit={'cover'} />
                 </div>
               </div>
               <div>

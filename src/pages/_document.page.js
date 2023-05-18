@@ -10,9 +10,9 @@ export default function Document() {
         <meta charSet='utf-8' />
 
         <link rel='manifest' href='/manifest.json' />
-        <link rel='shortcut icon' href='/favicon.png' type='image/png' />
+        <link rel='shortcut icon' href='/favicon.ico' type='image/png' />
         {/*<link rel="shortcut icon" href="/favicon.svg" type="image/svg+xml" />*/}
-        <link rel='apple-touch-icon' href='/icon-256.png' />
+        <link rel='apple-touch-icon' href='/apple-icon-76x76' />
         <link type='text/plain' rel='author' href='/humans.txt' />
 
         <link rel='preload' href={GothamMedium} as='font' crossOrigin='true' />

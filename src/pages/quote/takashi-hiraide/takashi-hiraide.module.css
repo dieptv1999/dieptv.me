@@ -1,0 +1,171 @@
+.container {
+    height: 100vh;
+    width: 100vw;
+    background-color: rgb(237, 242, 247);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Lora', serif;
+}
+
+.containerInner {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+    width: 100vw;
+    padding: 50px 120px;
+    justify-content: center;
+    align-items: center;
+}
+
+.containerQuote {
+    background-color: white;
+    border-radius: 15px;
+    max-width: 640px;
+    width: 100%;
+    padding: 50px;
+    box-sizing: border-box;
+    height: fit-content;
+    box-shadow: 1px 1px 3px #dcdcdc, -1px 1px 3px #dcdcdc;
+}
+
+.quote {
+    color: #212121;
+    font-weight: bold;
+    font-size: 1.3em;
+    line-height: 160%;
+    letter-spacing: 0.6px;
+    text-align: center;
+}
+
+.quote::before {
+    margin-right: 0.25em;
+}
+.quote::after {
+    -webkit-transform: rotate(180deg);
+    /*-moz-transform: rotate(180deg);*/
+    /*-ms-transition: rotate(180deg);*/
+    /*-o-transition: rotate(180deg);*/
+    transform: rotate(180deg);
+    margin: -0.35em auto auto 0.25em;
+    position: absolute;
+}
+.quote::before, .quote::after {
+    content: '❝';
+    color: #5289DB;
+    font-size: 1.5em;
+    display: inline-block;
+}
+
+.source {
+    margin-top: 1.5em;
+    font-style: italic;
+    text-align: center;
+}
+
+.source p {
+    font-style: italic;
+    margin-bottom: 10px;
+}
+
+.containerAuthor {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.containerAuthor .name {
+    font-weight: 600;
+}
+
+.containerAuthor .avatar {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    /* background: #5289DB; */
+    /* padding: 3px; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 15px;
+}
+
+.containerAuthor .avatarImage {
+    border-radius: 50%;
+    padding: 3px;
+    border: 3px solid white;
+    overflow: hidden;
+    height: 46px;
+    width: 46px;
+    position: relative;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 100px 10px 10px 10px;
+        height: auto;
+    }
+
+    .contentTitle {
+        font-size: 30px;
+        margin-bottom: 45px;
+    }
+
+    .labelValues {
+        font-size: 12px;
+    }
+
+    .codeValues {
+        font-size: 12px;
+        flex-wrap: wrap-reverse;
+    }
+
+    .space {
+        height: 0px;
+    }
+
+    .containerInner {
+        flex-direction: column;
+        width: 100%;
+        padding: 50px 10px;
+        padding-top: 0;
+        height: 100%;
+    }
+
+    .btnCopy {
+        width: 100%;
+
+    }
+
+    .content3 {
+        width: 100vw;
+    }
+
+    .content {
+        padding: 20px;
+        max-width: 100vw;
+    }
+
+    .content2 {
+        width: 100%;
+    }
+
+    .codeValues {
+        font-size: 12px;
+    }
+
+    .containerEditCubic {
+        padding-bottom: 70px;
+    }
+
+    .containerValues {
+        margin: 10px 0;
+        overflow: hidden;
+    }
+}
+
+@media (max-width: 1300px) {
+    .containerInner {
+        padding: 50px 10px;
+    }
+}
