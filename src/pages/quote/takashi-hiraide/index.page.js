@@ -1,1 +1,1 @@
-export {TakashiHiraide as default} from './takashi-hiraide';
+export {TakashiHiraide as default} from './TakashiHiraide';

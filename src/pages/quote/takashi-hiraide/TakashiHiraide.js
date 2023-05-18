@@ -1,5 +1,5 @@
 import { ThemeProvider } from '../../../components/ThemeProvider';
-import styles from './takashi-hiraide.module.css';
+import styles from './TakashiHiraide.module.css';
 import Head from 'next/head';
 import { NextSeo } from 'next-seo';
 import Image from 'next/image';
