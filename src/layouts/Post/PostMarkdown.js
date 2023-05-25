@@ -23,6 +23,8 @@ import {
 
 const WavyCurve = dynamic(() => import('../../components/MdxWidgets').then(mod => mod.WavyCurve), { ssr: false });
 
+const Particle3D = dynamic(() => import('../../components/MdxWidgets').then(mod => mod.Particles3D), { ssr: false });
+
 const PostHeadingLink = ({ id }) => {
   return (
     <a className={styles.headingLink} href={`#${id}`} aria-label='Link to heading'>
@@ -169,4 +171,5 @@ export const postMarkdown = {
   SvgMultiPartOfCircel,
   TobeContinued,
   HeartAnimation,
+  Particle3D,
 };

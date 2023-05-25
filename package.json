@@ -39,6 +39,8 @@
   "dependencies": {
     "@bomdi/codebox": "^1.0.12",
     "@maximeheckel/design-system": "^1.1.1",
+    "@react-three/drei": "^9.69.2",
+    "@react-three/fiber": "^8.13.0",
     "@visx/curve": "^2.1.0",
     "@visx/drag": "^2.10.0",
     "@visx/group": "^2.10.0",
