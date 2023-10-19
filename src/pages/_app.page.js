@@ -64,7 +64,7 @@ const App = ({ Component, pageProps }) => {
     <AppContext.Provider value={{ ...state, dispatch }}>
       <ThemeProvider themeId={state.theme}>
         <Script
-          src='https://www.googletagmanager.com/gtag/js?id=G-Q2MGPQX0JE'
+          src='https://www.googletagmanager.com/gtag/js?id=GTM-54R4KKL2'
           strategy='afterInteractive'
         />
         <Script id='google-analytics' strategy='afterInteractive'>
@@ -73,7 +73,7 @@ const App = ({ Component, pageProps }) => {
           function gtag(){window.dataLayer.push(arguments);}
           gtag('js', new Date());
 
-          gtag('config', 'G-Q2MGPQX0JE');
+          gtag('config', 'GTM-54R4KKL2');
         `}
         </Script>
         <Script id='google-tag-manager' strategy='afterInteractive'>
