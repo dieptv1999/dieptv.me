@@ -33,7 +33,7 @@ Những yêu cầu đối với hệ thống Dapper:
 <br />
 Một hệ thống theo dõi cần lưu lại những thông tin tại từng server và chuyển tiếp những thông tin đó đến các server tiếp theo.
 
-<img src={'/static/dapper-tracing.webp'}/>
+<img src={'/static/dapper-tracing.webp'}  width={'100%'}/>
 
 Trong mô hình trên, chúng ta có 5 server. Khi người dùng gửi một request đến frontend **A** , nó gửi 2 yêu cầu RPC đến server **B** và **C**. Sau ó, **B**
 trả về kết quả luôn cho **A** còn lại **C** sẽ tiếp tục gửi yêu cầu RPC đến **D** và **E** trước khi gửi lại cho **A**.
@@ -44,7 +44,7 @@ gửi và nhận tại mỗi service.
 
 ## **Trace trees and spans**
 <br/>
-<img src={'/static/dapper-tracing-2.webp'}/>
+<img src={'/static/dapper-tracing-2.webp'}  width={'100%'}/>
 
 **Để hiểu về các hình ảnh, chúng ta có một số khái niệm**
 - Span: một đơn vị công việc cơ bản thực hiện một yêu cầu hoặc giao dịch của người dùng.
