@@ -13,6 +13,7 @@ Phần mềm của bạn ngày càng lớn và bạn không để kiểm soát h
 > Nhất cử nhất động của hệ thống bạn phải nắm được toàn bộ. Nó khỏe yếu, ho hay cảm cúm, nó đi những đâu, trong thời gian như thế nào thì chúng ta đều phải nắm được
 
 **Trước tiên, chúng ta phải hiểu một hệ thống phân tán là gì?**
+
 *Hệ thống phân tán về cơ bản là một mạng gô các hệ thống/ máy chủ độc lập được kết nối bằng phần mềm trung gian có thể chia sẻ tài nguyên. Mục tiêu là làm toàn bộ mạng phân tán hoạt động như một ứng dụng duy nhất*
 
 > Lập trình hệ phân tán là nghệ thuật giải quyết cùng một vấn đề mà bạn có thể giải quyết trên một máy tính nhưng lại sử dụng nhiều máy tính - Mikito Takada
@@ -29,8 +30,9 @@ Những yêu cầu đối với hệ thống Dapper:
 - Scalability (khả năng mở rộng): có khả năng xử lý quy mô lớn các service độc lập với nhau
 - Analysis quickly (phân tích nhanh chóng)
 
-## **Distributed Tracing in Dapper**
-<br />
+## Distributed Tracing in Dapper
+
+<SpaceMdx />
 Một hệ thống theo dõi cần lưu lại những thông tin tại từng server và chuyển tiếp những thông tin đó đến các server tiếp theo.
 
 <img src={'/static/dapper-tracing.webp'}  width={'100%'}/>
@@ -42,7 +44,8 @@ trả về kết quả luôn cho **A** còn lại **C** sẽ tiếp tục gửi 
 gửi và nhận tại mỗi service.
 
 
-## **Trace trees and spans**
+## Trace trees and spans
+<SpaceMdx />
 <br/>
 <img src={'/static/dapper-tracing-2.webp'}  width={'100%'}/>
 
@@ -59,8 +62,9 @@ Tất cả span trong một luồng (flow) duy nhất đều chung 1 trace id.
 Tất cả được tóm gọn lại trong sơ đồ sau
 <img src={'/static/trace-tree.png'} width={'100%'}/>
 
-## **Trace colllection**
-
+<SpaceMdx />
+## Trace colllection
+<SpaceMdx />
 Quy trình ghi nhật ký, thu thập dữ liệu tracing được thể hiện bằng 3 giai đoạn trong hình dưới đây:
 
 <img src={'/static/trace-tree-2.png'} width={'100%'}/>
