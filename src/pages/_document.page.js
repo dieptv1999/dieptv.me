@@ -23,6 +23,7 @@ export default function Document() {
         <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet" />
         <style dangerouslySetInnerHTML={{ __html: fontStyles }} />
         <style dangerouslySetInnerHTML={{ __html: tokenStyles }} />
+        <meta name="google-site-verification" content="U05Nt14zVVJhlPjmcY1GQ-vd4W3h9mF5Y42kSmL0OdI" />
         <Script
           src='https://www.googletagmanager.com/gtag/js?id=GTM-54R4KKL2'
           strategy='afterInteractive'
