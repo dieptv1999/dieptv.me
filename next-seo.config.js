@@ -7,7 +7,7 @@ export default {
     description: 'I\'m a Full Stack developer with experience in Backend, Frontend and mobile development. Currently Software Engineer of Trustkeys and living in Hanoi.',
     images: [
       {
-        url: 'https://techlens.tech/social-image.png',
+        url: 'https://dieptv.vercel.app/social-image.png',
         description: "TechLens Image" || '',
         width: 1841,
         height: 949,

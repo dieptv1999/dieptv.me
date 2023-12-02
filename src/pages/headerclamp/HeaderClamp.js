@@ -335,7 +335,7 @@ line-height: 1.1;
         <div className={styles.containerLabel}>
           <div className={styles.labelValues}>Share on</div>
         </div>
-        <ShareComponent url={`https://techlens.tech${asPath}`} />
+        <ShareComponent url={`https://dieptv.vercel.app${asPath}`} />
       </div>
     </div>
   );

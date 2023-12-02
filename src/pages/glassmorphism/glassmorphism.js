@@ -271,7 +271,7 @@ export const Glassmorphism = () => {
 
         <motion.div
           onClick={() => copyTextToClipboard(`
-          /* From https://techlens.tech */
+          /* From https://dieptv.vercel.app */
 background: rgba(${hexToRgb(color)?.r}, ${hexToRgb(color)?.g}, ${hexToRgb(color)?.b}, ${transparency});
 border-radius: 16px;
 box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
