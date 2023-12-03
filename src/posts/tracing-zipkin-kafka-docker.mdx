@@ -61,8 +61,7 @@ Dữ liệu sẽ được trực quan hóa trên Zipkin Dashboard.
 ## Build & Deployment
 Các thành phần Docker được tạo theo file docker-compose sau:
 *kafka-compose.yml*
-```
-
+```dockerfile
 version: '2'
 services:
   zookeeper-1:
@@ -145,16 +144,16 @@ services:
 ```
 
 Bạn có thể chạy docker-compose theo lệnh
-```
+```shell
 docker-compose -f .\kafka-compose.yml  up -d
 ```
 
-```
+```shell
 docker-compose -f .\kafka-compose.yml ps
 ```
 
 Tạo topic cho server zipkin
-```
+```shell
 docker-compose -f .\kafka-compose.yml exec kafka-1 kafka-topics.sh --create --topic zipkin --consumer-property group.id=zipkin --partitions 2 --replication-factor 2 --bootstrap-server kafka-1:9092
 ```
 
@@ -181,7 +180,7 @@ Zipkin  là một dự án bắt nguồn từ Twitter năm 2010 dựa trên các
 
 ### 1. Setup
 Mình đã tạo một service demo theo hướng dẫn trong intellij và thêm các thành phần phụ thuộc bên dưới vào *pom.xml*:
-```
+```yml
 <!-- https://mvnrepository.com/artifact/io.micrometer/micrometer-tracing -->
 <dependency>
   <groupId>io.micrometer</groupId>
@@ -206,7 +205,7 @@ Mình đã tạo một service demo theo hướng dẫn trong intellij và thêm
 Đầu tiên, hãy thêm các cấu hình này vào trong file *application.yml*:
 
 Cấu hình kafka:
-```
+```yml
 spring:
   ...
 
@@ -230,7 +229,7 @@ spring:
 > Thay thế các thông số kafka cho phù hợp với ứng dụng của bạn
 
 Cấu hình log format zipkin:
-```
+```yml
 logging:
   pattern:
     level: '%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]'
@@ -239,7 +238,7 @@ logging:
 [Distributed Tracing Concepts](https://dieptv.vercel.app/articles/tracing-concepts/)
 
 Cấu hình tỉ lệ lấy mẫu tracing (mặc định là 0.1-10% request đổi thành 1.0-100% request)
-```
+```yml
 management:
   tracing:
     sampling:
@@ -247,7 +246,7 @@ management:
 ```
 
 Tiếp theo mình tạo một sender zipkin dùng để gửi thông tin đến kafka mỗi khi có một request yêu cầu đến server:
-```
+```java
 @Configuration
 @EnableConfigurationProperties(KafkaProperties.class)
 public class KafkaConfig {
@@ -287,7 +286,7 @@ Bean mặc định của zipkin là *zipkinSender*, mình sẽ ghi đè nó. *Ka
 Code trên thì đơn giản rồi, mình sẽ không giải thích ở đây.
 
 Cuối cùng, mình sẽ tạo 1 api để kiểm tra xem micrometer-tracing có hoạt động hay không.
-```
+```java
 @RestController
 public class PingController {
 
