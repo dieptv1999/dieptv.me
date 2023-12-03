@@ -1,0 +1,344 @@
+---
+title: 'Distributed Tracing Zipkin + Kafka + Docker + Spring Boot: Tracing - Hành trình trở thành Sherlock Dev'
+abstract: 'Distributed Tracing Zipkin + Kafka + Docker + Spring Boot: Tracing - Hành trình trở thành Sherlock Dev.'
+date: '2023-12-03'
+banner: https://i.ibb.co/8K1qjhj/zipkin-tracing.png
+featured: false
+keywords:
+  [
+    'spring boot',
+    'zipkin',
+    'tracing',
+    'kafka',
+    'mariadb',
+    'docker',
+    'brave',
+  ]
+updated: '2023-12-03T08:00:00.000Z'
+---
+Hành trình trở thành một **thám tử chuyên nghiệp** của một developer.
+
+> Mời bạn tham khảo bài viết trước về lý thuyết tracing: [**Distributed Tracing Concepts**](https://dieptv.vercel.app/articles/tracing-concepts/)
+
+
+> Lưu ý: Mình dùng **Spring Boot 3** nhé ^.^
+> Nếu các bạn dùng **Spring Boot 2** có thể tham khảo thư viện [Spring Cloud Sleuth](https://spring.io/projects/spring-cloud-sleuth)
+
+Ok, vậy là bạn có một ứng dụng microservice thật lớn, trong đó bạn có nhiều service cộng tác với nhau để đạt được một điều gì đó. Nó thật tuyệt vời!
+> Microservices sẽ giống như: "Con bé đó dễ thương ❤️".
+
+Tuy nhiên, việc gỡ lỗi và khắc phục sự cố trở nên ngày càng khó khăn khi quy mô của ứng dụng ngày càng lớn:
+- multiple services: nhiều service và mỗi service làm một công việc độc lập với nhau
+- multiple instance per service: một service có nhiều phiên bản, các dịch vụ thì đều không có trạng thái và có thể mở rộng theo chiều ngang.
+- và đôi khi bạn còn không có quyền truy cập vào máy chủ, node để lấy log xem ứng dụng của chúng ta gặp lỗi gì, lỗi ở đâu.
+
+> "Con bé đó dễ thương ❤️" -> "**Mắt nó đẹp nhưng biếc. Nội sợ sau này nó sẽ khổ 💘**".
+
+Không có gì sai với những hạn chế trên - trên thực tế, những vấn đề trên là không thể tránh khỏi, đặc biệt là khi chúng chạy trong môi trường PaaS (Platform as a service).
+
+Vậy làm sao để khiến mọi thứ trở nên dễ dàng và dễ quản lý hơn khi nói đến khả năng hiển thị tất cả những thông tin chuyên sâu ở tầng ứng dụng?
+
+Không có viên đạn bạc ("silver bullet") nào như vậy? Nhưng chúng ta có những công cụ có thể giúp chúng ta quản lý một phần nào đó.
+
+> Blog này trình bày về các ứng dụng Spring Boot tận dụng thư viện [Micrometer Tracing](https://micrometer.io/docs/tracing) để theo dõi các yêu cầu/ giao dịch (transaction) ở cấp ứng dụng và gửi thông tin theo dõi
+đến máy chủ Zipkin từ xa thông qua Kafka.
+
+> Tất cả được triển khai trên Docker
+
+> Mặc dù mã nguồn được triển khai trên Java, tuy nhiên những khái niệm ở đây đều có thể áp dụng đối với bất kỳ hệ thống nào có thể tạo ra dữ liệu theo dõi cùng định dạng OpenZipkin.
+
+> Đọc thêm về Zipkin tại: https://github.com/openzipkin/zipkin
+
+## Kiến trúc sử dụng trong bài viết
+<SpaceMdx />
+<img src={'/static/zipkin-kafka-docker.png'} alt={'zipkin-kafka-docker'} width={'100%'}/>
+<SpaceMdx />
+
+Rất dễ hiểu đối với kiến trúc trên, nhờ có micrometer-tracing, các service Spring Boot riêng lẻ sẽ gửi dữ liệu span/ trace tới Kafka.
+Sau đó Zipkin sẽ sử dụng lib collector-kafka để nhận message từ kafka mỗi 1s sau đó tổng hợp và lưu vào mysql.
+Dữ liệu sẽ được trực quan hóa trên Zipkin Dashboard.
+
+## Build & Deployment
+Các thành phần Docker được tạo theo file docker-compose sau:
+*kafka-compose.yml*
+```
+
+version: '2'
+services:
+  zookeeper-1:
+    image: confluentinc/cp-zookeeper:latest
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - 22181:2181
+
+  kafka-1:
+    container_name: kafka1
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - zookeeper-1
+
+    ports:
+      - 29092:29092
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper-1:2181
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: EXTERNAL:PLAINTEXT,INTERNAL:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: EXTERNAL://localhost:29092,INTERNAL://kafka1:9092
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+  kafka-2:
+    container_name: kafka2
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - zookeeper-1
+    ports:
+      - 29093:29093
+    environment:
+      KAFKA_BROKER_ID: 2
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper-1:2181
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: EXTERNAL:PLAINTEXT,INTERNAL:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: EXTERNAL://localhost:29093,INTERNAL://kafka2:9092
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+  kafdrop:
+    image: obsidiandynamics/kafdrop
+    restart: "no"
+    environment:
+      KAFKA_BROKERCONNECT: "kafka2:9092,kafka1:9092"
+    ports:
+      - "9002:9000"
+    depends_on:
+      - kafka-1
+      - kafka-2
+  zipkin:
+    image: openzipkin/zipkin
+    container_name: zipkin
+    environment:
+      - STORAGE_TYPE=mysql
+      # Point the zipkin at the storage backend
+      - MYSQL_HOST=host.docker.internal
+      - MYSQL_USER=review
+      - MYSQL_PASS=Techlens@321
+      - MYSQL_DB=zipkin
+      - MYSQL_TCP_PORT=3306
+      - MYSQL_MAX_CONNECTIONS=10
+      # Uncomment to enable scribe
+      # - SCRIBE_ENABLED=true
+      # Uncomment to enable self-tracing
+      # - SELF_TRACING_ENABLED=true
+      # Uncomment to enable debug logging
+      - JAVA_OPTS=-Dlogging.level.zipkin2=DEBUG -Dlogging.level.org.apache.kafka=DEBUG
+      - KAFKA_BOOTSTRAP_SERVERS=kafka-1:9092
+      - KAFKA_TOPIC=zipkin
+    ports:
+      # Port used for the Zipkin UI and HTTP Api
+      - 9411:9411
+    depends_on:
+      - kafka-1
+      - kafka-2
+```
+
+Bạn có thể chạy docker-compose theo lệnh
+```
+docker-compose -f .\kafka-compose.yml  up -d
+```
+
+```
+docker-compose -f .\kafka-compose.yml ps
+```
+
+Tạo topic cho server zipkin
+```
+docker-compose -f .\kafka-compose.yml exec kafka-1 kafka-topics.sh --create --topic zipkin --consumer-property group.id=zipkin --partitions 2 --replication-factor 2 --bootstrap-server kafka-1:9092
+```
+
+Sau khi tạo xong ta sẽ được kết quả như sau:
+<SpaceMdx />
+<img src={'/static/docker-zipkin-rlt.png'} alt={'docker-zipkin-rlt'} width={'100%'}/>
+<SpaceMdx />
+
+Dưới đây là bản tóm tắt các thành phần trong hệ thống
+
+#### Zipkin
+Zipkin  là một dự án bắt nguồn từ Twitter năm 2010 dựa trên các bài báo về tracing của Google Dapper.
+- MYSQL_HOST=host.docker.internal: với `host.docker.internal` chúng ta sẽ truy cập được localhost của Linux/ Window để kết nối đến Mariadb
+- Các thông số MYSQL khác được cấu hình khá dễ hiểu nên mình không giải thích lại
+- Trước khi chạy zipkin các bạn phải tạo bảng trong database MariaDB theo script sau [MysSQL + Zipkin](https://github.com/openzipkin/zipkin/blob/master/zipkin-storage/mysql-v1/src/main/resources/mysql.sql)
+
+#### Kafka
+Ở phiên bản docker-compose này mình chạy 2 node kafka + 1 zookeeper để giả định việc kết nối nhiều node cho hệ thống microservice và zipkin.
+
+#### Kafdrop
+Được dùng để quản lý kafka và theo dõi trực quan các bản ghi được gửi từ các service Spring Boot.
+
+## Dựng một service phiên bản code thiếu nhi với micrometer-tracing
+
+### 1. Setup
+Mình đã tạo một service demo theo hướng dẫn trong intellij và thêm các thành phần phụ thuộc bên dưới vào *pom.xml*:
+```
+<!-- https://mvnrepository.com/artifact/io.micrometer/micrometer-tracing -->
+<dependency>
+  <groupId>io.micrometer</groupId>
+  <artifactId>micrometer-tracing</artifactId>
+  <version>1.2.0</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/org.springframework.kafka/spring-kafka -->
+<dependency>
+  <groupId>org.springframework.kafka</groupId>
+  <artifactId>spring-kafka</artifactId>
+  <version>3.1.0</version>
+  </dependency>
+<!-- https://mvnrepository.com/artifact/io.zipkin.reporter2/zipkin-sender-kafka -->
+<dependency>
+  <groupId>io.zipkin.reporter2</groupId>
+  <artifactId>zipkin-sender-kafka</artifactId>
+  <version>2.16.4</version>
+</dependency>
+```
+
+### 2. Configuration
+Đầu tiên, hãy thêm các cấu hình này vào trong file *application.yml*:
+
+Cấu hình kafka:
+```
+spring:
+  ...
+
+  kafka:
+    bootstrap-servers: localhost:29092
+    consumer:
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      group-id: zipkin
+    producer:
+      acks: 0 # gửi không an toàn, gửi không nhận ack
+      batch-size: 4
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+  zipkin:
+    kafka:
+      topic: zipkin
+      group-id: zipkin
+```
+> Thay thế các thông số kafka cho phù hợp với ứng dụng của bạn
+
+Cấu hình log format zipkin:
+```
+logging:
+  pattern:
+    level: '%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]'
+```
+Ở đây có traceId và spanId tương ứng với mỗi đơn vị công việc cơ bản. Bạn có thể xem lại định nghĩa tại vài viết này:
+[Distributed Tracing Concepts](https://dieptv.vercel.app/articles/tracing-concepts/)
+
+Cấu hình tỉ lệ lấy mẫu tracing (mặc định là 0.1-10% request đổi thành 1.0-100% request)
+```
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+```
+
+Tiếp theo mình tạo một sender zipkin dùng để gửi thông tin đến kafka mỗi khi có một request yêu cầu đến server:
+```
+@Configuration
+@EnableConfigurationProperties(KafkaProperties.class)
+public class KafkaConfig {
+
+    static String join(List<?> parts) {
+        StringBuilder to = new StringBuilder();
+        for (int i = 0, length = parts.size(); i < length; i++) {
+            to.append(parts.get(i));
+            if (i + 1 < length) {
+                to.append(',');
+            }
+        }
+        return to.toString();
+    }
+
+    @Bean("zipkinSender")
+    Sender kafkaSender(KafkaProperties config, Environment environment) {
+        // Need to get property value from Environment
+        // because when using @VaultPropertySource in reactive web app
+        // this bean is initiated before @Value is resolved
+        // See gh-1990
+        String topic = environment.getProperty("spring.zipkin.kafka.topic", "zipkin");
+        String groupId = environment.getProperty("spring.zipkin.kafka.group-id", "zipkin");
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("key.serializer", ByteArraySerializer.class);
+        properties.put("value.serializer", ByteArraySerializer.class);
+        properties.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
+        // Kafka expects the input to be a String, but KafkaProperties returns a list
+        List<String> bootstrapServers = config.getBootstrapServers();
+            properties.put("bootstrap.servers", join(bootstrapServers));
+        return KafkaSender.newBuilder().topic(topic).overrides(properties).build();
+    }
+}
+```
+
+Bean mặc định của zipkin là *zipkinSender*, mình sẽ ghi đè nó. *KafkaSender* là class trong thư viện zipkin-sender-kafka
+Code trên thì đơn giản rồi, mình sẽ không giải thích ở đây.
+
+Cuối cùng, mình sẽ tạo 1 api để kiểm tra xem micrometer-tracing có hoạt động hay không.
+```
+@RestController
+public class PingController {
+
+    Logger logger = LoggerFactory.getLogger(PingController.class);
+    @GetMapping("/ping")
+    public String ping() {
+        logger.info("pong");
+        return "pong";
+    }
+}
+```
+### Kết quả
+Khi gửi một request đến backend service
+```
+curl --location 'localhost:6000/techlens/ping'
+```
+
+Chúng ta sẽ có log như sau:
+<SpaceMdx />
+<img src={'/static/spring-tracing-rlt.png'} alt={'zipkin-kafka-docker'} width={'100%'}/>
+<SpaceMdx />
+
+Ở đây chúng ta có log:
+> ...[tracing-example,656c52a30c63df1831e9d48fe1f1b9c5,31e9d48fe1f1b9c5]...
+
+TraceId: 656c52a30c63df1831e9d48fe1f1b9c5
+
+SpanId: 31e9d48fe1f1b9c5
+
+> các thông tin này (Span Record) được gửi về kafka và chúng ta có thể xem trên kafdrop:
+<SpaceMdx />
+<img src={'/static/kafka-tracing-rlt.png'} alt={'zipkin-kafka-docker'} width={'100%'}/>
+<SpaceMdx />
+
+Sau đó zipkin sẽ thu thập thông tin từ kafka mỗi 1s và lưu vào bảng *zipkin_spans* trong MariaDB:
+
+<SpaceMdx />
+<img src={'/static/maria-tracing-rlt.png'} alt={'zipkin-kafka-docker'} width={'100%'}/>
+<SpaceMdx />
+
+[//]: # (Cuối cùng mình tổng hợp lại luồng đi của một trace bằng hình ảnh sau;)
+
+[//]: # ()
+
+## Tổng kết
+
+Như vậy, bài viết này mình đã trình bày một cách cơ bản để dựng một hệ thống tracing sử dụng Zipkin để theo dõi và kafka để nhận gửi tín hiệu.
+
+Trong bài viết tiếp theo mình sẽ làm một hệ thống gồm cả frontend và backend để theo dõi và trực quan hóa những gì mà zipkin thu thập được.
+Ứng dụng này sẽ thể hiện một các trực quan hơn, đẹp hơn và thể hiện rõ ràng hơn mối quan hệ giữa các service, instance per service với nhau.
+
+> Hết rồi. Nếu anh em có gì thắc mắc thì gửi cho mình thông qua emal diep.tv1999@gmail.com này nhé.
+
+Bye!

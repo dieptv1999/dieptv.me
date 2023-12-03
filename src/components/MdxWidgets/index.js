@@ -11,3 +11,4 @@ export * from './SvgMultiPartOfCircel';
 export * from './TobeContinued';
 export * from './HeartAnimation';
 export * from './Particle3D';
+export * from './Callout';

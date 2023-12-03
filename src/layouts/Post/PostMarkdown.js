@@ -20,6 +20,7 @@ import {
   TobeContinued,
   HeartAnimation,
 } from '../../components/MdxWidgets';
+import { Callout } from '@maximeheckel/design-system';
 
 const WavyCurve = dynamic(() => import('../../components/MdxWidgets').then(mod => mod.WavyCurve), { ssr: false });
 
@@ -172,4 +173,5 @@ export const postMarkdown = {
   TobeContinued,
   HeartAnimation,
   Particle3D,
+  Callout,
 };
